@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/card_image"
+                android:layout_width="@dimen/preview_card_image_size"
+                android:layout_height="@dimen/preview_card_image_size"
+                android:layout_margin="@dimen/preview_card_image_margin"
+                android:contentDescription="@null"
+                android:src="@drawable/logo_google_cloud"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/addToCartBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to carT"/>
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Size : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="size"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Price : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="price"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Calories : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="calories"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Total Fat : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="total fat"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_protine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Protine : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_protine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="protine"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_Carbohydrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Carbohydrate : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_Carbohydrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="carbohydrate"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_sugar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Sugar : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_sugar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="sugar"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/info_sodium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_title_padding_top"
+                    android:text="Sodium : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <TextView
+                    android:id="@+id/info_data_sodium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:paddingTop="@dimen/preview_card_subtitle_padding_top"
+                    android:text="sodium"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/preview_card_subtitle_text_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/info_ingredients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingTop="12dp"
+                    android:text="Ingredients : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/preview_card_title_text_size" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp">
+                    <TextView
+                        android:id="@+id/info_data_ingredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="compound"
+                        android:textColor="@color/dark"
+                        android:textSize="@dimen/preview_card_subtitle_text_size"
+                        />
+                </androidx.core.widget.NestedScrollView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

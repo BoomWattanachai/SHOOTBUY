@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/furniture_close"
+        android:id="@+id/electronic_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -17,74 +17,61 @@
         android:textSize="16sp" />
 
     <ImageView
-        android:id="@+id/furniture_image"
+        android:id="@+id/electronic_image"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_below="@+id/furniture_close"
+        android:layout_below="@+id/electronic_close"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/gaming_chair" />
+        android:src="@drawable/nootbook" />
 
 
     <TextView
-        android:layout_below="@+id/furniture_image"
-        android:id="@+id/furniture_brand"
+        android:layout_below="@+id/electronic_image"
+        android:id="@+id/electronic_brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FANTECH"
+        android:text="ACER"
         android:textColor="#000"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="20dp" />
 
     <TextView
-        android:id="@+id/furniture_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(45*45*90)"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_toEndOf="@+id/furniture_brand"
-        android:layout_below="@+id/furniture_image"
-        android:layout_marginTop="23dp"
-        android:layout_marginLeft="5dp"/>
-
-    <TextView
-        android:id="@+id/furniture_price"
+        android:id="@+id/electronic_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="$3,890"
+        android:text="$19,900"
         android:textAlignment="textEnd"
         android:textColor="#000"
         android:textSize="26sp"
         android:textStyle="bold"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/furniture_image"
+        android:layout_toEndOf="@+id/electronic_brand"
+        android:layout_below="@+id/electronic_image"
         android:layout_marginTop="15dp" />
 
     <TextView
-        android:layout_below="@+id/furniture_brand"
-        android:id="@+id/furniture_model"
+        android:layout_below="@+id/electronic_brand"
+        android:id="@+id/electronic_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="รุ่น GC-181A ALPHA"
+        android:text="NITRO AN515-52"
         android:textColor="#000"
         android:textSize="18sp"
         android:textStyle="bold" />
 
 
     <ScrollView
-        android:id="@+id/furniture_scrollView"
+        android:id="@+id/electronic_scrollView"
         android:layout_width="180dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/furniture_model">
+        android:layout_below="@+id/electronic_model">
 
         <TextView
-            android:id="@+id/furniture_spec"
+            android:id="@+id/electronic_spec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="โครงสร้างด้วยโครงเหล็กหนาแน่น รองรับน้ำหนักได้สูงสุด 150 กก. ตัวเบาะผลิตจากวัสดุหนังเทียม PU ปรับองศาของเก้าอี้ได้ถึง 180 องศา \n"
+            android:text="Screen Size: 15.6 inch Processor:Intel Core i5-8300H Memory:8 GB DDR4 Storage:512 GB SSD Warranty:3 Years \n"
             android:textColor="#9e9e9e"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -92,7 +79,7 @@
 
 
     <LinearLayout
-        android:layout_below="@+id/furniture_scrollView"
+        android:layout_below="@+id/electronic_scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
@@ -115,35 +102,35 @@
                 android:layout_height="wrap_content">
 
                 <RadioGroup
-                    android:id="@+id/furniture_color"
+                    android:id="@+id/electronic_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:id="@+id/furniture_color_black"
+                        android:id="@+id/electronic_color_black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:buttonTint="#000"
                         android:checked="true" />
 
-                    <RadioButton
-                        android:id="@+id/furniture_color_red"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#ff0000" />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/furniture_radio_red"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:buttonTint="#ff0000" />-->
 
-                    <RadioButton
-                        android:id="@+id/furniture_color_blue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#0000ff" />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/furniture_radio_blue"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:buttonTint="#0000ff" />-->
 
-                    <RadioButton
-                        android:id="@+id/furniture_color_yellow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#fff203" />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/furniture_radio_yellow"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:buttonTint="#fff203" />-->
                 </RadioGroup>
             </LinearLayout>
 
@@ -153,7 +140,7 @@
 
 
     <LinearLayout
-        android:layout_above="@+id/furniture_add_to_cart"
+        android:layout_above="@+id/electronic_add_to_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
@@ -177,7 +164,7 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/furniture_decrease"
+                    android:id="@+id/electronic_decrease"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#EDEBEC"
@@ -187,7 +174,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/furniture_amount"
+                    android:id="@+id/electronic_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -199,7 +186,7 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/furniture_increase"
+                    android:id="@+id/electronic_increase"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -216,7 +203,7 @@
 
 
     <Button
-        android:id="@+id/furniture_add_to_cart"
+        android:id="@+id/electronic_add_to_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/mybtn"

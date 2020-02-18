@@ -44,10 +44,7 @@ import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
 import com.google.firebase.ml.md.kotlin.Models.BeverageCan
 import com.google.firebase.ml.md.kotlin.Models.Furniture
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data2
+import com.google.firebase.ml.md.kotlin.Models.Response.*
 import com.google.firebase.ml.md.kotlin.camera.GraphicOverlay
 import com.google.firebase.ml.md.kotlin.camera.WorkflowModel
 import com.google.firebase.ml.md.kotlin.camera.WorkflowModel.WorkflowState
@@ -60,16 +57,17 @@ import com.google.firebase.ml.md.kotlin.productsearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
 import kotlinx.android.synthetic.main.beverage_layout.view.*
-import kotlinx.android.synthetic.main.beverage_layout.view.add_to_cart
+import kotlinx.android.synthetic.main.beverage_layout.view.food_and_bev_add_to_cart
 import kotlinx.android.synthetic.main.beverage_layout.view.amount
-import kotlinx.android.synthetic.main.beverage_layout.view.brand_data
-import kotlinx.android.synthetic.main.beverage_layout.view.price_data
-import kotlinx.android.synthetic.main.beverage_layout.view.product_image
+import kotlinx.android.synthetic.main.beverage_layout.view.food_and_bev_brand
+import kotlinx.android.synthetic.main.beverage_layout.view.food_and_bev_price
+import kotlinx.android.synthetic.main.beverage_layout.view.food_and_bev_image
 import kotlinx.android.synthetic.main.custom_page_layout.*
 import kotlinx.android.synthetic.main.custom_page_layout.card_image
 import kotlinx.android.synthetic.main.custom_page_layout.view.*
 import kotlinx.android.synthetic.main.custom_page_layout2.*
 import kotlinx.android.synthetic.main.custom_page_layout2.view.*
+import kotlinx.android.synthetic.main.electronic_layout.view.*
 import kotlinx.android.synthetic.main.furniture_layout.view.*
 import java.io.IOException
 
@@ -372,45 +370,45 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             mainCustomLayout?.addView(wizardView)
 
 //            wizardView.product_image.setImageResource(productData.imageResource)
-            wizardView.product_image.setImageResource(R.drawable.coke_no_sugar)
-            wizardView.brand_data.text = productData.fb_brand
-            wizardView.vol_data.text = "("+productData.fb_size+")"
-            wizardView.price_data.text = "$"+productData.fb_price+".00"
-            wizardView.cal.text = productData.fb_cal
-            wizardView.sugar.text = productData.fb_sugar
-            wizardView.fat.text = productData.fb_fat
-            wizardView.sodium.text = productData.fb_sodium
+            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
+            wizardView.food_and_bev_brand.text = productData.fb_brand
+            wizardView.food_and_bev_vol.text = "("+productData.fb_size+")"
+            wizardView.food_and_bev_price.text = "$"+productData.fb_price+".00"
+            wizardView.food_and_bev_cal.text = productData.fb_cal
+            wizardView.food_and_bev_sugar.text = productData.fb_sugar
+            wizardView.food_and_bev_fat.text = productData.fb_fat
+            wizardView.food_and_bev_sodium.text = productData.fb_sodium
             var amount: Int = 1
-            wizardView.beverage_increase.setOnClickListener {
+            wizardView.food_and_bev_beverage_increase.setOnClickListener {
                 amount++
                 wizardView.amount.text = amount.toString()
             }
-            wizardView.beverage_decrease.setOnClickListener{
+            wizardView.food_and_bev_beverage_decrease.setOnClickListener{
                 if(amount > 1) amount--
                 wizardView.amount.text = amount.toString()
             }
-            wizardView.add_to_cart.setOnClickListener {
+            wizardView.food_and_bev_add_to_cart.setOnClickListener {
                 Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.coke_no_sugar, productData.fb_brand, amount, productData.fb_price))
-                wizardView.beverage_increase.isClickable=false
-                wizardView.beverage_decrease.isClickable=false
-                wizardView.add_to_cart.isClickable = false
-                wizardView.beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                wizardView.food_and_bev_beverage_increase.isClickable=false
+                wizardView.food_and_bev_beverage_decrease.isClickable=false
+                wizardView.food_and_bev_add_to_cart.isClickable = false
+                wizardView.food_and_bev_beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                wizardView.food_and_bev_beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                wizardView.food_and_bev_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
                 wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
-                wizardView.add_to_cart.text = "Added to Cart."
+                wizardView.food_and_bev_add_to_cart.text = "Added to Cart."
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             for (cartItem in Cart.cartItemList) {
                 if (cartItem.nameData == productData.fb_brand) {
-                    wizardView.beverage_increase.isClickable=false
-                    wizardView.beverage_decrease.isClickable=false
-                    wizardView.add_to_cart.isClickable = false
-                    wizardView.beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                    wizardView.food_and_bev_beverage_increase.isClickable=false
+                    wizardView.food_and_bev_beverage_decrease.isClickable=false
+                    wizardView.food_and_bev_add_to_cart.isClickable = false
+                    wizardView.food_and_bev_beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                    wizardView.food_and_bev_beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                    wizardView.food_and_bev_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
                     wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
-                    wizardView.add_to_cart.text = "Added to Cart."
+                    wizardView.food_and_bev_add_to_cart.text = "Added to Cart."
                 }
             }
 //            var wizardView = layoutInflater.inflate(R.layout.custom_page_layout,mainCustomLayout,false)
@@ -445,11 +443,11 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
 
 //            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-            wizardView.furniture_product_image.setImageResource(R.drawable.gaming_chair)
-            wizardView.furniture_brand_data.text = productData.fur_brand
-            wizardView.furniture_model_data.text = productData.fur_model
-            wizardView.furniture_spec_data.text = productData.fur_detail
-            wizardView.furniture_price_data.text = "$"+productData.fur_price
+            wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
+            wizardView.furniture_brand.text = productData.fur_brand
+            wizardView.furniture_model.text = productData.fur_model
+            wizardView.furniture_spec.text = productData.fur_detail
+            wizardView.furniture_price.text = "$"+productData.fur_price
             var amount: Int = 1
             wizardView.furniture_increase.setOnClickListener {
                 amount++
@@ -481,6 +479,51 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                     wizardView.furniture_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
                     wizardView.furniture_amount.setTextColor(Color.parseColor("#d7d4d2"))
                     wizardView.furniture_add_to_cart.text = "Added to Cart."
+                }
+            }
+
+        }else if (productData is Response_Electronic) {
+            var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
+            mainCustomLayout?.addView(wizardView)
+
+
+//            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+            wizardView.electronic_image.setImageResource(R.drawable.gaming_chair)
+            wizardView.electronic_brand.text = productData.elt_brand
+            wizardView.electronic_model.text = productData.elt_model
+            wizardView.electronic_spec.text = productData.elt_spec
+            wizardView.electronic_price.text = "$"+productData.elt_price
+            var amount: Int = 1
+            wizardView.electronic_increase.setOnClickListener {
+                amount++
+                wizardView.electronic_amount.text = amount.toString()
+            }
+            wizardView.electronic_decrease.setOnClickListener{
+                if(amount > 1) amount--
+                wizardView.electronic_amount.text = amount.toString()
+            }
+            wizardView.electronic_add_to_cart.setOnClickListener {
+                Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.gaming_chair, productData.elt_brand, amount, productData.elt_price))
+                wizardView.electronic_increase.isClickable=false
+                wizardView.electronic_decrease.isClickable=false
+                wizardView.electronic_add_to_cart.isClickable = false
+                wizardView.electronic_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                wizardView.electronic_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                wizardView.electronic_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                wizardView.electronic_amount.setTextColor(Color.parseColor("#d7d4d2"))
+                wizardView.electronic_add_to_cart.text = "Added to Cart."
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            for (cartItem in Cart.cartItemList) {
+                if (cartItem.nameData == productData.elt_brand) {
+                    wizardView.electronic_increase.isClickable=false
+                    wizardView.electronic_decrease.isClickable=false
+                    wizardView.electronic_add_to_cart.isClickable = false
+                    wizardView.electronic_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                    wizardView.electronic_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                    wizardView.electronic_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
+                    wizardView.electronic_amount.setTextColor(Color.parseColor("#d7d4d2"))
+                    wizardView.electronic_add_to_cart.text = "Added to Cart."
                 }
             }
 

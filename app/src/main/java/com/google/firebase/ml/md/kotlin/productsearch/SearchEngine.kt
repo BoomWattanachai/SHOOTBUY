@@ -18,23 +18,23 @@ package com.google.firebase.ml.md.kotlin.productsearch
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.firebase.ml.md.kotlin.Models.BeverageCan
 import com.google.firebase.ml.md.kotlin.Models.BeverageCanList
 import com.google.firebase.ml.md.kotlin.Models.FurnitureList
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data2
+import com.google.firebase.ml.md.kotlin.Models.Response.Response_Electronic
+import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
+import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
+import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskHandleJson
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions
+import org.json.JSONArray
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import javax.annotation.Nullable
 
 /** A fake search engine to help simulate the complete work flow.  */
 class SearchEngine(context: Context) {
@@ -42,6 +42,7 @@ class SearchEngine(context: Context) {
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val productInfo = mutableListOf("Kohli", "Smith", "Root")
+    private val ip:String = "http://192.168.42.2:3000";
     fun search(
             detectedObject: DetectedObject,
 //        listener: (detectedObject: DetectedObject, productList: List<Product>) -> Unit
@@ -81,43 +82,76 @@ class SearchEngine(context: Context) {
                     if (labels.size > 0) {
                         for (label in labels) {
                             val text = label.text
-                            var type: String? = null
-                            if (text == "Coke" || text=="Pepsi" || text=="Calpis"){
-                                type = "BeverageCan"
-                                for(i in BeverageCanList.beverageCanList!!){
-                                    if(text == i.nameData) productTest = i
-                                }
-                            }
-                            else
-                            {
-                                type = "Furniture"
-                                for(i in FurnitureList.furnitureList!!){
-                                    if(text == i.nameData) productTest = i
-                                }
-                            }
-//                            else if(text == "Gaming_chair" || text=="Office_chair"||text=="Wicker_chair"||text=="Wood_chair"){
-//                                type = "Furniture"
-//                            }
-//                            else if(text == "Cooling_fan" || text=="Monitor"){
-//                                type = "Electronics"
-//                            }
-//                            else if(text == "Notebook"){
-//                                type = "Electronics"
-//                            }
-//                        val confidence = label.confidence
-//                                when (type) {
-//                                    "Coke" -> productTest = Response_info_data(text, "325 ml.", "0 Kcal.",
-//                                            "0g 0%", "0g",
-//                                            "0g 0%", "0g",
-//                                            "25mg 1%", "สีธรรมชาติ (INS150d) สารควบคุมการเป็นกรด (INS338,INS 331(iii)) สารให้ความหวาน (แอซีซัลเฟมโพแทสเซียมและซูคราโลส) แต่งกลิ่นธรรมชาติ วัตถุกันเสีย (INS 211) ไม่ใช่อาหารสำหรับควบคุมน้ำหนัก",
-//                                            "15")
-//                                    "Pepsi" -> productTest = Response_info_data(text, "245 ml.", "0 Kcal.",
-//                                            "0g 0%", "0g",
-//                                            "0g 0%", "0g",
-//                                            "0g 0%", "แต่งกลิ่นธรรมชาติ (สารควบคุมความเป็นกรด (INS330,INS331(iii),INS338) สีสังเคราะห์ (INS 150d) วัตถุกันเสีย (INS211) วัตถุให้ความหวานแทนน้ำตาล(แอสปาแตม,อะซีซัลเฟม โพแทสเซียม)",
-//                                            "12")
-//                                    "Calpis" -> productTest = Response_info_data2(text, "60บาท")
+                            //SELECT type
+
+
+
+                            val type: String? = chkType(text)
+                            //if tpye
+//                            if (text == "Coke" || text=="Pepsi" || text=="Calpis"){
+//                                type = "BeverageCan"
+//                                // select data
+//                                for(i in BeverageCanList.beverageCanList!!){
+//                                    if(text == i.nameData) productTest = i
 //                                }
+//                            }
+//                            else
+//                            {
+//                                type = "Furniture"
+//                                for(i in FurnitureList.furnitureList!!){
+//                                    if(text == i.nameData) productTest = i
+//                                }
+//                            }
+
+                            if (type == "Food") {
+                                val url = ip+"/testapiselect/"+text
+                                val listener = object : AsyncTaskHandleJson.getDataComplete{
+                                    override fun getDataComplete(jsonString: String) {
+                                        val jsonArray = JSONArray(jsonString)
+
+                                        val jsonObject = jsonArray.getJSONObject(0)
+                                        productTest = Response_FoodAndBev(jsonObject.getString("FOOD_AND_BEV_ID"),jsonObject.getString("FOOD_AND_BEV_BRAND")
+                                                ,jsonObject.getString("FOOD_AND_BEV_MODEL"),jsonObject.getString("FOOD_AND_BEV_IMAGE"),jsonObject.getString("FOOD_AND_BEV_SIZE")
+                                                ,jsonObject.getInt("FOOD_AND_BEV_PRICE"),jsonObject.getString("FOOD_AND_BEV_CAL"),jsonObject.getString("FOOD_AND_BEV_SUGAR")
+                                                ,jsonObject.getString("FOOD_AND_BEV_FAT"),jsonObject.getString("FOOD_AND_BEV_SODIUM"),jsonObject.getInt("FOOD_AND_BEV_AMOUNT"))
+                                    }
+
+                                }
+
+                                AsyncTaskHandleJson(listener).execute(url)
+
+                            } else if (type == "Electronic") {
+                                val url = ip+"/testapiselect/"+text
+                                val listener = object : AsyncTaskHandleJson.getDataComplete{
+                                    override fun getDataComplete(jsonString: String) {
+                                        val jsonArray = JSONArray(jsonString)
+
+                                        val jsonObject = jsonArray.getJSONObject(0)
+                                        productTest = Response_Electronic(jsonObject.getString("ELECTRONIC_ID"),jsonObject.getString("ELECTRONIC_BRAND")
+                                                ,jsonObject.getString("ELECTRONIC_MODEL"),jsonObject.getString("ELECTRONIC_IMAGE"),jsonObject.getInt("ELECTRONIC_PRICE")
+                                                ,jsonObject.getString("ELECTRONIC_SPEC"),jsonObject.getInt("ELECTRONIC_AMOUNT"))
+                                    }
+
+                                }
+
+                                AsyncTaskHandleJson(listener).execute(url)
+                            } else if (type == "Furniture") {
+                                val url = ip+"/testapiselect/"+text
+                                val listener = object : AsyncTaskHandleJson.getDataComplete{
+                                    override fun getDataComplete(jsonString: String) {
+                                        val jsonArray = JSONArray(jsonString)
+
+                                        val jsonObject = jsonArray.getJSONObject(0)
+                                        productTest = Response_Furniture(jsonObject.getString("FURNITURE_ID"),jsonObject.getString("FURNITURE_BRAND")
+                                                ,jsonObject.getString("FURNITURE_MODEL"),jsonObject.getString("FURNITURE_IMAGE"),jsonObject.getInt("FURNITURE_PRICE")
+                                                ,jsonObject.getString("FURNITURE_SIZE"),jsonObject.getString("FURNITURE_DETAIL"),jsonObject.getInt("FURNITURE_AMOUNT"))
+                                    }
+
+                                }
+
+                                AsyncTaskHandleJson(listener).execute(url)
+                            }
+//
                         }
                         listener.invoke(detectedObject, productTest)
 
@@ -137,6 +171,25 @@ class SearchEngine(context: Context) {
                     // Task failed with an exception
                     // ...
                 }
+    }
+
+    private fun chkType(text:String): String? {
+        val url = ip+"/testapiselect/"+text
+        var type:String? = null
+        var listener = object : AsyncTaskHandleJson.getDataComplete{
+            override fun getDataComplete(jsonString: String) {
+                val jsonArray = JSONArray(jsonString)
+
+                var jsonObject = jsonArray.getJSONObject(0)
+
+                type = jsonObject.getString("CATEGORY_NAME")
+
+            }
+        }
+
+        AsyncTaskHandleJson(listener).execute(url)
+
+        return type
     }
 
     fun shutdown() {

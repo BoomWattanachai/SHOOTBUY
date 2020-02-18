@@ -44,6 +44,8 @@ import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
 import com.google.firebase.ml.md.kotlin.Models.BeverageCan
 import com.google.firebase.ml.md.kotlin.Models.Furniture
+import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
+import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data2
 import com.google.firebase.ml.md.kotlin.camera.GraphicOverlay
@@ -365,18 +367,19 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
     private fun setData(productData: Any?) {
         mainCustomLayout?.removeAllViews()
-        if (productData is BeverageCan) {
+        if (productData is Response_FoodAndBev) {
             var wizardView = layoutInflater.inflate(R.layout.beverage_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-            wizardView.product_image.setImageResource(productData.imageResource)
-            wizardView.brand_data.text = productData.nameData
-            wizardView.vol_data.text = "("+productData.sizeData+")"
-            wizardView.price_data.text = "$"+productData.priceData+".00"
-            wizardView.cal.text = productData.caloriesInfoData
-            wizardView.sugar.text = productData.sugarData
-            wizardView.fat.text = productData.fatData
-            wizardView.sodium.text = productData.sodiumData
+//            wizardView.product_image.setImageResource(productData.imageResource)
+            wizardView.product_image.setImageResource(R.drawable.coke_no_sugar)
+            wizardView.brand_data.text = productData.fb_brand
+            wizardView.vol_data.text = "("+productData.fb_size+")"
+            wizardView.price_data.text = "$"+productData.fb_price+".00"
+            wizardView.cal.text = productData.fb_cal
+            wizardView.sugar.text = productData.fb_sugar
+            wizardView.fat.text = productData.fb_fat
+            wizardView.sodium.text = productData.fb_sodium
             var amount: Int = 1
             wizardView.beverage_increase.setOnClickListener {
                 amount++
@@ -387,7 +390,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 wizardView.amount.text = amount.toString()
             }
             wizardView.add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(productData.imageResource, productData.nameData, amount, productData.priceData.replace(",","").toInt()))
+                Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.coke_no_sugar, productData.fb_brand, amount, productData.fb_price))
                 wizardView.beverage_increase.isClickable=false
                 wizardView.beverage_decrease.isClickable=false
                 wizardView.add_to_cart.isClickable = false
@@ -399,7 +402,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             for (cartItem in Cart.cartItemList) {
-                if (cartItem.nameData == productData.nameData) {
+                if (cartItem.nameData == productData.fb_brand) {
                     wizardView.beverage_increase.isClickable=false
                     wizardView.beverage_decrease.isClickable=false
                     wizardView.add_to_cart.isClickable = false
@@ -436,16 +439,17 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //            }
 
 
-        } else if (productData is Furniture) {
+        } else if (productData is Response_Furniture) {
             var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
 
-            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-            wizardView.furniture_brand_data.text = productData.brand
-            wizardView.furniture_model_data.text = productData.model
-            wizardView.furniture_spec_data.text = productData.description
-            wizardView.furniture_price_data.text = "$"+productData.price
+//            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+            wizardView.furniture_product_image.setImageResource(R.drawable.gaming_chair)
+            wizardView.furniture_brand_data.text = productData.fur_brand
+            wizardView.furniture_model_data.text = productData.fur_model
+            wizardView.furniture_spec_data.text = productData.fur_detail
+            wizardView.furniture_price_data.text = "$"+productData.fur_price
             var amount: Int = 1
             wizardView.furniture_increase.setOnClickListener {
                 amount++
@@ -456,7 +460,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 wizardView.furniture_amount.text = amount.toString()
             }
             wizardView.furniture_add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(productData.imageResource, productData.nameData, amount, productData.price.replace(",","").toInt()))
+                Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.gaming_chair, productData.fur_brand, amount, productData.fur_price))
                 wizardView.furniture_increase.isClickable=false
                 wizardView.furniture_decrease.isClickable=false
                 wizardView.furniture_add_to_cart.isClickable = false
@@ -468,7 +472,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             for (cartItem in Cart.cartItemList) {
-                if (cartItem.nameData == productData.nameData) {
+                if (cartItem.nameData == productData.fur_brand) {
                     wizardView.furniture_increase.isClickable=false
                     wizardView.furniture_decrease.isClickable=false
                     wizardView.furniture_add_to_cart.isClickable = false

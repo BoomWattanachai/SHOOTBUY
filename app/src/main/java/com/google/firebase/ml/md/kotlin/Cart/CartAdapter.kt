@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.electronic_layout.*
 import java.text.NumberFormat
 
 class CartAdapter(private var cart: Cart.Companion, var cartActivity: CartActivity) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -21,7 +23,8 @@ class CartAdapter(private var cart: Cart.Companion, var cartActivity: CartActivi
         val cartItemIncrease: ImageButton = view.findViewById(R.id.cart_item_increase)
         val cartItemDecrease: ImageButton = view.findViewById(R.id.cart_item_decrease)
         fun bindProduct(cartItem: CartItem) {
-            productImage.setImageResource(cartItem.imageResource)
+//            productImage.setImageResource(cartItem.imageResource)
+            Picasso.get().load(cartItem.imageResource).into(productImage)
             productName.text = cartItem.nameData+" "
             productQuantity.text = cartItem.amount.toString()
             productPrice.text = "$"+NumberFormat.getInstance().format(cartItem.price).toString()

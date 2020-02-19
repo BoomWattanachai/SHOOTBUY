@@ -56,6 +56,8 @@ import com.google.firebase.ml.md.kotlin.productsearch.BottomSheetScrimView
 import com.google.firebase.ml.md.kotlin.productsearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.beverage_layout.*
 import kotlinx.android.synthetic.main.beverage_layout.view.*
 import kotlinx.android.synthetic.main.beverage_layout.view.food_and_bev_add_to_cart
 import kotlinx.android.synthetic.main.beverage_layout.view.amount
@@ -67,7 +69,9 @@ import kotlinx.android.synthetic.main.custom_page_layout.card_image
 import kotlinx.android.synthetic.main.custom_page_layout.view.*
 import kotlinx.android.synthetic.main.custom_page_layout2.*
 import kotlinx.android.synthetic.main.custom_page_layout2.view.*
+import kotlinx.android.synthetic.main.electronic_layout.*
 import kotlinx.android.synthetic.main.electronic_layout.view.*
+import kotlinx.android.synthetic.main.furniture_layout.*
 import kotlinx.android.synthetic.main.furniture_layout.view.*
 import java.io.IOException
 
@@ -369,6 +373,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             var wizardView = layoutInflater.inflate(R.layout.beverage_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
+            Picasso.get().load(productData.fb_image).into(food_and_bev_image)
 //            wizardView.product_image.setImageResource(productData.imageResource)
             wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
             wizardView.food_and_bev_brand.text = productData.fb_brand
@@ -388,7 +393,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 wizardView.amount.text = amount.toString()
             }
             wizardView.food_and_bev_add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.coke_no_sugar, productData.fb_brand, amount, productData.fb_price))
+                Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
                 wizardView.food_and_bev_beverage_increase.isClickable=false
                 wizardView.food_and_bev_beverage_decrease.isClickable=false
                 wizardView.food_and_bev_add_to_cart.isClickable = false
@@ -441,7 +446,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-
+            Picasso.get().load(productData.fur_image).into(furniture_image)
 //            wizardView.furniture_product_image.setImageResource(productData.imageResource)
             wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
             wizardView.furniture_brand.text = productData.fur_brand
@@ -458,7 +463,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 wizardView.furniture_amount.text = amount.toString()
             }
             wizardView.furniture_add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.gaming_chair, productData.fur_brand, amount, productData.fur_price))
+                Cart.addItem(CartItem(productData.fur_image, productData.fur_brand, amount, productData.fur_price))
                 wizardView.furniture_increase.isClickable=false
                 wizardView.furniture_decrease.isClickable=false
                 wizardView.furniture_add_to_cart.isClickable = false
@@ -487,8 +492,8 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             mainCustomLayout?.addView(wizardView)
 
 
+            Picasso.get().load(productData.elt_image).into(electronic_image)
 //            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-            wizardView.electronic_image.setImageResource(R.drawable.gaming_chair)
             wizardView.electronic_brand.text = productData.elt_brand
             wizardView.electronic_model.text = productData.elt_model
             wizardView.electronic_spec.text = productData.elt_spec
@@ -503,7 +508,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 wizardView.electronic_amount.text = amount.toString()
             }
             wizardView.electronic_add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(/*productData.imageResource*/R.drawable.gaming_chair, productData.elt_brand, amount, productData.elt_price))
+                Cart.addItem(CartItem(productData.elt_image, productData.elt_brand, amount, productData.elt_price))
                 wizardView.electronic_increase.isClickable=false
                 wizardView.electronic_decrease.isClickable=false
                 wizardView.electronic_add_to_cart.isClickable = false

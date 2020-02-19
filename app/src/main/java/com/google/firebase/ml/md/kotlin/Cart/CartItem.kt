@@ -1,6 +1,6 @@
 package com.google.firebase.ml.md.kotlin.Cart
 
-class CartItem(var imageResource:Int,var nameData:String,var amount:Int,var price:Int) {
+class CartItem(var imageResource:String,var nameData:String,var amount:Int,var price:Int) {
     fun increaseQuantity(){
         this.amount++
     }

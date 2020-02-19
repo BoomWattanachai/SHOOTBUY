@@ -82,7 +82,7 @@ class SearchEngine(context: Context) {
                     if (labels.size > 0) {
                         for (label in labels) {
                             val text = label.text
-                            //SELECT type
+                            //SELECT type 
 
 
 
@@ -110,10 +110,10 @@ class SearchEngine(context: Context) {
                                         val jsonArray = JSONArray(jsonString)
 
                                         val jsonObject = jsonArray.getJSONObject(0)
-                                        productTest = Response_FoodAndBev(jsonObject.getString("FOOD_AND_BEV_ID"),jsonObject.getString("FOOD_AND_BEV_BRAND")
-                                                ,jsonObject.getString("FOOD_AND_BEV_MODEL"),jsonObject.getString("FOOD_AND_BEV_IMAGE"),jsonObject.getString("FOOD_AND_BEV_SIZE")
-                                                ,jsonObject.getInt("FOOD_AND_BEV_PRICE"),jsonObject.getString("FOOD_AND_BEV_CAL"),jsonObject.getString("FOOD_AND_BEV_SUGAR")
-                                                ,jsonObject.getString("FOOD_AND_BEV_FAT"),jsonObject.getString("FOOD_AND_BEV_SODIUM"),jsonObject.getInt("FOOD_AND_BEV_AMOUNT"))
+                                        productTest = Response_FoodAndBev(jsonObject.getString("foodAndBevId"),jsonObject.getString("foodAndBevBrand")
+                                                ,jsonObject.getString("foodAndBevModel"),jsonObject.getString("foodAndBevImage"),jsonObject.getString("foodAndBevSize")
+                                                ,jsonObject.getInt("foodAndBevPrice"),jsonObject.getString("foodAndBevCal"),jsonObject.getString("foodAndBevSugar")
+                                                ,jsonObject.getString("foodAndBevFat"),jsonObject.getString("foodAndBevSodium"),jsonObject.getInt("foodAndBevAmount"))
                                     }
 
                                 }
@@ -127,9 +127,9 @@ class SearchEngine(context: Context) {
                                         val jsonArray = JSONArray(jsonString)
 
                                         val jsonObject = jsonArray.getJSONObject(0)
-                                        productTest = Response_Electronic(jsonObject.getString("ELECTRONIC_ID"),jsonObject.getString("ELECTRONIC_BRAND")
-                                                ,jsonObject.getString("ELECTRONIC_MODEL"),jsonObject.getString("ELECTRONIC_IMAGE"),jsonObject.getInt("ELECTRONIC_PRICE")
-                                                ,jsonObject.getString("ELECTRONIC_SPEC"),jsonObject.getInt("ELECTRONIC_AMOUNT"))
+                                        productTest = Response_Electronic(jsonObject.getString("electronicId"),jsonObject.getString("electronicBrand")
+                                                ,jsonObject.getString("electronicModel"),jsonObject.getString("electronicImage"),jsonObject.getInt("electronicPrice")
+                                                ,jsonObject.getString("electronicSpec"),jsonObject.getInt("electronicAmount"))
                                     }
 
                                 }
@@ -142,9 +142,9 @@ class SearchEngine(context: Context) {
                                         val jsonArray = JSONArray(jsonString)
 
                                         val jsonObject = jsonArray.getJSONObject(0)
-                                        productTest = Response_Furniture(jsonObject.getString("FURNITURE_ID"),jsonObject.getString("FURNITURE_BRAND")
-                                                ,jsonObject.getString("FURNITURE_MODEL"),jsonObject.getString("FURNITURE_IMAGE"),jsonObject.getInt("FURNITURE_PRICE")
-                                                ,jsonObject.getString("FURNITURE_SIZE"),jsonObject.getString("FURNITURE_DETAIL"),jsonObject.getInt("FURNITURE_AMOUNT"))
+                                        productTest = Response_Furniture(jsonObject.getString("furnitureId"),jsonObject.getString("furnitureBrand")
+                                                ,jsonObject.getString("furnitureModel"),jsonObject.getString("furnitureImage"),jsonObject.getInt("furniturePrice")
+                                                ,jsonObject.getString("furnitureSize"),jsonObject.getString("furnitureDetail"),jsonObject.getInt("furnitureAmount"))
                                     }
 
                                 }

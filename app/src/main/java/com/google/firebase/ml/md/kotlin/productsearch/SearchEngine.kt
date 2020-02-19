@@ -82,7 +82,7 @@ class SearchEngine(context: Context) {
                     if (labels.size > 0) {
                         for (label in labels) {
                             val text = label.text
-                            //SELECT type sdfasdfasdfasdfa
+                            //SELECT type 
 
 
 

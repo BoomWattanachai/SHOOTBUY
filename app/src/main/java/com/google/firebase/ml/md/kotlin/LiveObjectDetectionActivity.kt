@@ -338,7 +338,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //                bottomSheetTitleView?.text = resources
 //                        .getQuantityString(
 //                                R.plurals.bottom_sheet_title, productList.size, productList.size)
-                bottomSheetTitleView?.text = "Boom Test Text"
+//                bottomSheetTitleView?.text = "Boom Test Text"
 
 //                productRecyclerView?.adapter = ProductAdapter(productList)
 

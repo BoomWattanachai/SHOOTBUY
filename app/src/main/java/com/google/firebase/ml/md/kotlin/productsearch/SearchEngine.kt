@@ -42,7 +42,7 @@ class SearchEngine(context: Context) {
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val productInfo = mutableListOf("Kohli", "Smith", "Root")
-    private val ip:String = "http://192.168.42.2:3000";
+    private val ip:String = "http://100.66.113.2:3000/product-data/"
     fun search(
             detectedObject: DetectedObject,
 //        listener: (detectedObject: DetectedObject, productList: List<Product>) -> Unit
@@ -81,79 +81,90 @@ class SearchEngine(context: Context) {
                     var productTest: Any? = null
                     if (labels.size > 0) {
                         for (label in labels) {
-                            val text = label.text
-                            //SELECT type 
+                            val productLabel = label.text
+                            //SELECT type
 
 
 
-                            val type: String? = chkType(text)
-                            //if tpye
-//                            if (text == "Coke" || text=="Pepsi" || text=="Calpis"){
-//                                type = "BeverageCan"
-//                                // select data
-//                                for(i in BeverageCanList.beverageCanList!!){
-//                                    if(text == i.nameData) productTest = i
-//                                }
-//                            }
-//                            else
-//                            {
-//                                type = "Furniture"
-//                                for(i in FurnitureList.furnitureList!!){
-//                                    if(text == i.nameData) productTest = i
-//                                }
-//                            }
 
-                            if (type == "Food") {
-                                val url = ip+"/testapiselect/"+text
-                                val listener = object : AsyncTaskHandleJson.getDataComplete{
-                                    override fun getDataComplete(jsonString: String) {
-                                        val jsonArray = JSONArray(jsonString)
+                            val urlCheckTpye = ip+"selectProductType/${productLabel}"
+                            var type:String? = null
 
-                                        val jsonObject = jsonArray.getJSONObject(0)
-                                        productTest = Response_FoodAndBev(jsonObject.getString("foodAndBevId"),jsonObject.getString("foodAndBevBrand")
-                                                ,jsonObject.getString("foodAndBevModel"),jsonObject.getString("foodAndBevImage"),jsonObject.getString("foodAndBevSize")
-                                                ,jsonObject.getInt("foodAndBevPrice"),jsonObject.getString("foodAndBevCal"),jsonObject.getString("foodAndBevSugar")
-                                                ,jsonObject.getString("foodAndBevFat"),jsonObject.getString("foodAndBevSodium"),jsonObject.getInt("foodAndBevAmount"))
+                            val listenerCheckTpye = object : AsyncTaskHandleJson.getDataComplete{
+                                override fun getDataComplete(jsonString: String) {
+                                    var jsonArray = JSONArray(jsonString)
+
+                                    var jsonObject = jsonArray.getJSONObject(0)
+
+                                    type = jsonObject.getJSONObject("category").getString("categoryName")
+
+
+
+                                    if (type == "Food") {
+                                        val urlSelectData = ip+"selectProductFoodData/${productLabel}"
+                                        val listenerSelectData = object : AsyncTaskHandleJson.getDataComplete{
+                                            override fun getDataComplete(jsonString: String) {
+                                                jsonArray = JSONArray(jsonString)
+
+                                                jsonObject = jsonArray.getJSONObject(0)
+                                                val subJsonObject = jsonObject.getJSONObject("foodAndBev")
+
+                                                productTest = Response_FoodAndBev(jsonObject.getString("productId"),subJsonObject.getString("foodAndBevBrand")
+                                                        ,subJsonObject.getString("foodAndBevModel"),subJsonObject.getString("foodAndBevImage"),subJsonObject.getString("foodAndBevSize")
+                                                        ,subJsonObject.getInt("foodAndBevPrice"),subJsonObject.getString("foodAndBevCal"),subJsonObject.getString("foodAndBevSugar")
+                                                        ,subJsonObject.getString("foodAndBevFat"),subJsonObject.getString("foodAndBevSodium"),subJsonObject.getInt("foodAndBevAmount"))
+                                            }
+
+                                        }
+
+                                        AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
+
+
+
+                                    } else if (type == "Electronic") {
+                                        val urlSelectData = ip+"selectProductElectronicData/${productLabel}"
+                                        val listenerSelectData = object : AsyncTaskHandleJson.getDataComplete{
+                                            override fun getDataComplete(jsonString: String) {
+                                                jsonArray = JSONArray(jsonString)
+
+                                                jsonObject = jsonArray.getJSONObject(0)
+                                                val subJsonObject = jsonObject.getJSONObject("Electronic")
+
+                                                productTest = Response_Electronic(jsonObject.getString("productId"),subJsonObject.getString("electronicBrand")
+                                                        ,subJsonObject.getString("electronicModel"),subJsonObject.getString("electronicImage"),subJsonObject.getInt("electronicPrice")
+                                                        ,subJsonObject.getString("electronicSpec"),subJsonObject.getInt("electronicAmount"))
+                                            }
+
+                                        }
+
+                                        AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
+
+                                    } else if (type == "Furniture") {
+                                        val urlSelectData = ip+"selectProductFurnitureData/${productLabel}"
+                                        val listenerSelectData = object : AsyncTaskHandleJson.getDataComplete{
+                                            override fun getDataComplete(jsonString: String) {
+                                                jsonArray = JSONArray(jsonString)
+
+                                                jsonObject = jsonArray.getJSONObject(0)
+                                                val subJsonObject = jsonObject.getJSONObject("Furniture")
+
+                                                productTest = Response_Furniture(jsonObject.getString("productId"),subJsonObject.getString("furnitureBrand")
+                                                        ,subJsonObject.getString("furnitureModel"),subJsonObject.getString("furnitureImage"),subJsonObject.getInt("furniturePrice")
+                                                        ,subJsonObject.getString("furnitureSize"),subJsonObject.getString("furnitureDetail"),subJsonObject.getInt("furnitureAmount"))
+                                            }
+
+                                        }
+
+                                        AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
                                     }
-
+                                    listener.invoke(detectedObject, productTest)
                                 }
-
-                                AsyncTaskHandleJson(listener).execute(url)
-
-                            } else if (type == "Electronic") {
-                                val url = ip+"/testapiselect/"+text
-                                val listener = object : AsyncTaskHandleJson.getDataComplete{
-                                    override fun getDataComplete(jsonString: String) {
-                                        val jsonArray = JSONArray(jsonString)
-
-                                        val jsonObject = jsonArray.getJSONObject(0)
-                                        productTest = Response_Electronic(jsonObject.getString("electronicId"),jsonObject.getString("electronicBrand")
-                                                ,jsonObject.getString("electronicModel"),jsonObject.getString("electronicImage"),jsonObject.getInt("electronicPrice")
-                                                ,jsonObject.getString("electronicSpec"),jsonObject.getInt("electronicAmount"))
-                                    }
-
-                                }
-
-                                AsyncTaskHandleJson(listener).execute(url)
-                            } else if (type == "Furniture") {
-                                val url = ip+"/testapiselect/"+text
-                                val listener = object : AsyncTaskHandleJson.getDataComplete{
-                                    override fun getDataComplete(jsonString: String) {
-                                        val jsonArray = JSONArray(jsonString)
-
-                                        val jsonObject = jsonArray.getJSONObject(0)
-                                        productTest = Response_Furniture(jsonObject.getString("furnitureId"),jsonObject.getString("furnitureBrand")
-                                                ,jsonObject.getString("furnitureModel"),jsonObject.getString("furnitureImage"),jsonObject.getInt("furniturePrice")
-                                                ,jsonObject.getString("furnitureSize"),jsonObject.getString("furnitureDetail"),jsonObject.getInt("furnitureAmount"))
-                                    }
-
-                                }
-
-                                AsyncTaskHandleJson(listener).execute(url)
                             }
-//
+
+                            AsyncTaskHandleJson(listenerCheckTpye).execute(urlCheckTpye).get()
+
                         }
-                        listener.invoke(detectedObject, productTest)
+
 
                     } else {
 //                        productTest = Response_info_data("","","",
@@ -173,24 +184,31 @@ class SearchEngine(context: Context) {
                 }
     }
 
-    private fun chkType(text:String): String? {
-        val url = ip+"/testapiselect/"+text
-        var type:String? = null
-        var listener = object : AsyncTaskHandleJson.getDataComplete{
-            override fun getDataComplete(jsonString: String) {
-                val jsonArray = JSONArray(jsonString)
+//    private fun chkType(productLabel:String): String? {
+//        val url = ip+"selectProductType/${productLabel}"
+//        var type:String? = null
+//
+//        val listener = object : AsyncTaskHandleJson.getDataComplete{
+//            override fun getDataComplete(jsonString: String) {
+//                val jsonArray = JSONArray(jsonString)
+//
+//                val jsonObject = jsonArray.getJSONObject(0)
+//
+//                type = jsonObject.getJSONObject("category").getString("categoryName")
+//
+//
+////                selectProductData(productLabel,type)
+//
+//
+//
+//            }
+//        }
+//
+//         AsyncTaskHandleJson(listener).execute(url).get()
+//
+//        return type
+//    }
 
-                var jsonObject = jsonArray.getJSONObject(0)
-
-                type = jsonObject.getString("CATEGORY_NAME")
-
-            }
-        }
-
-        AsyncTaskHandleJson(listener).execute(url)
-
-        return type
-    }
 
     fun shutdown() {
         searchRequestQueue.cancelAll(TAG)

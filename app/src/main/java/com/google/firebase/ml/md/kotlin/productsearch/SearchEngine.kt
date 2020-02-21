@@ -42,7 +42,7 @@ class SearchEngine(context: Context) {
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val productInfo = mutableListOf("Kohli", "Smith", "Root")
-    private val ip:String = "http://100.66.113.2:3000/product-data/"
+    private val ip:String = "http://172.20.10.4:3000/product-data/"
     fun search(
             detectedObject: DetectedObject,
 //        listener: (detectedObject: DetectedObject, productList: List<Product>) -> Unit
@@ -107,12 +107,14 @@ class SearchEngine(context: Context) {
                                                 jsonArray = JSONArray(jsonString)
 
                                                 jsonObject = jsonArray.getJSONObject(0)
-                                                val subJsonObject = jsonObject.getJSONObject("foodAndBev")
+//                                                val subJsonObject = jsonObject.getJSONObject("foodAndBev")
 
-                                                productTest = Response_FoodAndBev(jsonObject.getString("productId"),subJsonObject.getString("foodAndBevBrand")
-                                                        ,subJsonObject.getString("foodAndBevModel"),subJsonObject.getString("foodAndBevImage"),subJsonObject.getString("foodAndBevSize")
-                                                        ,subJsonObject.getInt("foodAndBevPrice"),subJsonObject.getString("foodAndBevCal"),subJsonObject.getString("foodAndBevSugar")
-                                                        ,subJsonObject.getString("foodAndBevFat"),subJsonObject.getString("foodAndBevSodium"),subJsonObject.getInt("foodAndBevAmount"))
+                                                productTest = Response_FoodAndBev(jsonObject.getString("foodAndBevId"),jsonObject.getString("foodAndBevBrand")
+                                                        ,jsonObject.getString("foodAndBevModel"),jsonObject.getString("foodAndBevImage"),jsonObject.getString("foodAndBevSize")
+                                                        ,jsonObject.getInt("foodAndBevPrice"),jsonObject.getString("foodAndBevCal"),jsonObject.getString("foodAndBevSugar")
+                                                        ,jsonObject.getString("foodAndBevFat"),jsonObject.getString("foodAndBevSodium"),jsonObject.getInt("foodAndBevAmount"))
+
+                                                listener.invoke(detectedObject, productTest)
                                             }
 
                                         }
@@ -128,11 +130,13 @@ class SearchEngine(context: Context) {
                                                 jsonArray = JSONArray(jsonString)
 
                                                 jsonObject = jsonArray.getJSONObject(0)
-                                                val subJsonObject = jsonObject.getJSONObject("Electronic")
+//                                                val subJsonObject = jsonObject.getJSONObject("Electronic")
 
-                                                productTest = Response_Electronic(jsonObject.getString("productId"),subJsonObject.getString("electronicBrand")
-                                                        ,subJsonObject.getString("electronicModel"),subJsonObject.getString("electronicImage"),subJsonObject.getInt("electronicPrice")
-                                                        ,subJsonObject.getString("electronicSpec"),subJsonObject.getInt("electronicAmount"))
+                                                productTest = Response_Electronic(jsonObject.getString("electronicId"),jsonObject.getString("electronicBrand")
+                                                        ,jsonObject.getString("electronicModel"),jsonObject.getString("electronicImage"),jsonObject.getInt("electronicPrice")
+                                                        ,jsonObject.getString("electronicSpec"),jsonObject.getInt("electronicAmount"))
+
+                                                listener.invoke(detectedObject, productTest)
                                             }
 
                                         }
@@ -146,18 +150,20 @@ class SearchEngine(context: Context) {
                                                 jsonArray = JSONArray(jsonString)
 
                                                 jsonObject = jsonArray.getJSONObject(0)
-                                                val subJsonObject = jsonObject.getJSONObject("Furniture")
+//                                                val subJsonObject = jsonObject.getJSONObject("Furniture")
 
-                                                productTest = Response_Furniture(jsonObject.getString("productId"),subJsonObject.getString("furnitureBrand")
-                                                        ,subJsonObject.getString("furnitureModel"),subJsonObject.getString("furnitureImage"),subJsonObject.getInt("furniturePrice")
-                                                        ,subJsonObject.getString("furnitureSize"),subJsonObject.getString("furnitureDetail"),subJsonObject.getInt("furnitureAmount"))
+                                                productTest = Response_Furniture(jsonObject.getString("furnitureId"),jsonObject.getString("furnitureBrand")
+                                                        ,jsonObject.getString("furnitureModel"),jsonObject.getString("furnitureImage"),jsonObject.getInt("furniturePrice")
+                                                        ,jsonObject.getString("furnitureSize"),jsonObject.getString("furnitureDetail"),jsonObject.getInt("furnitureAmount"))
+
+                                                listener.invoke(detectedObject, productTest)
                                             }
 
                                         }
 
                                         AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
                                     }
-                                    listener.invoke(detectedObject, productTest)
+//                                    listener.invoke(detectedObject, productTest)
                                 }
                             }
 

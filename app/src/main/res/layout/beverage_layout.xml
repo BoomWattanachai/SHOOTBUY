@@ -23,8 +23,7 @@
         android:layout_below="@+id/food_and_bev_close"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/coke_no_sugar" />
+        android:layout_marginTop="10dp" />
 
 
     <TextView

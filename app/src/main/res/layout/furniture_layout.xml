@@ -21,8 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@+id/furniture_close"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/gaming_chair" />
+        android:layout_centerHorizontal="true"/>
 
 
     <TextView

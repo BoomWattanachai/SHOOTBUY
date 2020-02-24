@@ -61,6 +61,7 @@ import kotlinx.android.synthetic.main.electronic_layout.view.*
 import kotlinx.android.synthetic.main.furniture_layout.*
 import kotlinx.android.synthetic.main.furniture_layout.view.*
 import java.io.IOException
+import java.text.NumberFormat
 
 /** Demonstrates the object detection and visual search workflow using camera preview.  */
 class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
@@ -366,7 +367,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
             wizardView.food_and_bev_brand.text = productData.fb_brand
             wizardView.food_and_bev_vol.text = "(" + productData.fb_size + ")"
-            wizardView.food_and_bev_price.text = "$" + productData.fb_price + ".00"
+            wizardView.food_and_bev_price.text = "$" + NumberFormat.getInstance().format(productData.fb_price).toString()
             wizardView.food_and_bev_cal.text = productData.fb_cal
             wizardView.food_and_bev_sugar.text = productData.fb_sugar
             wizardView.food_and_bev_fat.text = productData.fb_fat
@@ -380,6 +381,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.food_and_bev_beverage_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.amount.text = amount.toString()
+            }
+            wizardView.food_and_bev_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
             wizardView.food_and_bev_add_to_cart.setOnClickListener {
@@ -464,7 +468,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.furniture_brand.text = productData.fur_brand
             wizardView.furniture_model.text = productData.fur_model
             wizardView.furniture_spec.text = productData.fur_detail
-            wizardView.furniture_price.text = "$" + productData.fur_price
+            wizardView.furniture_price.text = "$" + NumberFormat.getInstance().format(productData.fur_price).toString()
             var amount: Int = 1
             wizardView.furniture_increase.setOnClickListener {
                 amount++
@@ -473,6 +477,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.furniture_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.furniture_amount.text = amount.toString()
+            }
+            wizardView.furniture_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             wizardView.furniture_add_to_cart.setOnClickListener {
                 //                Cart.addItem(CartItem(productData.fur_image, productData.fur_brand, amount, productData.fur_price))
@@ -530,7 +537,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.electronic_brand.text = productData.elt_brand
             wizardView.electronic_model.text = productData.elt_model
             wizardView.electronic_spec.text = productData.elt_spec
-            wizardView.electronic_price.text = "$" + productData.elt_price
+            wizardView.electronic_price.text = "$" + NumberFormat.getInstance().format(productData.elt_price).toString()
             var amount: Int = 1
             wizardView.electronic_increase.setOnClickListener {
                 amount++
@@ -539,6 +546,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.electronic_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.electronic_amount.text = amount.toString()
+            }
+            wizardView.electronic_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             wizardView.electronic_add_to_cart.setOnClickListener {
                 if (Cart.cartItemList.count() > 0) {

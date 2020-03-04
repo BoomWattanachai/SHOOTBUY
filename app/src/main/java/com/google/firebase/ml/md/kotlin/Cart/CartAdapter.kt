@@ -1,5 +1,6 @@
 package com.google.firebase.ml.md.kotlin.Cart
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,13 +8,15 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.kotlin.Address.NewAddressActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.electronic_layout.*
 import java.text.NumberFormat
 
-class CartAdapter(private var cart: Cart.Companion, var cartActivity: CartActivity) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter( var cart: Cart.Companion, var cartActivity: CartActivity) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     class CartViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
         private val productImage: ImageView = view.findViewById(R.id.product_image)
         private val productName: TextView = view.findViewById(R.id.product_name)
@@ -30,6 +33,8 @@ class CartAdapter(private var cart: Cart.Companion, var cartActivity: CartActivi
             productPrice.text = "$"+NumberFormat.getInstance().format(cartItem.price).toString()
 
         }
+
+
 
 
         companion object {
@@ -63,9 +68,11 @@ class CartAdapter(private var cart: Cart.Companion, var cartActivity: CartActivi
             notifyDataSetChanged()
         }
         cartActivity.cartCheckoutBtn?.setOnClickListener {
-            cartActivity.onBackPressed()
+//            cartActivity.onBackPressed()
             cart.cartItemList.clear()
             cartActivity.totalPrice?.text = "$"+ NumberFormat.getInstance().format(cart.getCartTotalPrice()).toString()
+            cartActivity.goToSelectAddress()
+//            startActivity(Intent(this, NewAddressActivity::class.java))
 //            notifyDataSetChanged()
 //            NumberFormat.getInstance().format(cart.getCartTotalPrice())
         }

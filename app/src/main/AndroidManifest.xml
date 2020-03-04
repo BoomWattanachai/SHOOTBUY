@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".kotlin.Order.OderActivity"></activity>
+        <activity android:name=".kotlin.Address.NewAddressActivity" />
+        <activity
+            android:name=".kotlin.Address.SelectAddressActivity"
+            android:label="@string/title_activity_select_address"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".kotlin.Cart.CartActivity"
             android:label="@string/title_activity_cart"

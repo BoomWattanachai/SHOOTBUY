@@ -36,6 +36,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.kotlin.Address.SelectAddressActivity
 import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
@@ -396,26 +397,26 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //                wizardView.food_and_bev_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
 //                wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
 //                wizardView.food_and_bev_add_to_cart.text = "Added to Cart."
-                if (Cart.cartItemList.count() > 0) {
-                    var repeat = false
-                    for (cartItem in Cart.cartItemList) {
-                        if (cartItem.nameData == productData.fb_brand)
-                            repeat = true
-                    }
-
-                    if (repeat) {
-                        for (cartItem in Cart.cartItemList) {
-                            if (cartItem.nameData == productData.fb_brand) {
-                                cartItem.amount += amount
-                                break
-                            }
-                        }
-                    } else {
-                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-                    }
-                } else {
+//                if (Cart.cartItemList.count() > 0) {
+//                    var repeat = false
+//                    for (cartItem in Cart.cartItemList) {
+//                        if (cartItem.nameData == productData.fb_brand)
+//                            repeat = true
+//                    }
+//
+//                    if (repeat) {
+//                        for (cartItem in Cart.cartItemList) {
+//                            if (cartItem.nameData == productData.fb_brand) {
+//                                cartItem.amount += amount
+//                                break
+//                            }
+//                        }
+//                    } else {
+//                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
+//                    }
+//                } else {
                     Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-                }
+//                }
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
 

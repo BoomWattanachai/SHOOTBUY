@@ -36,7 +36,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.Address.SelectAddressActivity
 import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
@@ -55,11 +54,8 @@ import com.google.firebase.ml.md.kotlin.productsearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.beverage_layout.*
 import kotlinx.android.synthetic.main.beverage_layout.view.*
-import kotlinx.android.synthetic.main.electronic_layout.*
 import kotlinx.android.synthetic.main.electronic_layout.view.*
-import kotlinx.android.synthetic.main.furniture_layout.*
 import kotlinx.android.synthetic.main.furniture_layout.view.*
 import java.io.IOException
 import java.text.NumberFormat
@@ -362,7 +358,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             var wizardView = layoutInflater.inflate(R.layout.beverage_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-            var imageView:ImageView = findViewById(R.id.food_and_bev_image)
+            var imageView: ImageView = findViewById(R.id.food_and_bev_image)
             Picasso.get().load(productData.fb_image).into(imageView)
 //            wizardView.product_image.setImageResource(productData.imageResource)
 //            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
@@ -388,35 +384,35 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             }
 
             wizardView.food_and_bev_add_to_cart.setOnClickListener {
-                //                Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-//                wizardView.food_and_bev_beverage_increase.isClickable=false
-//                wizardView.food_and_bev_beverage_decrease.isClickable=false
+//                Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
+//                wizardView.food_and_bev_beverage_increase.isClickable = false
+//                wizardView.food_and_bev_beverage_decrease.isClickable = false
 //                wizardView.food_and_bev_add_to_cart.isClickable = false
 //                wizardView.food_and_bev_beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
 //                wizardView.food_and_bev_beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
 //                wizardView.food_and_bev_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
 //                wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
 //                wizardView.food_and_bev_add_to_cart.text = "Added to Cart."
-//                if (Cart.cartItemList.count() > 0) {
-//                    var repeat = false
-//                    for (cartItem in Cart.cartItemList) {
-//                        if (cartItem.nameData == productData.fb_brand)
-//                            repeat = true
-//                    }
-//
-//                    if (repeat) {
-//                        for (cartItem in Cart.cartItemList) {
-//                            if (cartItem.nameData == productData.fb_brand) {
-//                                cartItem.amount += amount
-//                                break
-//                            }
-//                        }
-//                    } else {
-//                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-//                    }
-//                } else {
+                if (Cart.cartItemList.count() > 0) {
+                    var repeat = false
+                    for (cartItem in Cart.cartItemList) {
+                        if (cartItem.nameData == productData.fb_brand)
+                            repeat = true
+                    }
+
+                    if (repeat) {
+                        for (cartItem in Cart.cartItemList) {
+                            if (cartItem.nameData == productData.fb_brand) {
+                                cartItem.amount += amount
+                                break
+                            }
+                        }
+                    } else {
+                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
+                    }
+                } else {
                     Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-//                }
+                }
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
@@ -462,7 +458,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-            var imageView:ImageView = findViewById(R.id.furniture_image)
+            var imageView: ImageView = findViewById(R.id.furniture_image)
             Picasso.get().load(productData.fur_image).into(imageView)
 //            wizardView.furniture_product_image.setImageResource(productData.imageResource)
             wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
@@ -532,7 +528,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-            var imageView:ImageView = findViewById(R.id.electronic_image)
+            var imageView: ImageView = findViewById(R.id.electronic_image)
             Picasso.get().load(productData.elt_image).into(imageView)
 //            wizardView.furniture_product_image.setImageResource(productData.imageResource)
             wizardView.electronic_brand.text = productData.elt_brand

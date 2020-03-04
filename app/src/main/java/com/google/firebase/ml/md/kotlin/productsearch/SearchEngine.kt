@@ -42,7 +42,7 @@ class SearchEngine(context: Context) {
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val productInfo = mutableListOf("Kohli", "Smith", "Root")
-    private val ip:String = "http://172.20.10.4:3000/product-data/"
+    private val ip:String = "http://100.66.112.138:3000/product-data/"
     fun search(
             detectedObject: DetectedObject,
 //        listener: (detectedObject: DetectedObject, productList: List<Product>) -> Unit
@@ -66,7 +66,7 @@ class SearchEngine(context: Context) {
 //                }
 
         val localModel = FirebaseAutoMLLocalModel.Builder()
-                .setAssetFilePath("Models/manifest.json")
+                .setAssetFilePath("3Model/manifest.json")
                 .build()
 
         val options = FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel)

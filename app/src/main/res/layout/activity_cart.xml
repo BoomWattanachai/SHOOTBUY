@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomLayout"
-        android:scrollbars="vertical"
-android:layout_marginTop="80dp"
-        />
+        android:layout_below="@+id/topLaout"
+        android:scrollbars="vertical"/>
 
     <LinearLayout
+        android:id="@+id/topLaout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -55,9 +55,10 @@ android:layout_marginTop="80dp"
 
 
             <View
+                android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="30dp"
                 android:background="@color/lighter_grey" />
         </LinearLayout>
 

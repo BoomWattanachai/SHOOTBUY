@@ -36,6 +36,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.kotlin.Address.SelectAddressActivity
 import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
@@ -61,6 +62,7 @@ import kotlinx.android.synthetic.main.electronic_layout.view.*
 import kotlinx.android.synthetic.main.furniture_layout.*
 import kotlinx.android.synthetic.main.furniture_layout.view.*
 import java.io.IOException
+import java.text.NumberFormat
 
 /** Demonstrates the object detection and visual search workflow using camera preview.  */
 class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
@@ -366,7 +368,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
             wizardView.food_and_bev_brand.text = productData.fb_brand
             wizardView.food_and_bev_vol.text = "(" + productData.fb_size + ")"
-            wizardView.food_and_bev_price.text = "$" + productData.fb_price + ".00"
+            wizardView.food_and_bev_price.text = "$" + NumberFormat.getInstance().format(productData.fb_price).toString()
             wizardView.food_and_bev_cal.text = productData.fb_cal
             wizardView.food_and_bev_sugar.text = productData.fb_sugar
             wizardView.food_and_bev_fat.text = productData.fb_fat
@@ -381,6 +383,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 if (amount > 1) amount--
                 wizardView.amount.text = amount.toString()
             }
+            wizardView.food_and_bev_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            }
 
             wizardView.food_and_bev_add_to_cart.setOnClickListener {
                 //                Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
@@ -392,26 +397,26 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //                wizardView.food_and_bev_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
 //                wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
 //                wizardView.food_and_bev_add_to_cart.text = "Added to Cart."
-                if (Cart.cartItemList.count() > 0) {
-                    var repeat = false
-                    for (cartItem in Cart.cartItemList) {
-                        if (cartItem.nameData == productData.fb_brand)
-                            repeat = true
-                    }
-
-                    if (repeat) {
-                        for (cartItem in Cart.cartItemList) {
-                            if (cartItem.nameData == productData.fb_brand) {
-                                cartItem.amount += amount
-                                break
-                            }
-                        }
-                    } else {
-                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-                    }
-                } else {
+//                if (Cart.cartItemList.count() > 0) {
+//                    var repeat = false
+//                    for (cartItem in Cart.cartItemList) {
+//                        if (cartItem.nameData == productData.fb_brand)
+//                            repeat = true
+//                    }
+//
+//                    if (repeat) {
+//                        for (cartItem in Cart.cartItemList) {
+//                            if (cartItem.nameData == productData.fb_brand) {
+//                                cartItem.amount += amount
+//                                break
+//                            }
+//                        }
+//                    } else {
+//                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
+//                    }
+//                } else {
                     Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-                }
+//                }
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
@@ -464,7 +469,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.furniture_brand.text = productData.fur_brand
             wizardView.furniture_model.text = productData.fur_model
             wizardView.furniture_spec.text = productData.fur_detail
-            wizardView.furniture_price.text = "$" + productData.fur_price
+            wizardView.furniture_price.text = "$" + NumberFormat.getInstance().format(productData.fur_price).toString()
             var amount: Int = 1
             wizardView.furniture_increase.setOnClickListener {
                 amount++
@@ -473,6 +478,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.furniture_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.furniture_amount.text = amount.toString()
+            }
+            wizardView.furniture_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             wizardView.furniture_add_to_cart.setOnClickListener {
                 //                Cart.addItem(CartItem(productData.fur_image, productData.fur_brand, amount, productData.fur_price))
@@ -530,7 +538,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.electronic_brand.text = productData.elt_brand
             wizardView.electronic_model.text = productData.elt_model
             wizardView.electronic_spec.text = productData.elt_spec
-            wizardView.electronic_price.text = "$" + productData.elt_price
+            wizardView.electronic_price.text = "$" + NumberFormat.getInstance().format(productData.elt_price).toString()
             var amount: Int = 1
             wizardView.electronic_increase.setOnClickListener {
                 amount++
@@ -539,6 +547,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             wizardView.electronic_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.electronic_amount.text = amount.toString()
+            }
+            wizardView.electronic_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
             wizardView.electronic_add_to_cart.setOnClickListener {
                 if (Cart.cartItemList.count() > 0) {

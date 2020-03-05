@@ -26,8 +26,8 @@ class OrderDetailActivity : AppCompatActivity() {
                     OrderDetailData(
                             "https://backend.tops.co.th/media/catalog/product/8/8/8851959132074_1.jpg",
                             "Coke",
-                            2,
-                            15
+                            5,
+                            20
                     )
             )
         }
@@ -43,7 +43,6 @@ class OrderDetailActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        history_order_date.text = LocalDate.now().toString()
 
 
     }

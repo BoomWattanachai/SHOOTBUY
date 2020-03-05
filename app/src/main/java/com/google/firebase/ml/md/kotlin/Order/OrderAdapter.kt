@@ -36,11 +36,11 @@ class OrderAdapter(val orderList: ArrayList<OrderData>) : RecyclerView.Adapter<O
 
     override fun onBindViewHolder(holder: OrderAdapter.ViewHolder, position: Int) {
 
-        val data = orderList[position]
-        Picasso.get().load(data.imageResource).into(holder.order_product_image)
-        holder.order_product_name.text = data.nameData
-        holder.order_product_price.text = "$"+ NumberFormat.getInstance().format(data.price).toString()
-        holder.order_product_quantity.text = data.amount.toString()
+        val order = orderList[position]
+        Picasso.get().load(order.imageResource).into(holder.order_product_image)
+        holder.order_product_name.text = order.nameData
+        holder.order_product_price.text = "$"+ NumberFormat.getInstance().format(order.price).toString()
+        holder.order_product_quantity.text = order.amount.toString()
     }
 
 }

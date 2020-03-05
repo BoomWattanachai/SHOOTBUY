@@ -39,6 +39,7 @@ import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
+import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_Electronic
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
@@ -85,6 +86,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private var slidingSheetUpFromHiddenState: Boolean = false
     private var mainCustomLayout: LinearLayout? = null
     private var cartBtn: ImageButton? = null
+    private var historyScanBtn: Button? = null
     private var addCart: Button? = null
     private var removeCart: Button? = null
     var testUI: TextView? = null
@@ -129,6 +131,10 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
         cartBtn = findViewById<ImageButton>(R.id.cartBtn).apply {
+            setOnClickListener(this@LiveObjectDetectionActivity)
+        }
+
+        historyScanBtn = findViewById<Button>(R.id.historyScanBtn).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
 
@@ -203,6 +209,10 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                     startActivity(Intent(this, CartActivity::class.java))
                 else
                     Toast.makeText(this, "Cart is empty!", Toast.LENGTH_SHORT).show()
+            }
+
+            R.id.historyScanBtn -> {
+                    startActivity(Intent(this, HistoryScanActivity::class.java))
             }
 
         }

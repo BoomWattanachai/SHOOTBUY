@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
+
+    <ImageView
+        android:id="@+id/order_product_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/order_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/order_product_image"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/order_product_image"
+        android:text="Name"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+<!--    <Button-->
+<!--        android:id="@+id/order_cartItemRemove"-->
+<!--        style="?android:attr/borderlessButtonStyle"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:backgroundTint="@color/transparent"-->
+<!--        android:text="X"-->
+<!--        android:textColor="#ADA3A2" />-->
+
+    <TextView
+        android:id="@+id/order_product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/order_product_image"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/order_product_image"
+        android:text="Price"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_alignBottom="@+id/order_product_image"
+        android:layout_toStartOf="@+id/order_product_quantity"
+        android:text="Qty:"
+        android:textStyle="bold"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/order_product_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="14dp"
+        android:layout_alignBottom="@+id/order_product_image"
+        android:layout_alignParentEnd="true"
+        android:text="1"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignBottom="@+id/order_product_image"-->
+<!--        android:layout_alignParentEnd="true">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:gravity="center">-->
+<!--            &lt;!&ndash;            <ImageButton&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:id="@+id/order_item_decrease"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_width="20dp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_height="20dp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_below="@id/order_product_name"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_toEndOf="@id/order_product_image"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:src="@drawable/decrease_cart_btn"&ndash;&gt;-->
+<!--            &lt;!&ndash;                style="?android:attr/borderlessButtonStyle"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:backgroundTint="@color/transparent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_marginRight="10dp"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <TextView&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:id="@+id/order_product_quantity"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_toEndOf="@id/order_item_decrease"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:textColor="#292D48"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:textSize="18sp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:text="1"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_marginRight="10dp"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <ImageButton&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:id="@+id/order_item_increase"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_width="20dp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_height="20dp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_below="@id/order_product_name"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_toEndOf="@id/order_product_quantity"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:src="@drawable/increase_cart_btn"&ndash;&gt;-->
+<!--            &lt;!&ndash;                style="?android:attr/borderlessButtonStyle"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:backgroundTint="@color/transparent"/>&ndash;&gt;-->
+<!--        </LinearLayout>-->
+<!--    </RelativeLayout>-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/order_product_image"
+        android:layout_marginTop="16dp"
+        android:background="@color/lighter_grey" />
+
+</RelativeLayout>

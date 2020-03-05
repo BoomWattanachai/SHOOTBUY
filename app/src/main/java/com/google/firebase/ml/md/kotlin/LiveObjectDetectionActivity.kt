@@ -39,6 +39,7 @@ import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.Cart.CartItem
+import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderActivity
 import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_Electronic
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
@@ -87,6 +88,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private var mainCustomLayout: LinearLayout? = null
     private var cartBtn: ImageButton? = null
     private var historyScanBtn: Button? = null
+    private var historyOrderBtn: Button? = null
     private var addCart: Button? = null
     private var removeCart: Button? = null
     var testUI: TextView? = null
@@ -135,6 +137,10 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         }
 
         historyScanBtn = findViewById<Button>(R.id.historyScanBtn).apply {
+            setOnClickListener(this@LiveObjectDetectionActivity)
+        }
+
+        historyOrderBtn = findViewById<Button>(R.id.historyOrderBtn).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
 
@@ -213,6 +219,10 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
             R.id.historyScanBtn -> {
                     startActivity(Intent(this, HistoryScanActivity::class.java))
+            }
+
+            R.id.historyOrderBtn -> {
+                startActivity(Intent(this, HistoryOrderActivity::class.java))
             }
 
         }

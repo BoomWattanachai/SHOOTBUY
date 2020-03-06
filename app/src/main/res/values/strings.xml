@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="ip">http://100.66.112.28:3000/product-data/</string>
+
+
     <string name="app_name">Dectect Object</string>
 
     <string name="entry_java_title">Java</string>

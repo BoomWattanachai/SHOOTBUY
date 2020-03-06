@@ -16,3 +16,5 @@ class Cart {
 
     }
 }
+
+//data class Cart (var imageResource:String,var nameData:String,var amount:Int,var price:Int)

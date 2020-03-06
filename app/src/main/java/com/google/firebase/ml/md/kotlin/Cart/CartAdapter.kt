@@ -59,6 +59,7 @@ class CartAdapter( var cart: Cart.Companion, var cartActivity: CartActivity) : R
         holder.cartItemDecrease.setOnClickListener {
             cart.cartItemList[position].decreaseQuantity()
 //            cartActivity.totalPrice?.text = Cart.getCartTotalPrice().toString()
+
             notifyDataSetChanged()
 
         }

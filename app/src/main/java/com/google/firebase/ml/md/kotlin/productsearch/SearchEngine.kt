@@ -21,12 +21,12 @@ import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.firebase.ml.md.kotlin.Models.BeverageCanList
-import com.google.firebase.ml.md.kotlin.Models.FurnitureList
+import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_Electronic
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
 import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
-import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskHandleJson
+import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskGetTypeAndDataProduct
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel
@@ -41,8 +41,7 @@ class SearchEngine(context: Context) {
 
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-    private val productInfo = mutableListOf("Kohli", "Smith", "Root")
-    private val ip:String = "http://100.66.112.138:3000/product-data/"
+//    private val ip:String = "http://100.66.112.28:3000/product-data/"
     fun search(
             detectedObject: DetectedObject,
 //        listener: (detectedObject: DetectedObject, productList: List<Product>) -> Unit
@@ -87,10 +86,10 @@ class SearchEngine(context: Context) {
 
 
 
-                            val urlCheckTpye = ip+"selectProductType/${productLabel}"
+                            val urlCheckTpye = IPAddress.ipAddress+"product-data/selectProductType/${productLabel}"
                             var type:String? = null
 
-                            val listenerCheckTpye = object : AsyncTaskHandleJson.getDataComplete{
+                            val listenerCheckTpye = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
                                 override fun getDataComplete(jsonString: String) {
                                     var jsonArray = JSONArray(jsonString)
 
@@ -101,8 +100,8 @@ class SearchEngine(context: Context) {
 
 
                                     if (type == "Food") {
-                                        val urlSelectData = ip+"selectProductFoodData/${productLabel}"
-                                        val listenerSelectData = object : AsyncTaskHandleJson.getDataComplete{
+                                        val urlSelectData = IPAddress.ipAddress+"product-data/selectProductFoodData/${productLabel}"
+                                        val listenerSelectData = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
                                             override fun getDataComplete(jsonString: String) {
                                                 jsonArray = JSONArray(jsonString)
 
@@ -119,13 +118,13 @@ class SearchEngine(context: Context) {
 
                                         }
 
-                                        AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
+                                        AsyncTaskGetTypeAndDataProduct(listenerSelectData).execute(urlSelectData)
 
 
 
                                     } else if (type == "Electronic") {
-                                        val urlSelectData = ip+"selectProductElectronicData/${productLabel}"
-                                        val listenerSelectData = object : AsyncTaskHandleJson.getDataComplete{
+                                        val urlSelectData = IPAddress.ipAddress+"product-data/selectProductElectronicData/${productLabel}"
+                                        val listenerSelectData = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
                                             override fun getDataComplete(jsonString: String) {
                                                 jsonArray = JSONArray(jsonString)
 
@@ -141,11 +140,11 @@ class SearchEngine(context: Context) {
 
                                         }
 
-                                        AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
+                                        AsyncTaskGetTypeAndDataProduct(listenerSelectData).execute(urlSelectData)
 
                                     } else if (type == "Furniture") {
-                                        val urlSelectData = ip+"selectProductFurnitureData/${productLabel}"
-                                        val listenerSelectData = object : AsyncTaskHandleJson.getDataComplete{
+                                        val urlSelectData = IPAddress.ipAddress+"product-data/selectProductFurnitureData/${productLabel}"
+                                        val listenerSelectData = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
                                             override fun getDataComplete(jsonString: String) {
                                                 jsonArray = JSONArray(jsonString)
 
@@ -161,13 +160,13 @@ class SearchEngine(context: Context) {
 
                                         }
 
-                                        AsyncTaskHandleJson(listenerSelectData).execute(urlSelectData)
+                                        AsyncTaskGetTypeAndDataProduct(listenerSelectData).execute(urlSelectData)
                                     }
 //                                    listener.invoke(detectedObject, productTest)
                                 }
                             }
 
-                            AsyncTaskHandleJson(listenerCheckTpye).execute(urlCheckTpye).get()
+                            AsyncTaskGetTypeAndDataProduct(listenerCheckTpye).execute(urlCheckTpye).get()
 
                         }
 

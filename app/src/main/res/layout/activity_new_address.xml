@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="House No."
-        android:inputType="textCapSentences|textAutoCorrect"
+        android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
         android:layout_below="@+id/textHouseNo"
         />
@@ -102,25 +102,26 @@
         android:layout_below="@+id/textProvince"/>
 
     <TextView
-        android:id="@+id/textPostalCode"
+        android:id="@+id/textZipCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Postal Code"
+        android:text="Zip Code"
         android:textColor="#FFF"
         android:textSize="18sp"
         android:layout_below="@+id/inputProvince"/>
 
     <EditText
-        android:id="@+id/inputPostalCode"
+        android:id="@+id/inputZipCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Postal Code"
+        android:hint="Zip Code"
         android:imeOptions="actionDone"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
-        android:layout_below="@+id/textPostalCode"/>
+        android:layout_below="@+id/textZipCode"/>
 
     <Button
+        android:id="@+id/btnNewAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add"

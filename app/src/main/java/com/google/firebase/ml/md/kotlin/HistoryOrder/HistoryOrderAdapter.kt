@@ -35,13 +35,13 @@ class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, var
     override fun onBindViewHolder(holder: HistoryOrderAdapter.ViewHolder, position: Int) {
         val historyOrder: HistoryOrderData = historyOrderList[position]
 
-        holder.history_order_number.text = historyOrder.orderNumber
+        holder.history_order_number.text = historyOrder.orderNumber.toString()
 
-        if (historyOrder.status == 0)
+        if (historyOrder.status == 1)
         {
             holder.history_order_status.text = "In progress"
             holder.history_order_status.setTextColor(Color.RED)
-        }else
+        }else if (historyOrder.status == 2)
         {
             holder.history_order_status.text = "Success"
             holder.history_order_status.setTextColor(Color.GREEN)
@@ -51,7 +51,7 @@ class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, var
 
         holder.parentPanel.setOnClickListener {
             val intent = Intent(context, OrderDetailActivity::class.java)
-            intent.putExtra("orderNumber", historyOrder.orderNumber)
+            intent.putExtra("orderNumber", historyOrder.orderNumber.toString())
             startActivity(context, intent, null)
         }
     }

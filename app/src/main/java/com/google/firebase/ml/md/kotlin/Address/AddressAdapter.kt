@@ -72,27 +72,23 @@ class AddressAdapter(val addressList: ArrayList<AddressData>,var selectAddressAc
             }
 //
             oldHolder = holder
+//            Log.d("Address",holder.address.text.toString())
 
         }
+
 
         holder.radio.isChecked = addressList[holder.layoutPosition].check
 
-//        holder.btnCheckout.setOnClickListener {
-//            val intent = Intent(context, OderActivity::class.java)
-//            var test = holder.radio.text
-//            intent.putExtra("Address",test)
-//            startActivity(context,intent,null)
-//        }
+
 
         selectAddressActivity.btnCheckout?.setOnClickListener {
             val intent = Intent(context, OderActivity::class.java)
-            var test = holder.address.text
-            intent.putExtra("Address", test)
+//            Log.d("Address",oldHolder!!.address.text.toString())
+            intent.putExtra("Address", oldHolder!!.address.text.toString())
+            intent.putExtra("FullName", selectAddressActivity.fullName)
             startActivity(context, intent, null)
         }
 
-
-        Log.d("rr","sad")
 
     }
 }

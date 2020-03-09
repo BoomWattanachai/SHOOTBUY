@@ -40,10 +40,21 @@
         android:id="@+id/order_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/order_product_image"
+        android:layout_above="@+id/order_product_total_price"
+        android:text="Price"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/order_product_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/order_product_image"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/order_product_image"
-        android:text="Price"
+        android:text="Price1"
         android:textColor="#FFF"
         android:textSize="14sp"
         android:textStyle="bold" />

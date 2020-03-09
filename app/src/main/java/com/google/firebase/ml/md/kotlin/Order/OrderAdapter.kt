@@ -18,6 +18,7 @@ class OrderAdapter(val orderList: ArrayList<OrderData>) : RecyclerView.Adapter<O
         val order_product_name = itemView.findViewById(R.id.order_product_name) as TextView
         val order_product_price = itemView.findViewById(R.id.order_product_price) as TextView
         val order_product_quantity = itemView.findViewById(R.id.order_product_quantity) as TextView
+        val order_product_total_price = itemView.findViewById(R.id.order_product_total_price) as TextView
 
 
     }
@@ -39,8 +40,10 @@ class OrderAdapter(val orderList: ArrayList<OrderData>) : RecyclerView.Adapter<O
         val order = orderList[position]
         Picasso.get().load(order.imageResource).into(holder.order_product_image)
         holder.order_product_name.text = order.nameData
-        holder.order_product_price.text = "$"+ NumberFormat.getInstance().format(order.price).toString()
+        holder.order_product_price.text = "฿"+ NumberFormat.getInstance().format(order.price).toString()
+        holder.order_product_total_price.text = "Total ฿"+ NumberFormat.getInstance().format(order.totalPrice).toString()
         holder.order_product_quantity.text = order.amount.toString()
+
     }
 
 }

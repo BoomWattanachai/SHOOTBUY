@@ -16,46 +16,20 @@
 
 package com.google.firebase.ml.md.kotlin
 
-import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
-import android.app.Activity
-import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.PointF
-import android.graphics.Rect
-import android.graphics.RectF
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
-import com.google.common.collect.ImmutableList
-import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.productsearch.BottomSheetScrimView
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.objects.FirebaseVisionObject
+import com.google.firebase.ml.md.kotlin.productSearch.BottomSheetScrimView
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector
-import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
-import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
-import com.google.firebase.ml.md.kotlin.objectdetection.StaticObjectDotView
-import com.google.firebase.ml.md.kotlin.productsearch.PreviewCardAdapter
-import com.google.firebase.ml.md.kotlin.productsearch.Product
-import com.google.firebase.ml.md.kotlin.productsearch.ProductAdapter
-import com.google.firebase.ml.md.kotlin.productsearch.SearchEngine
-import com.google.firebase.ml.md.kotlin.productsearch.SearchedObject
-import java.io.IOException
-import java.lang.NullPointerException
+import com.google.firebase.ml.md.kotlin.productSearch.SearchEngine
+import com.google.firebase.ml.md.kotlin.productSearch.SearchedObject
 import java.util.TreeMap
 
 /** Demonstrates the object detection and visual search workflow using static image.  */

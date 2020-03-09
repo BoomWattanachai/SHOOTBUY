@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.firebase.ml.md.kotlin.productsearch
+package com.google.firebase.ml.md.kotlin.productSearch
 
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Rect
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
 import com.google.firebase.ml.md.kotlin.Utils
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
 

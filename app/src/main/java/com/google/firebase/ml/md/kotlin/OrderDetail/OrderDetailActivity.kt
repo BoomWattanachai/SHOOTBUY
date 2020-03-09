@@ -16,7 +16,7 @@ class OrderDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order_detail)
         val orderNumber=intent.getStringExtra("orderNumber")
 
-        order_detail_order_number.text = orderNumber
+        order_detail_order_number.text = "Order #"+orderNumber
 
 
         var orderDetailList = ArrayList<OrderDetailData>()

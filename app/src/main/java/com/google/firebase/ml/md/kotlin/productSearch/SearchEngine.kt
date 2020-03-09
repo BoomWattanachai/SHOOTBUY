@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.google.firebase.ml.md.kotlin.productsearch
+package com.google.firebase.ml.md.kotlin.productSearch
 
 import android.content.Context
 import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Electronic
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Furniture
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Product
 import com.google.firebase.ml.md.kotlin.IPAddress
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_Electronic
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
-import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskGetTypeAndDataProduct
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductElectronic
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFurniture
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductType
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel
@@ -41,30 +44,13 @@ class SearchEngine(context: Context) {
 
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-//    private val ip:String = "http://100.66.112.28:3000/product-data/"
     fun search(
             detectedObject: DetectedObject,
-//        listener: (detectedObject: DetectedObject, productList: List<Product>) -> Unit
             listener: (detectedObject: DetectedObject, productTest: Any?) -> Unit
     ) {
-//        // Crops the object image out of the full image is expensive, so do it off the UI thread.
-//        Tasks.call<JsonObjectRequest>(requestCreationExecutor, Callable { createRequest(detectedObject) })
-//                .addOnSuccessListener {
-//                    productRequest -> searchRequestQueue.add(productRequest.setTag(TAG))
-//                }
-//                .addOnFailureListener { e ->
-//                    Log.e(TAG, "Failed to create product search request!", e)
-//                    // Remove the below dummy code after your own product search backed hooked up.
-//                    val productList = ArrayList<Product>()
-////                    for (i in 0..1) {
-//                        productList.add(
-////                                Product(/* imageUrl= */"", "Product title $i", "Product subtitle $i"))
-//                                Product(/* imageUrl= */"", "Product title ", "Product subtitle"))
-////                    }
-//                    listener.invoke(detectedObject, productList)
-//                }
 
         val localModel = FirebaseAutoMLLocalModel.Builder()
+//                .setAssetFilePath("Models/manifest.json")
                 .setAssetFilePath("3Model/manifest.json")
                 .build()
 
@@ -89,84 +75,62 @@ class SearchEngine(context: Context) {
                             val urlCheckTpye = IPAddress.ipAddress+"product-data/selectProductType/${productLabel}"
                             var type:String? = null
 
-                            val listenerCheckTpye = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
-                                override fun getDataComplete(jsonString: String) {
-                                    var jsonArray = JSONArray(jsonString)
+                            val listenerCheckTpye = object : SelectProductType.getDataComplete{
+                                override fun getDataComplete(productList: List<Product>) {
 
-                                    var jsonObject = jsonArray.getJSONObject(0)
+                                    val product = productList[0]
 
-                                    type = jsonObject.getJSONObject("category").getString("categoryName")
-
-
+                                    val type = product.category!!.categoryName
 
                                     if (type == "Food") {
                                         val urlSelectData = IPAddress.ipAddress+"product-data/selectProductFoodData/${productLabel}"
-                                        val listenerSelectData = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
-                                            override fun getDataComplete(jsonString: String) {
-                                                jsonArray = JSONArray(jsonString)
+                                        val listenerSelectData = object : SelectProductFoodData.getDataComplete{
+                                            override fun getDataComplete(foodAndBevList: List<FoodAndBev>) {
 
-                                                jsonObject = jsonArray.getJSONObject(0)
-//                                                val subJsonObject = jsonObject.getJSONObject("foodAndBev")
+                                                val foodAndBev = foodAndBevList[0]
 
-                                                productTest = Response_FoodAndBev(jsonObject.getString("foodAndBevId"),jsonObject.getString("foodAndBevBrand")
-                                                        ,jsonObject.getString("foodAndBevModel"),jsonObject.getString("foodAndBevImage"),jsonObject.getString("foodAndBevSize")
-                                                        ,jsonObject.getInt("foodAndBevPrice"),jsonObject.getString("foodAndBevCal"),jsonObject.getString("foodAndBevSugar")
-                                                        ,jsonObject.getString("foodAndBevFat"),jsonObject.getString("foodAndBevSodium"),jsonObject.getInt("foodAndBevAmount"))
-
-                                                listener.invoke(detectedObject, productTest)
+                                                listener.invoke(detectedObject, foodAndBev)
                                             }
 
                                         }
 
-                                        AsyncTaskGetTypeAndDataProduct(listenerSelectData).execute(urlSelectData)
+                                        SelectProductFoodData(listenerSelectData).execute(urlSelectData)
 
 
 
                                     } else if (type == "Electronic") {
                                         val urlSelectData = IPAddress.ipAddress+"product-data/selectProductElectronicData/${productLabel}"
-                                        val listenerSelectData = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
-                                            override fun getDataComplete(jsonString: String) {
-                                                jsonArray = JSONArray(jsonString)
+                                        val listenerSelectData = object : SelectProductElectronic.getDataComplete{
+                                            override fun getDataComplete(electronicList: List<Electronic>) {
 
-                                                jsonObject = jsonArray.getJSONObject(0)
-//                                                val subJsonObject = jsonObject.getJSONObject("Electronic")
+                                                val electronic = electronicList[0]
 
-                                                productTest = Response_Electronic(jsonObject.getString("electronicId"),jsonObject.getString("electronicBrand")
-                                                        ,jsonObject.getString("electronicModel"),jsonObject.getString("electronicImage"),jsonObject.getInt("electronicPrice")
-                                                        ,jsonObject.getString("electronicSpec"),jsonObject.getInt("electronicAmount"))
-
-                                                listener.invoke(detectedObject, productTest)
+                                                listener.invoke(detectedObject, electronic)
                                             }
 
                                         }
 
-                                        AsyncTaskGetTypeAndDataProduct(listenerSelectData).execute(urlSelectData)
+                                        SelectProductElectronic(listenerSelectData).execute(urlSelectData)
 
                                     } else if (type == "Furniture") {
                                         val urlSelectData = IPAddress.ipAddress+"product-data/selectProductFurnitureData/${productLabel}"
-                                        val listenerSelectData = object : AsyncTaskGetTypeAndDataProduct.getDataComplete{
-                                            override fun getDataComplete(jsonString: String) {
-                                                jsonArray = JSONArray(jsonString)
+                                        val listenerSelectData = object : SelectProductFurniture.getDataComplete{
+                                            override fun getDataComplete(furnitureList: List<Furniture>) {
 
-                                                jsonObject = jsonArray.getJSONObject(0)
-//                                                val subJsonObject = jsonObject.getJSONObject("Furniture")
+                                                val furniture = furnitureList[0]
 
-                                                productTest = Response_Furniture(jsonObject.getString("furnitureId"),jsonObject.getString("furnitureBrand")
-                                                        ,jsonObject.getString("furnitureModel"),jsonObject.getString("furnitureImage"),jsonObject.getInt("furniturePrice")
-                                                        ,jsonObject.getString("furnitureSize"),jsonObject.getString("furnitureDetail"),jsonObject.getInt("furnitureAmount"))
-
-                                                listener.invoke(detectedObject, productTest)
+                                                listener.invoke(detectedObject, furniture)
                                             }
 
                                         }
 
-                                        AsyncTaskGetTypeAndDataProduct(listenerSelectData).execute(urlSelectData)
+                                        SelectProductFurniture(listenerSelectData).execute(urlSelectData)
                                     }
 //                                    listener.invoke(detectedObject, productTest)
                                 }
                             }
 
-                            AsyncTaskGetTypeAndDataProduct(listenerCheckTpye).execute(urlCheckTpye).get()
+                            SelectProductType(listenerCheckTpye).execute(urlCheckTpye).get()
 
                         }
 

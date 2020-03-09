@@ -2,8 +2,6 @@ package com.google.firebase.ml.md.kotlin.Models.Service
 
 import android.os.AsyncTask
 import android.util.Log
-import com.google.firebase.ml.md.kotlin.Models.Request.Request_AddCart
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_Order
 import com.google.gson.Gson
 import java.net.HttpURLConnection
 import java.net.URL
@@ -32,12 +30,12 @@ class AsyncTaskGetCart(var listener:getDataComplete): AsyncTask<String, Void, St
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
         var gson = Gson()
-        var response_order = gson.fromJson(result.toString(),Array<Response_Order>::class.java).toList()
-        listener.getDataComplete(response_order!!)
+//        var response_order = gson.fromJson(result.toString(),Array<Response_Order>::class.java).toList()
+//        listener.getDataComplete(response_order!!)
         //handelJson(result)
     }
 
     interface getDataComplete {
-        fun getDataComplete(jsonString: List<Response_Order>)
+//        fun getDataComplete(jsonString: List<Response_Order>)
     }
 }

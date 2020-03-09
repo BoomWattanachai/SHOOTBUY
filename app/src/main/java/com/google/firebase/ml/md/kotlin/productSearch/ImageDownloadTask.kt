@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.ml.md.kotlin.productsearch
+package com.google.firebase.ml.md.kotlin.productSearch
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

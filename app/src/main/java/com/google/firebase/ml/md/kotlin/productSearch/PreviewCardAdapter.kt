@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.ml.md.kotlin.productsearch
+package com.google.firebase.ml.md.kotlin.productSearch
 
 import android.text.TextUtils
 import android.view.LayoutInflater

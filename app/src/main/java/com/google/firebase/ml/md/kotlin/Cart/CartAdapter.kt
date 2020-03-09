@@ -1,6 +1,5 @@
 package com.google.firebase.ml.md.kotlin.Cart
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +7,16 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.Address.NewAddressActivity
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
+import com.google.firebase.ml.md.kotlin.IPAddress
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.DecreaseOrderDetailQuantity
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.IncreaseOrderDetailQuantity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.electronic_layout.*
 import java.text.NumberFormat
 
-class CartAdapter( var cart: Cart.Companion, var cartActivity: CartActivity) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter( var cart: ArrayList<CartItem>, var cartActivity: CartActivity) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     class CartViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
         private val productImage: ImageView = view.findViewById(R.id.product_image)
         private val productName: TextView = view.findViewById(R.id.product_name)
@@ -31,6 +31,7 @@ class CartAdapter( var cart: Cart.Companion, var cartActivity: CartActivity) : R
             productName.text = cartItem.nameData+" "
             productQuantity.text = cartItem.amount.toString()
             productPrice.text = "$"+NumberFormat.getInstance().format(cartItem.price).toString()
+
 
         }
 
@@ -47,38 +48,60 @@ class CartAdapter( var cart: Cart.Companion, var cartActivity: CartActivity) : R
             CartViewHolder.create(parent)
 
 
-    override fun getItemCount(): Int = cart.cartItemList.size
+    override fun getItemCount(): Int = cart.size
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
+        cartActivity.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+
         holder.cartItemIncrease.setOnClickListener {
-            cart.cartItemList[position].increaseQuantity()
-//            cartActivity.totalPrice?.text = Cart.getCartTotalPrice().toString()
+
+//            cart.cartItemList[position].increaseQuantity()
+//                cart[position].amount!!.inc()
+
+            cart[position].amount =  cart[position].amount!!.plus(1)
+            cartActivity.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+
+            var urlIncress = IPAddress.ipAddress + "product-order/increaseOrderDetailQuantity/"
+            IncreaseOrderDetailQuantity(OrderDetail(cart[position].orderId,null,cart[position].productId,null,null)).execute(urlIncress)
+
+
             notifyDataSetChanged()
         }
         holder.cartItemDecrease.setOnClickListener {
-            cart.cartItemList[position].decreaseQuantity()
-//            cartActivity.totalPrice?.text = Cart.getCartTotalPrice().toString()
+//            cart.cartItemList[position].decreaseQuantity()
+            if(cart[position].amount!! > 1)
+            {
+                cart[position].amount = cart[position].amount!!.minus(1)
+                cartActivity.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+
+                var urlIncress = IPAddress.ipAddress + "product-order/decreaseOrderDetailQuantity/"
+                DecreaseOrderDetailQuantity(OrderDetail(cart[position].orderId,null,cart[position].productId,null,null)).execute(urlIncress)
+            }
+
+
 
             notifyDataSetChanged()
 
         }
-        holder.cartItemRemove.setOnClickListener {
-            cart.cartItemList.removeAt(position)
-            if(cart.cartItemList.size <= 0) cartActivity.onBackPressed()
-            notifyDataSetChanged()
-        }
+//        holder.cartItemRemove.setOnClickListener {
+//            cart.cartItemList.removeAt(position)
+//            if(cart.cartItemList.size <= 0) cartActivity.onBackPressed()
+//            notifyDataSetChanged()
+//        }
+
         cartActivity.cartCheckoutBtn?.setOnClickListener {
 //            cartActivity.onBackPressed()
-            cart.cartItemList.clear()
-            cartActivity.totalPrice?.text = "$"+ NumberFormat.getInstance().format(cart.getCartTotalPrice()).toString()
+//            cart.cartItemList.clear()
+//            cartActivity.totalPrice?.text = "$"+ NumberFormat.getInstance().format(cart.getCartTotalPrice()).toString()
             cartActivity.goToSelectAddress()
 //            startActivity(Intent(this, NewAddressActivity::class.java))
 //            notifyDataSetChanged()
 //            NumberFormat.getInstance().format(cart.getCartTotalPrice())
         }
-        cartActivity.totalPrice?.text = "$"+ NumberFormat.getInstance().format(cart.getCartTotalPrice()).toString()
-        holder.bindProduct(cart.cartItemList[position])
+//        cartActivity.totalPrice?.text = "$"+ NumberFormat.getInstance().format(cart.getCartTotalPrice()).toString()
+
+        holder.bindProduct(cart[position])
 
     }
 

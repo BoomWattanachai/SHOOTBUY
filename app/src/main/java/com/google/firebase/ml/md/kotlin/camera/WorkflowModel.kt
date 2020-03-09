@@ -21,10 +21,9 @@ import android.content.Context
 import androidx.annotation.MainThread
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
-import com.google.firebase.ml.md.kotlin.productsearch.SearchedObject
+import com.google.firebase.ml.md.kotlin.productSearch.SearchedObject
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import java.util.HashSet
 

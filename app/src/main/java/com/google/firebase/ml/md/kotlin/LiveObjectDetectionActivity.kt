@@ -37,17 +37,16 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
-import com.google.firebase.ml.md.kotlin.Cart.CartItem
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Electronic
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Furniture
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
 import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderActivity
 import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
-import com.google.firebase.ml.md.kotlin.Models.Request.ProductId
-import com.google.firebase.ml.md.kotlin.Models.Request.Request_AddCart
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_Electronic
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_FoodAndBev
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_Furniture
-import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskPostOrder
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.InsertProductOrder
+//import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskPostOrder
 import com.google.firebase.ml.md.kotlin.camera.CameraSource
 import com.google.firebase.ml.md.kotlin.camera.CameraSourcePreview
 import com.google.firebase.ml.md.kotlin.camera.GraphicOverlay
@@ -55,8 +54,8 @@ import com.google.firebase.ml.md.kotlin.camera.WorkflowModel
 import com.google.firebase.ml.md.kotlin.camera.WorkflowModel.WorkflowState
 import com.google.firebase.ml.md.kotlin.objectdetection.MultiObjectProcessor
 import com.google.firebase.ml.md.kotlin.objectdetection.ProminentObjectProcessor
-import com.google.firebase.ml.md.kotlin.productsearch.BottomSheetScrimView
-import com.google.firebase.ml.md.kotlin.productsearch.SearchEngine
+import com.google.firebase.ml.md.kotlin.productSearch.BottomSheetScrimView
+import com.google.firebase.ml.md.kotlin.productSearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
 import com.squareup.picasso.Picasso
@@ -105,7 +104,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
         val editor = pref.edit()
 
-        editor.putString("UUID","t1yRb9sauWQxmLy6E8kc02vm7QA3")
+        editor.putString("UUID", "t1yRb9sauWQxmLy6E8kc02vm7QA3")
         editor.commit()
 
         searchEngine = SearchEngine(applicationContext)
@@ -223,13 +222,13 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             }
             R.id.cartBtn -> {
 //                if (Cart.cartItemList.size > 0)
-                    startActivity(Intent(this, CartActivity::class.java))
+                startActivity(Intent(this, CartActivity::class.java))
 //                else
 //                    Toast.makeText(this, "Cart is empty!", Toast.LENGTH_SHORT).show()
             }
 
             R.id.historyScanBtn -> {
-                    startActivity(Intent(this, HistoryScanActivity::class.java))
+                startActivity(Intent(this, HistoryScanActivity::class.java))
             }
 
             R.id.historyOrderBtn -> {
@@ -386,21 +385,21 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private fun setData(productData: Any?) {
         val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
         mainCustomLayout?.removeAllViews()
-        if (productData is Response_FoodAndBev) {
+        if (productData is FoodAndBev) {
             var wizardView = layoutInflater.inflate(R.layout.beverage_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
             var imageView: ImageView = findViewById(R.id.food_and_bev_image)
-            Picasso.get().load(productData.fb_image).into(imageView)
+            Picasso.get().load(productData.foodAndBevImage).into(imageView)
 //            wizardView.product_image.setImageResource(productData.imageResource)
 //            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
-            wizardView.food_and_bev_brand.text = productData.fb_brand
-            wizardView.food_and_bev_vol.text = "(" + productData.fb_size + ")"
-            wizardView.food_and_bev_price.text = "$" + NumberFormat.getInstance().format(productData.fb_price).toString()
-            wizardView.food_and_bev_cal.text = productData.fb_cal
-            wizardView.food_and_bev_sugar.text = productData.fb_sugar
-            wizardView.food_and_bev_fat.text = productData.fb_fat
-            wizardView.food_and_bev_sodium.text = productData.fb_sodium
+            wizardView.food_and_bev_brand.text = productData.foodAndBevBrand
+            wizardView.food_and_bev_vol.text = "(" + productData.foodAndBevSize + ")"
+            wizardView.food_and_bev_price.text = "$" + NumberFormat.getInstance().format(productData.foodAndBevPrice).toString()
+            wizardView.food_and_bev_cal.text = productData.foodAndBevCal
+            wizardView.food_and_bev_sugar.text = productData.foodAndBevSugar
+            wizardView.food_and_bev_fat.text = productData.foodAndBevFat
+            wizardView.food_and_bev_sodium.text = productData.foodAndBevSodium
 
             var amount: Int = 1
             wizardView.food_and_bev_beverage_increase.setOnClickListener {
@@ -416,132 +415,98 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             }
 
             wizardView.food_and_bev_add_to_cart.setOnClickListener {
-                if (Cart.cartItemList.count() > 0) {
-                    var repeat = false
-                    for (cartItem in Cart.cartItemList) {
-                        if (cartItem.nameData == productData.fb_brand)
-                            repeat = true
-                    }
+                var order = Order(null, pref.getString("UUID", ""), null, null,
+                        null, null, arrayOf(OrderDetail(null, null, productData.foodAndBevId,
+                        null, amount)).toList())
 
-                    if (repeat) {
-                        for (cartItem in Cart.cartItemList) {
-                            if (cartItem.nameData == productData.fb_brand) {
-                                cartItem.amount += amount
-                                break
-                            }
-                        }
-                    } else {
-                        Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-                    }
-                } else {
-                    Cart.addItem(CartItem(productData.fb_image, productData.fb_brand, amount, productData.fb_price))
-                }
-
-                var data = Request_AddCart(pref.getString("UUID",""),arrayOf(ProductId(productData.fb_id)))
-                val listenerPostOrder = object : AsyncTaskPostOrder.getDataComplete{
+                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
                     override fun getDataComplete(jsonString: String) {
                         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                     }
                 }
 
-                AsyncTaskPostOrder(listenerPostOrder,data).execute(IPAddress.ipAddress+"product-order/insertProductOrder/")
+                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
             }
 
 
-//        } else if (productData is Response_Furniture) {
-//            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
-//            mainCustomLayout?.addView(wizardView)
-//
-//            var imageView: ImageView = findViewById(R.id.furniture_image)
-//            Picasso.get().load(productData.fur_image).into(imageView)
-////            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-//            wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
-//            wizardView.furniture_brand.text = productData.fur_brand
-//            wizardView.furniture_model.text = productData.fur_model
-//            wizardView.furniture_spec.text = productData.fur_detail
-//            wizardView.furniture_price.text = "$" + NumberFormat.getInstance().format(productData.fur_price).toString()
-//            var amount: Int = 1
-//            wizardView.furniture_increase.setOnClickListener {
-//                amount++
-//                wizardView.furniture_amount.text = amount.toString()
-//            }
-//            wizardView.furniture_decrease.setOnClickListener {
-//                if (amount > 1) amount--
-//                wizardView.furniture_amount.text = amount.toString()
-//            }
-//            wizardView.furniture_close.setOnClickListener {
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-//            }
-//            wizardView.furniture_add_to_cart.setOnClickListener {
-//                if (Cart.cartItemList.count() > 0) {
-//                    var repeat = false
-//                    for (cartItem in Cart.cartItemList) {
-//                        if (cartItem.nameData == productData.fur_brand)
-//                            repeat = true
-//                    }
-//
-//                    if (repeat) {
-//                        for (cartItem in Cart.cartItemList) {
-//                            if (cartItem.nameData == productData.fur_brand) {
-//                                cartItem.amount += amount
-//                                break
-//                            }
-//                        }
-//                    } else {
-//                        Cart.addItem(CartItem(productData.fur_image, productData.fur_brand, amount, productData.fur_price))
-//                    }
-//                } else {
-//                    Cart.addItem(CartItem(productData.fur_image, productData.fur_brand, amount, productData.fur_price))
-//                }
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-//            }
-//
-//        } else if (productData is Response_Electronic) {
-//            var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
-//            mainCustomLayout?.addView(wizardView)
-//
-//            var imageView: ImageView = findViewById(R.id.electronic_image)
-//            Picasso.get().load(productData.elt_image).into(imageView)
-////            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-//            wizardView.electronic_brand.text = productData.elt_brand
-//            wizardView.electronic_model.text = productData.elt_model
-//            wizardView.electronic_spec.text = productData.elt_spec
-//            wizardView.electronic_price.text = "$" + NumberFormat.getInstance().format(productData.elt_price).toString()
-//            var amount: Int = 1
-//            wizardView.electronic_increase.setOnClickListener {
-//                amount++
-//                wizardView.electronic_amount.text = amount.toString()
-//            }
-//            wizardView.electronic_decrease.setOnClickListener {
-//                if (amount > 1) amount--
-//                wizardView.electronic_amount.text = amount.toString()
-//            }
-//            wizardView.electronic_close.setOnClickListener {
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-//            }
-//            wizardView.electronic_add_to_cart.setOnClickListener {
-//                if (Cart.cartItemList.count() > 0) {
-//                    var repeat = false
-//                    for (cartItem in Cart.cartItemList) {
-//                        if (cartItem.nameData == productData.elt_brand)
-//                            repeat = true
-//                    }
-//
-//                    if (repeat) {
-//                        for (cartItem in Cart.cartItemList) {
-//                            if (cartItem.nameData == productData.elt_brand) {
-//                                cartItem.amount += amount
-//                                break
-//                            }
-//                        }
-//                    } else {
-//                        Cart.addItem(CartItem(productData.elt_image, productData.elt_brand, amount, productData.elt_price))
-//                    }
-//                } else {
-//                    Cart.addItem(CartItem(productData.elt_image, productData.elt_brand, amount, productData.elt_price))
-//                }
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-//            }
+        } else if (productData is Furniture) {
+            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
+            mainCustomLayout?.addView(wizardView)
+
+            var imageView: ImageView = findViewById(R.id.furniture_image)
+            Picasso.get().load(productData.furnitureImage).into(imageView)
+//            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+            wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
+            wizardView.furniture_brand.text = productData.furnitureBrand
+            wizardView.furniture_model.text = productData.furnitureModel
+            wizardView.furniture_spec.text = productData.furnitureDetail
+            wizardView.furniture_price.text = "$" + NumberFormat.getInstance().format(productData.furniturePrice).toString()
+            var amount: Int = 1
+            wizardView.furniture_increase.setOnClickListener {
+                amount++
+                wizardView.furniture_amount.text = amount.toString()
+            }
+            wizardView.furniture_decrease.setOnClickListener {
+                if (amount > 1) amount--
+                wizardView.furniture_amount.text = amount.toString()
+            }
+            wizardView.furniture_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            wizardView.furniture_add_to_cart.setOnClickListener {
+
+                var order = Order(null, pref.getString("UUID", ""), null, null,
+                        null, null, arrayOf(OrderDetail(null, null, productData.furnitureId,
+                        null, amount)).toList())
+
+                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+                    override fun getDataComplete(jsonString: String) {
+                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                    }
+                }
+
+                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+            }
+
+        }
+        else if (productData is Electronic) {
+            var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
+            mainCustomLayout?.addView(wizardView)
+
+            var imageView: ImageView = findViewById(R.id.electronic_image)
+            Picasso.get().load(productData.electronicImage).into(imageView)
+//            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+            wizardView.electronic_brand.text = productData.electronicBrand
+            wizardView.electronic_model.text = productData.electronicModel
+            wizardView.electronic_spec.text = productData.electronicSpec
+            wizardView.electronic_price.text = "$" + NumberFormat.getInstance().format(productData.electronicPrice).toString()
+            var amount: Int = 1
+            wizardView.electronic_increase.setOnClickListener {
+                amount++
+                wizardView.electronic_amount.text = amount.toString()
+            }
+            wizardView.electronic_decrease.setOnClickListener {
+                if (amount > 1) amount--
+                wizardView.electronic_amount.text = amount.toString()
+            }
+            wizardView.electronic_close.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            wizardView.electronic_add_to_cart.setOnClickListener {
+
+                var order = Order(null, pref.getString("UUID", ""), null, null,
+                        null, null, arrayOf(OrderDetail(null, null, productData.electronicId,
+                        null, amount)).toList())
+
+                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+                    override fun getDataComplete(jsonString: String) {
+                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                    }
+                }
+
+                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+
+            }
 
         }
 

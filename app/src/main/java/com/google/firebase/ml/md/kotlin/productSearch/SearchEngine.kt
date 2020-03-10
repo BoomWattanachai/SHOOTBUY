@@ -17,6 +17,7 @@
 package com.google.firebase.ml.md.kotlin.productSearch
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -25,11 +26,13 @@ import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Electronic
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Furniture
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Product
+import com.google.firebase.ml.md.kotlin.EntityModels.UserData.ScanHistory
 import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductElectronic
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFurniture
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductType
+import com.google.firebase.ml.md.kotlin.Models.Service.UserData.InsertUserDataScanHistory
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel
@@ -40,7 +43,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 /** A fake search engine to help simulate the complete work flow.  */
-class SearchEngine(context: Context) {
+class SearchEngine(var context: Context) {
 
     private val searchRequestQueue: RequestQueue = Volley.newRequestQueue(context)
     private val requestCreationExecutor: ExecutorService = Executors.newSingleThreadExecutor()
@@ -69,7 +72,7 @@ class SearchEngine(context: Context) {
                             val productLabel = label.text
                             //SELECT type
 
-
+                            insertScanHistory(productLabel)
 
 
                             val urlCheckTpye = IPAddress.ipAddress+"product-data/selectProductType/${productLabel}"
@@ -151,6 +154,15 @@ class SearchEngine(context: Context) {
                     // Task failed with an exception
                     // ...
                 }
+    }
+
+    private fun insertScanHistory(productId:String) {
+        val insertUserDataScan = IPAddress.ipAddress+"user-data/insertUserDataScanHistory/"
+        val pref:SharedPreferences? = context.getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+
+        var scanHistory = ScanHistory(pref!!.getString("UUID", ""),null,productId,null,null)
+
+        InsertUserDataScanHistory(scanHistory).execute(insertUserDataScan)
     }
 
 //    private fun chkType(productLabel:String): String? {

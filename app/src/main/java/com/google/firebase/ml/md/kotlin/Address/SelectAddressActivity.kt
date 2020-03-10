@@ -43,6 +43,7 @@ class SelectAddressActivity : AppCompatActivity() {
                             addressArray[i].district + " " + addressArray[i].province + " " + addressArray[i].zipCode
                     addressList.add(
                             AddressData(
+                                    addressArray[i].addressId,
                                     address,
                                     false
                             )

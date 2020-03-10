@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.OrderDetail.OrderDetailActivity
+import com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.OrderDetailActivity
 
 class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, var historyOrderActivity: HistoryOrderActivity, val context: Context) : RecyclerView.Adapter<HistoryOrderAdapter.ViewHolder>() {
 

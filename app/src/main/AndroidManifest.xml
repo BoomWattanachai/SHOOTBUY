@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".kotlin.OrderDetail.OrderDetailActivity"></activity>
+        <activity android:name="com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.OrderDetailActivity"></activity>
         <activity android:name=".kotlin.HistoryOrder.HistoryOrderActivity" />
         <activity android:name=".kotlin.HistoryScan.HistoryScanActivity" />
         <activity android:name=".kotlin.Order.OderActivity" />

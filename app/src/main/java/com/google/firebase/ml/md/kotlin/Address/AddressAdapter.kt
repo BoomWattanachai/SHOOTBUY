@@ -23,6 +23,7 @@ class AddressAdapter(val addressList: ArrayList<AddressData>,var selectAddressAc
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val address = itemView.findViewById(R.id.address) as TextView
         val radio = itemView.findViewById(R.id.radio) as RadioButton
+        var addressId:Int? = null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressAdapter.ViewHolder {
@@ -45,6 +46,7 @@ class AddressAdapter(val addressList: ArrayList<AddressData>,var selectAddressAc
 
         val address: AddressData = addressList[position]
         holder.address.text = address.address
+        holder.addressId = address.addressId
 
 
 //        if (dataIsCheck[position]) {
@@ -85,6 +87,7 @@ class AddressAdapter(val addressList: ArrayList<AddressData>,var selectAddressAc
             val intent = Intent(context, OderActivity::class.java)
 //            Log.d("Address",oldHolder!!.address.text.toString())
             intent.putExtra("Address", oldHolder!!.address.text.toString())
+            intent.putExtra("AddressId", oldHolder!!.addressId.toString())
             intent.putExtra("FullName", selectAddressActivity.fullName)
             startActivity(context, intent, null)
         }

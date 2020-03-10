@@ -14,12 +14,24 @@
         android:icon="@drawable/shootbuy_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".kotlin.OrderDetail.OrderDetailActivity"></activity>
+
+
+        <activity
+            android:name=".kotlin.LoginActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".kotlin.HistoryOrder.OrderDetail.OrderDetailActivity" />
         <activity android:name=".kotlin.HistoryOrder.HistoryOrderActivity" />
         <activity android:name=".kotlin.HistoryScan.HistoryScanActivity" />
         <activity android:name=".kotlin.Order.OderActivity" />
+        <activity android:name=".kotlin.LiveObjectDetectionActivity" />
         <activity android:name=".kotlin.Address.NewAddressActivity" />
         <activity
             android:name=".kotlin.Address.SelectAddressActivity"
@@ -34,16 +46,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".kotlin.LiveObjectDetectionActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".java.MainActivity"
             android:exported="false"

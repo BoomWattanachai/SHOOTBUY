@@ -1,14 +1,14 @@
-package com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder
+package com.google.firebase.ml.md.kotlin.Models.Service.UserData
 
 import android.os.AsyncTask
 import android.util.Log
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
+import com.google.firebase.ml.md.kotlin.EntityModels.UserData.ScanHistory
+import com.google.firebase.ml.md.kotlin.EntityModels.UserData.User
 import com.google.gson.Gson
 import java.net.HttpURLConnection
 import java.net.URL
 
-class CheckoutProductOrder(var data:Order): AsyncTask<String, String, String>() {
+class IfUserExist (var data: User): AsyncTask<String, String, String>() {
     //    var listener:getDataComplete? = null
     override fun doInBackground(vararg url: String?): String {
 

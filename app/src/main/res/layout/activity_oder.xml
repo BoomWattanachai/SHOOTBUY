@@ -79,7 +79,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/Date"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Address"
@@ -93,7 +93,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/Date"
+        android:layout_below="@+id/date"
         android:layout_marginTop="20dp"
         android:background="#FFF" />
 

@@ -3,6 +3,7 @@ package com.google.firebase.ml.md.kotlin.Order
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,12 @@ import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProduct
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.CheckoutProductOrder
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.GetProductOrderByUuid
 import kotlinx.android.synthetic.main.activity_oder.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class OderActivity : AppCompatActivity() {
@@ -34,18 +41,39 @@ class OderActivity : AppCompatActivity() {
 
 
         val address = intent.getStringExtra("Address")
+        val addressId = intent.getStringExtra("AddressId")
         val fullName = intent.getStringExtra("FullName")
 
+//        val localDate = LocalDate.now()
+//        val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")
+//        val dateCurrent = formatter.format(localDate)
+
+//        Log.d("localDate",localDate.toString())
+//        Log.d("formatter",formatter.toString())
+//        Log.d("dateCurrent",dateCurrent.toString())
+
+//        var currentDate = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH)
+        var SDFormat = SimpleDateFormat("dd/MM/yyyy")
+        var currentDate = Date()
+        var stringDate = SDFormat.format(currentDate)
 
         Address.text = address
         Name.text = fullName
+        date.text = stringDate
+
+
+
 
 
 
 
         btnConfirm.setOnClickListener {
-            var urlCheckout = IPAddress.ipAddress + "product-order/checkoutProductOrder/" + orderId
-            CheckoutProductOrder().execute(urlCheckout)
+            var insertOrder = Order()
+            insertOrder.orderId = orderId
+            insertOrder.addressId = addressId.toInt()
+
+            var urlCheckout = IPAddress.ipAddress + "product-order/checkoutProductOrder/"
+            CheckoutProductOrder(insertOrder).execute(urlCheckout)
             startActivity(Intent(this, LiveObjectDetectionActivity::class.java))
         }
     }

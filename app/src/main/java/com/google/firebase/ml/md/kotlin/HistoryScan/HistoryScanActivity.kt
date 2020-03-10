@@ -1,10 +1,18 @@
 package com.google.firebase.ml.md.kotlin.HistoryScan
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.kotlin.Cart.CartAdapter
+import com.google.firebase.ml.md.kotlin.Cart.CartItem
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
+import com.google.firebase.ml.md.kotlin.EntityModels.UserData.User
+import com.google.firebase.ml.md.kotlin.IPAddress
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
+import com.google.firebase.ml.md.kotlin.Models.Service.UserData.GetUserDataScanHistory
 import kotlinx.android.synthetic.main.activity_history_scan.*
 
 class HistoryScanActivity : AppCompatActivity() {
@@ -14,30 +22,72 @@ class HistoryScanActivity : AppCompatActivity() {
         setContentView(R.layout.activity_history_scan)
 
 
+        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
 
-        var historyScanList = ArrayList<HistoryScanData>()
-
-        (0 until 10).forEach { i ->
-            historyScanList.add(
-                    HistoryScanData(
-                            "https://backend.tops.co.th/media/catalog/product/8/8/8851959132074_1.jpg",
-                            "Coke",
-                            "05/03/2020",
-                            15
-                    )
-            )
-        }
+        var urlGetUserDataScanHistory = IPAddress.ipAddress + "user-data/getUserDataScanHistory/" + pref.getString("UUID", "")
+        GetUserDataScanHistory(listenerUserDataScanHistory).execute(urlGetUserDataScanHistory)
 
 
-        val recyclerView: RecyclerView = findViewById(R.id.historyScanRecycleView)
-
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@HistoryScanActivity)
-            adapter = HistoryScanAdapter(historyScanList)
-        }
 
         historyScanBackBtn.setOnClickListener {
             onBackPressed()
+        }
+
+    }
+
+    val listenerUserDataScanHistory = object : GetUserDataScanHistory.getDataComplete {
+        override fun getDataComplete(userList: List<User>) {
+
+            val user = userList[0]
+            val scanHistoryList = user.scanHistory
+            var historyScanList = ArrayList<HistoryScanData>()
+
+
+
+//            val orderDetail = order.orderDetail
+
+
+//            count = orderDetail!!.size
+
+            for (i in 0 until scanHistoryList!!.size) {
+
+                val categoryId = scanHistoryList[i].product!!.categoryId
+                val productId = scanHistoryList[i].product!!.productId
+                if (categoryId == 1) {
+                    val urlSelectData = IPAddress.ipAddress + "product-data/selectProductFoodData/${productId}"
+
+                    val listenerSelectData = object : SelectProductFoodData.getDataComplete {
+                        override fun getDataComplete(foodAndBevList: List<FoodAndBev>) {
+
+                            val foodAndBev = foodAndBevList[0]
+//                            count = count!!.minus(1)
+                            historyScanList.add(
+                                    HistoryScanData(
+                                            foodAndBev.foodAndBevImage,
+                                            foodAndBev.foodAndBevBrand,
+                                            scanHistoryList[i].scanDateTime,
+                                            foodAndBev.foodAndBevPrice
+                                    )
+                            )
+
+                            val recyclerView: RecyclerView = findViewById(R.id.historyScanRecycleView)
+
+                            recyclerView.apply {
+                                layoutManager = LinearLayoutManager(this@HistoryScanActivity)
+                                adapter = HistoryScanAdapter(historyScanList)
+                            }
+
+
+                        }
+
+                    }
+                    SelectProductFoodData(listenerSelectData).execute(urlSelectData)
+                } else if (categoryId == 2) {
+                } else if (categoryId == 3) {
+                }
+            }
+
+
         }
 
     }

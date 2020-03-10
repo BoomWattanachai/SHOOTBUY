@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -92,6 +93,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private var cartBtn: ImageButton? = null
     private var historyScanBtn: Button? = null
     private var historyOrderBtn: Button? = null
+    private var logoutBtn: Button? = null
     private var addCart: Button? = null
     private var removeCart: Button? = null
     var testUI: TextView? = null
@@ -100,12 +102,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
 
-        val editor = pref.edit()
-
-        editor.putString("UUID", "t1yRb9sauWQxmLy6E8kc02vm7QA3")
-        editor.commit()
 
         searchEngine = SearchEngine(applicationContext)
 
@@ -151,6 +148,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         }
 
         historyOrderBtn = findViewById<Button>(R.id.historyOrderBtn).apply {
+            setOnClickListener(this@LiveObjectDetectionActivity)
+        }
+        logoutBtn = findViewById<Button>(R.id.logoutBtn).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
 
@@ -233,6 +233,15 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
             R.id.historyOrderBtn -> {
                 startActivity(Intent(this, HistoryOrderActivity::class.java))
+            }
+            R.id.logoutBtn -> {
+//                var mGoogleSignInClient : GoogleSignInClient?=null
+//                mGoogleSignInClient?.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+//            Log.d("Address",oldHolder!!.address.text.toString())
+                intent.putExtra("Logout", "Logout")
+                startActivity(intent)
+//                startActivity(Intent(this, LoginActivity::class.java))
             }
 
         }

@@ -16,38 +16,40 @@
 
 package com.google.firebase.ml.md.kotlin
 
+//import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskPostOrder
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.hardware.Camera
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Electronic
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Furniture
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
 import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderActivity
 import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.InsertProductOrder
-//import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskPostOrder
+import com.google.firebase.ml.md.kotlin.OtherProduct.OtherProductFoodAndBevAdapter
 import com.google.firebase.ml.md.kotlin.camera.CameraSource
 import com.google.firebase.ml.md.kotlin.camera.CameraSourcePreview
 import com.google.firebase.ml.md.kotlin.camera.GraphicOverlay
@@ -61,8 +63,6 @@ import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.beverage_layout.view.*
-import kotlinx.android.synthetic.main.electronic_layout.view.*
-import kotlinx.android.synthetic.main.furniture_layout.view.*
 import java.io.IOException
 import java.text.NumberFormat
 
@@ -98,9 +98,13 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private var removeCart: Button? = null
     var testUI: TextView? = null
     var testUI1: TextView? = null
+    var pref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+
 
 
 
@@ -277,7 +281,16 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                     override fun onStateChanged(bottomSheet: View, newState: Int) {
                         Log.d(TAG, "Bottom sheet new state: $newState")
                         bottomSheetScrimView?.visibility =
-                                if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
+                                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                                    View.GONE
+                                } else View.VISIBLE
+
+
+                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                            bottomSheetBehavior!!.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+
+
                         graphicOverlay?.clear()
 
                         when (newState) {
@@ -391,40 +404,44 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
-    private fun setData(productData: Any?) {
-        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+    public fun setData(productData: Any?) {
+
         mainCustomLayout?.removeAllViews()
         if (productData is FoodAndBev) {
-            var wizardView = layoutInflater.inflate(R.layout.beverage_layout, mainCustomLayout, false)
+            var inflater: LayoutInflater = LayoutInflater.from(this)
+            var wizardView = inflater!!.inflate(R.layout.beverage_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
             var imageView: ImageView = findViewById(R.id.food_and_bev_image)
+            var amount: Int = 1
             Picasso.get().load(productData.foodAndBevImage).into(imageView)
 //            wizardView.product_image.setImageResource(productData.imageResource)
 //            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
             wizardView.food_and_bev_brand.text = productData.foodAndBevBrand
             wizardView.food_and_bev_vol.text = "(" + productData.foodAndBevSize + ")"
-            wizardView.food_and_bev_price.text = "$" + NumberFormat.getInstance().format(productData.foodAndBevPrice).toString()
+            wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
             wizardView.food_and_bev_cal.text = productData.foodAndBevCal
             wizardView.food_and_bev_sugar.text = productData.foodAndBevSugar
             wizardView.food_and_bev_fat.text = productData.foodAndBevFat
             wizardView.food_and_bev_sodium.text = productData.foodAndBevSodium
 
-            var amount: Int = 1
+
             wizardView.food_and_bev_beverage_increase.setOnClickListener {
                 amount++
                 wizardView.amount.text = amount.toString()
+                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
             }
             wizardView.food_and_bev_beverage_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.amount.text = amount.toString()
+                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
             }
             wizardView.food_and_bev_close.setOnClickListener {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
             wizardView.food_and_bev_add_to_cart.setOnClickListener {
-                var order = Order(null, pref.getString("UUID", ""), null, null,
+                var order = Order(null, pref!!.getString("UUID", ""), null, null,
                         null, null, arrayOf(OrderDetail(null, null, productData.foodAndBevId,
                         null, amount)).toList())
 
@@ -437,86 +454,121 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                 InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
             }
 
+//            wizardView.btnTest.setOnClickListener {
+//
+//                var fAb = FoodAndBev("FB001", "Pepsi", "Max Taste",
+//                        "https://cdn.happyfresh.com/spree/images/attachments/9a97febeda3c1883108b4a7e32fd9acad3ef8293-large.jpg?1547113735\r\n",
+//                        12, "245ml", 20, "0", "0",
+//                        "0", "0")
+//                setData(fAb)
+//                Log.d("aaaaaa", "asdadsada")
+////                setData()
+//            }
 
-        } else if (productData is Furniture) {
-            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
-            mainCustomLayout?.addView(wizardView)
+            val urlSelectData = IPAddress.ipAddress + "product-data/selectOtherProductFoodAndBev/${productData.foodAndBevId}"
+            val listenerSelectData = object : SelectProductFoodData.getDataComplete {
+                override fun getDataComplete(foodAndBevList: List<FoodAndBev>) {
 
-            var imageView: ImageView = findViewById(R.id.furniture_image)
-            Picasso.get().load(productData.furnitureImage).into(imageView)
-//            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-            wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
-            wizardView.furniture_brand.text = productData.furnitureBrand
-            wizardView.furniture_model.text = productData.furnitureModel
-            wizardView.furniture_spec.text = productData.furnitureDetail
-            wizardView.furniture_price.text = "$" + NumberFormat.getInstance().format(productData.furniturePrice).toString()
-            var amount: Int = 1
-            wizardView.furniture_increase.setOnClickListener {
-                amount++
-                wizardView.furniture_amount.text = amount.toString()
-            }
-            wizardView.furniture_decrease.setOnClickListener {
-                if (amount > 1) amount--
-                wizardView.furniture_amount.text = amount.toString()
-            }
-            wizardView.furniture_close.setOnClickListener {
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-            wizardView.furniture_add_to_cart.setOnClickListener {
+//                    val recyclerView: RecyclerView = findViewById(R.id.orderRecycleView)
+                    var fbl = ArrayList<FoodAndBev>()
+                    fbl.add(foodAndBevList[0])
+                    fbl.add(foodAndBevList[1])
+                    fbl.add(foodAndBevList[0])
+                    fbl.add(foodAndBevList[1])
+                    fbl.add(foodAndBevList[0])
+                    fbl.add(foodAndBevList[1])
 
-                var order = Order(null, pref.getString("UUID", ""), null, null,
-                        null, null, arrayOf(OrderDetail(null, null, productData.furnitureId,
-                        null, amount)).toList())
-
-                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
-                    override fun getDataComplete(jsonString: String) {
-                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                    wizardView.otherProductRecycleView.apply {
+                        layoutManager = LinearLayoutManager(this@LiveObjectDetectionActivity, LinearLayoutManager.HORIZONTAL, false)
+//                        adapter = OtherProductFoodAndBevAdapter(foodAndBevList)
+                        adapter = OtherProductFoodAndBevAdapter(fbl.toList(), this@LiveObjectDetectionActivity)
                     }
+
                 }
 
-                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
             }
 
-        }
-        else if (productData is Electronic) {
-            var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
-            mainCustomLayout?.addView(wizardView)
+            SelectProductFoodData(listenerSelectData).execute(urlSelectData)
 
-            var imageView: ImageView = findViewById(R.id.electronic_image)
-            Picasso.get().load(productData.electronicImage).into(imageView)
-//            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-            wizardView.electronic_brand.text = productData.electronicBrand
-            wizardView.electronic_model.text = productData.electronicModel
-            wizardView.electronic_spec.text = productData.electronicSpec
-            wizardView.electronic_price.text = "$" + NumberFormat.getInstance().format(productData.electronicPrice).toString()
-            var amount: Int = 1
-            wizardView.electronic_increase.setOnClickListener {
-                amount++
-                wizardView.electronic_amount.text = amount.toString()
-            }
-            wizardView.electronic_decrease.setOnClickListener {
-                if (amount > 1) amount--
-                wizardView.electronic_amount.text = amount.toString()
-            }
-            wizardView.electronic_close.setOnClickListener {
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-            wizardView.electronic_add_to_cart.setOnClickListener {
 
-                var order = Order(null, pref.getString("UUID", ""), null, null,
-                        null, null, arrayOf(OrderDetail(null, null, productData.electronicId,
-                        null, amount)).toList())
-
-                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
-                    override fun getDataComplete(jsonString: String) {
-                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                    }
-                }
-
-                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
-
-            }
-
+//        } else if (productData is Furniture) {
+//            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
+//            mainCustomLayout?.addView(wizardView)
+//
+//            var imageView: ImageView = findViewById(R.id.furniture_image)
+//            Picasso.get().load(productData.furnitureImage).into(imageView)
+////            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+//            wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
+//            wizardView.furniture_brand.text = productData.furnitureBrand
+//            wizardView.furniture_model.text = productData.furnitureModel
+//            wizardView.furniture_spec.text = productData.furnitureDetail
+//            wizardView.furniture_price.text = "฿" + NumberFormat.getInstance().format(productData.furniturePrice).toString()
+//            var amount: Int = 1
+//            wizardView.furniture_increase.setOnClickListener {
+//                amount++
+//                wizardView.furniture_amount.text = amount.toString()
+//            }
+//            wizardView.furniture_decrease.setOnClickListener {
+//                if (amount > 1) amount--
+//                wizardView.furniture_amount.text = amount.toString()
+//            }
+//            wizardView.furniture_close.setOnClickListener {
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//            }
+//            wizardView.furniture_add_to_cart.setOnClickListener {
+//
+//                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+//                        null, null, arrayOf(OrderDetail(null, null, productData.furnitureId,
+//                        null, amount)).toList())
+//
+//                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+//                    override fun getDataComplete(jsonString: String) {
+//                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//                    }
+//                }
+//
+//                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+//            }
+//
+//        } else if (productData is Electronic) {
+//            var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
+//            mainCustomLayout?.addView(wizardView)
+//
+//            var imageView: ImageView = findViewById(R.id.electronic_image)
+//            Picasso.get().load(productData.electronicImage).into(imageView)
+////            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+//            wizardView.electronic_brand.text = productData.electronicBrand
+//            wizardView.electronic_model.text = productData.electronicModel
+//            wizardView.electronic_spec.text = productData.electronicSpec
+//            wizardView.electronic_price.text = "฿" + NumberFormat.getInstance().format(productData.electronicPrice).toString()
+//            var amount: Int = 1
+//            wizardView.electronic_increase.setOnClickListener {
+//                amount++
+//                wizardView.electronic_amount.text = amount.toString()
+//            }
+//            wizardView.electronic_decrease.setOnClickListener {
+//                if (amount > 1) amount--
+//                wizardView.electronic_amount.text = amount.toString()
+//            }
+//            wizardView.electronic_close.setOnClickListener {
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//            }
+//            wizardView.electronic_add_to_cart.setOnClickListener {
+//
+//                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+//                        null, null, arrayOf(OrderDetail(null, null, productData.electronicId,
+//                        null, amount)).toList())
+//
+//                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+//                    override fun getDataComplete(jsonString: String) {
+//                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//                    }
+//                }
+//
+//                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+//
+//            }
+//
         }
 
     }

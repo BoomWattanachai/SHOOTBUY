@@ -6,235 +6,245 @@
     android:orientation="vertical"
     android:padding="30dp">
 
-
-    <TextView
-        android:id="@+id/food_and_bev_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:text="X"
-        android:textColor="#7F7F7F"
-        android:textSize="16sp" />
-
-    <ImageView
-        android:id="@+id/food_and_bev_image"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/food_and_bev_close"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp" />
-
-
-    <TextView
-        android:id="@+id/food_and_bev_brand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coke"
-        android:textColor="#000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@+id/food_and_bev_image"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:id="@+id/food_and_bev_vol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="(325 ml.)"
-        android:textColor="#000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_toEndOf="@+id/food_and_bev_brand"
-        android:layout_below="@+id/food_and_bev_image"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:id="@+id/food_and_bev_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$15.00"
-        android:textColor="#000"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/food_and_bev_image"
-        android:layout_marginTop="15dp"/>
-
     <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/food_and_bev_brand">
-
-        <TextView
-            android:id="@+id/food_and_bev_model"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="No Sugar"
-            android:textColor="#9e9e9e"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-    </ScrollView>
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:layout_below="@+id/scrollView">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_textview"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="พลังงาน"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/food_and_bev_cal"
-                android:layout_width="match_parent"
+                android:id="@+id/food_and_bev_close"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="0"
+                android:layout_alignParentEnd="true"
+                android:text="X"
+                android:textColor="#7F7F7F"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/food_and_bev_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/food_and_bev_close"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+
+            <TextView
+                android:id="@+id/food_and_bev_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/food_and_bev_image"
+                android:layout_marginTop="20dp"
+                android:text="Coke"
                 android:textColor="#000"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="กิโลแคลอรี่"
+                android:id="@+id/food_and_bev_vol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/food_and_bev_image"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/food_and_bev_brand"
+                android:text="(325 ml.)"
                 android:textColor="#000"
-                android:textSize="8sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/rounded_textview"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="น้ำตาล"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/food_and_bev_sugar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="0"
-                android:textColor="#000"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="กรัม"
+                android:id="@+id/food_and_bev_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/food_and_bev_image"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:text="$15.00"
                 android:textColor="#000"
-                android:textSize="8sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/rounded_textview"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="ไขมัน"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/food_and_bev_fat"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="0"
-                android:textColor="#000"
-                android:textSize="18sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="กรัม"
-                android:textColor="#000"
-                android:textSize="8sp" />
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/food_and_bev_brand">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/rounded_textview"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="โซเดียม"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/food_and_bev_sodium"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="25"
-                android:textColor="#000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="มิลลิกรัม"
-                android:textColor="#000"
-                android:textSize="8sp" />
-
-        </LinearLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/food_and_bev_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="No Sugar"
+                    android:textColor="#9e9e9e"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </ScrollView>
 
             <LinearLayout
+                android:id="@+id/nutrition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_above="@+id/food_and_bev_add_to_cart">
+                android:layout_below="@+id/scrollView"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_textview"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="พลังงาน"
+                        android:textColor="#000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/food_and_bev_cal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="กิโลแคลอรี่"
+                        android:textColor="#000"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/rounded_textview"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="น้ำตาล"
+                        android:textColor="#000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/food_and_bev_sugar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="กรัม"
+                        android:textColor="#000"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/rounded_textview"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="ไขมัน"
+                        android:textColor="#000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/food_and_bev_fat"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="กรัม"
+                        android:textColor="#000"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/rounded_textview"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="โซเดียม"
+                        android:textColor="#000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/food_and_bev_sodium"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="25"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="มิลลิกรัม"
+                        android:textColor="#000"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/quantitySet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nutrition"
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -292,20 +302,37 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/mayBeLike"
+                android:layout_below="@+id/quantitySet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="คุณอาจต้องการสิ่งนี้..."
+                android:textColor="#000"
+                android:textSize="16sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/otherProductRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/mayBeLike"
+                android:scrollbars="vertical" />
 
             <Button
                 android:id="@+id/food_and_bev_add_to_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/otherProductRecycleView"
+                android:layout_alignParentBottom="true"
                 android:background="@drawable/mybtn"
                 android:backgroundTint="#000"
                 android:text="Add To Cart"
                 android:textColor="#FFF"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_alignParentBottom="true"/>
+                android:textStyle="bold" />
+        </RelativeLayout>
 
-
+    </ScrollView>
 
 
 </RelativeLayout>

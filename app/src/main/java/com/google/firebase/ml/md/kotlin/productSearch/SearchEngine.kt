@@ -28,6 +28,7 @@ import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Furniture
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Product
 import com.google.firebase.ml.md.kotlin.EntityModels.UserData.ScanHistory
 import com.google.firebase.ml.md.kotlin.IPAddress
+import com.google.firebase.ml.md.kotlin.LiveObjectDetectionActivity
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductElectronic
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFurniture
@@ -98,6 +99,8 @@ class SearchEngine(var context: Context) {
                                         }
 
                                         SelectProductFoodData(listenerSelectData).execute(urlSelectData)
+
+
 
 
 

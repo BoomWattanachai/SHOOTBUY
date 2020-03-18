@@ -22,17 +22,12 @@ import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Electronic
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Furniture
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.*
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Product
 import com.google.firebase.ml.md.kotlin.EntityModels.UserData.ScanHistory
 import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.LiveObjectDetectionActivity
-import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductElectronic
-import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
-import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFurniture
-import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductType
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.*
 import com.google.firebase.ml.md.kotlin.Models.Service.UserData.InsertUserDataScanHistory
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
 import com.google.firebase.ml.vision.FirebaseVision
@@ -55,11 +50,12 @@ class SearchEngine(var context: Context) {
 
         val localModel = FirebaseAutoMLLocalModel.Builder()
 //                .setAssetFilePath("Models/manifest.json")
-                .setAssetFilePath("3Model/manifest.json")
+//                .setAssetFilePath("3Model/manifest.json")
+                .setAssetFilePath("TileModel/manifest.json")
                 .build()
 
         val options = FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel)
-                .setConfidenceThreshold(0.8f)  // Evaluate your model in the Firebase console
+                .setConfidenceThreshold(0.65f)  // Evaluate your model in the Firebase console
                 // to determine an appropriate value.
                 .build()
         val labeler = FirebaseVision.getInstance().getOnDeviceAutoMLImageLabeler(options)
@@ -103,6 +99,20 @@ class SearchEngine(var context: Context) {
 
 
 
+
+                                    }else if (type == "Tile") {
+                                        val urlSelectData = IPAddress.ipAddress+"product-data/selectProductTileData/${productLabel}"
+                                        val listenerSelectData = object : SelectProductTileData.getDataComplete{
+                                            override fun getDataComplete(tileList: List<Tile>) {
+
+                                                val tile = tileList[0]
+
+                                                listener.invoke(detectedObject, tile)
+                                            }
+
+                                        }
+
+                                        SelectProductTileData(listenerSelectData).execute(urlSelectData)
 
                                     } else if (type == "Electronic") {
                                         val urlSelectData = IPAddress.ipAddress+"product-data/selectProductElectronicData/${productLabel}"

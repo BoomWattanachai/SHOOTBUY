@@ -42,14 +42,14 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
-import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
 import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderActivity
 import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
-import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductTileData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.InsertProductOrder
-import com.google.firebase.ml.md.kotlin.OtherProduct.OtherProductFoodAndBevAdapter
+import com.google.firebase.ml.md.kotlin.OtherProduct.OtherProductTileAdapter
 import com.google.firebase.ml.md.kotlin.camera.CameraSource
 import com.google.firebase.ml.md.kotlin.camera.CameraSourcePreview
 import com.google.firebase.ml.md.kotlin.camera.GraphicOverlay
@@ -62,7 +62,9 @@ import com.google.firebase.ml.md.kotlin.productSearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.beverage_layout.view.*
+import kotlinx.android.synthetic.main.beverage_layout.view.amount
+import kotlinx.android.synthetic.main.beverage_layout.view.otherProductRecycleView
+import kotlinx.android.synthetic.main.tile_layout.view.*
 import java.io.IOException
 import java.text.NumberFormat
 
@@ -407,42 +409,41 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     public fun setData(productData: Any?) {
 
         mainCustomLayout?.removeAllViews()
-        if (productData is FoodAndBev) {
+        if (productData is Tile) {
             var inflater: LayoutInflater = LayoutInflater.from(this)
-            var wizardView = inflater!!.inflate(R.layout.beverage_layout, mainCustomLayout, false)
+            var wizardView = inflater!!.inflate(R.layout.tile_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-            var imageView: ImageView = findViewById(R.id.food_and_bev_image)
+            var imageView: ImageView = findViewById(R.id.tile_image)
             var amount: Int = 1
-            Picasso.get().load(productData.foodAndBevImage).into(imageView)
+            Picasso.get().load(productData.tileImage).into(imageView)
 //            wizardView.product_image.setImageResource(productData.imageResource)
 //            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
-            wizardView.food_and_bev_brand.text = productData.foodAndBevBrand
-            wizardView.food_and_bev_vol.text = "(" + productData.foodAndBevSize + ")"
-            wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
-            wizardView.food_and_bev_cal.text = productData.foodAndBevCal
-            wizardView.food_and_bev_sugar.text = productData.foodAndBevSugar
-            wizardView.food_and_bev_fat.text = productData.foodAndBevFat
-            wizardView.food_and_bev_sodium.text = productData.foodAndBevSodium
+            wizardView.tile_brand.text = productData.tileBrand
+            wizardView.tile_model.text = productData.tileModel
+            wizardView.tile_price.text = "฿" + NumberFormat.getInstance().format(productData.tilePrice!! * amount).toString()
+            wizardView.tile_spec.text = "KgsPerCtn: " + productData.tileKgsPerCtn.toString() + "\nSquareMeterPerCtn: " +
+                    productData.tileSquareMeterPerCtn.toString() + "\nSquareFTPerCtn: " + productData.tileSquareFTPerCtn.toString() +
+                    "\nQuantity: " + productData.tileQuantity.toString() + "\nSize (cm.): " + productData.tileSize.toString()
 
 
-            wizardView.food_and_bev_beverage_increase.setOnClickListener {
+            wizardView.tile_increase.setOnClickListener {
                 amount++
                 wizardView.amount.text = amount.toString()
-                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+                wizardView.tile_price.text = "฿" + NumberFormat.getInstance().format(productData.tilePrice!! * amount).toString()
             }
-            wizardView.food_and_bev_beverage_decrease.setOnClickListener {
+            wizardView.tile_decrease.setOnClickListener {
                 if (amount > 1) amount--
                 wizardView.amount.text = amount.toString()
-                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+                wizardView.tile_price.text = "฿" + NumberFormat.getInstance().format(productData.tilePrice!! * amount).toString()
             }
-            wizardView.food_and_bev_close.setOnClickListener {
+            wizardView.tile_close.setOnClickListener {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-            wizardView.food_and_bev_add_to_cart.setOnClickListener {
+            wizardView.tile_add_to_cart.setOnClickListener {
                 var order = Order(null, pref!!.getString("UUID", ""), null, null,
-                        null, null, arrayOf(OrderDetail(null, null, productData.foodAndBevId,
+                        null, null, arrayOf(OrderDetail(null, null, productData.tileId,
                         null, amount)).toList())
 
                 val listenerPostOrder = object : InsertProductOrder.getDataComplete {
@@ -453,45 +454,137 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
                 InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
             }
+            val urlSelectData = IPAddress.ipAddress + "product-data/selectOtherProductTile/${productData.tileId}"
+            val listenerSelectData = object : SelectProductTileData.getDataComplete {
+                override fun getDataComplete(tileList: List<Tile>) {
 
-//            wizardView.btnTest.setOnClickListener {
-//
-//                var fAb = FoodAndBev("FB001", "Pepsi", "Max Taste",
-//                        "https://cdn.happyfresh.com/spree/images/attachments/9a97febeda3c1883108b4a7e32fd9acad3ef8293-large.jpg?1547113735\r\n",
-//                        12, "245ml", 20, "0", "0",
-//                        "0", "0")
-//                setData(fAb)
-//                Log.d("aaaaaa", "asdadsada")
-////                setData()
-//            }
+                    var tileL = ArrayList<Tile>()
+                    var random = ArrayList<Int>()
+                    var loop = true
 
-            val urlSelectData = IPAddress.ipAddress + "product-data/selectOtherProductFoodAndBev/${productData.foodAndBevId}"
-            val listenerSelectData = object : SelectProductFoodData.getDataComplete {
-                override fun getDataComplete(foodAndBevList: List<FoodAndBev>) {
 
-//                    val recyclerView: RecyclerView = findViewById(R.id.orderRecycleView)
-                    var fbl = ArrayList<FoodAndBev>()
-                    fbl.add(foodAndBevList[0])
-                    fbl.add(foodAndBevList[1])
-                    fbl.add(foodAndBevList[0])
-                    fbl.add(foodAndBevList[1])
-                    fbl.add(foodAndBevList[0])
-                    fbl.add(foodAndBevList[1])
+                    while (loop) {
+                        if (random.size <= 5) {
+                            val rand = (0..(tileList.size-1)).random()
+                            var same = false
+                            if (random.size == 0) {
+                                random.add(rand)
+                            } else {
+                                for (i in 0..(random.size - 1)) {
+                                    if (rand == random[i]) {
+                                        same = true
+                                    }
+                                }
+                                if (!same) {
+                                    random.add(rand)
+                                }
+                            }
+
+
+                        } else {
+                            loop = false
+                        }
+
+
+                    }
+
+                    for (i in 0..(random.size - 1)) {
+                        tileL.add(tileList[random[i]])
+                    }
+//                    tileL.add(tileList[0])
+//                    tileL.add(tileList[1])
+//                    tileL.add(tileList[0])
+//                    tileL.add(tileList[1])
+//                    tileL.add(tileList[0])
+//                    tileL.add(tileList[1])
 
                     wizardView.otherProductRecycleView.apply {
                         layoutManager = LinearLayoutManager(this@LiveObjectDetectionActivity, LinearLayoutManager.HORIZONTAL, false)
 //                        adapter = OtherProductFoodAndBevAdapter(foodAndBevList)
-                        adapter = OtherProductFoodAndBevAdapter(fbl.toList(), this@LiveObjectDetectionActivity)
+                        adapter = OtherProductTileAdapter(tileL.toList(), this@LiveObjectDetectionActivity)
                     }
 
                 }
 
             }
 
-            SelectProductFoodData(listenerSelectData).execute(urlSelectData)
+            SelectProductTileData(listenerSelectData).execute(urlSelectData)
 
 
-//        } else if (productData is Furniture) {
+        }
+//        if (productData is FoodAndBev) {
+//            var inflater: LayoutInflater = LayoutInflater.from(this)
+//            var wizardView = inflater!!.inflate(R.layout.beverage_layout, mainCustomLayout, false)
+//            mainCustomLayout?.addView(wizardView)
+//
+//            var imageView: ImageView = findViewById(R.id.food_and_bev_image)
+//            var amount: Int = 1
+//            Picasso.get().load(productData.foodAndBevImage).into(imageView)
+////            wizardView.product_image.setImageResource(productData.imageResource)
+////            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
+//            wizardView.food_and_bev_brand.text = productData.foodAndBevBrand
+//            wizardView.food_and_bev_vol.text = "(" + productData.foodAndBevSize + ")"
+//            wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+//            wizardView.food_and_bev_cal.text = productData.foodAndBevCal
+//            wizardView.food_and_bev_sugar.text = productData.foodAndBevSugar
+//            wizardView.food_and_bev_fat.text = productData.foodAndBevFat
+//            wizardView.food_and_bev_sodium.text = productData.foodAndBevSodium
+//
+//
+//            wizardView.food_and_bev_beverage_increase.setOnClickListener {
+//                amount++
+//                wizardView.amount.text = amount.toString()
+//                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+//            }
+//            wizardView.food_and_bev_beverage_decrease.setOnClickListener {
+//                if (amount > 1) amount--
+//                wizardView.amount.text = amount.toString()
+//                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+//            }
+//            wizardView.food_and_bev_close.setOnClickListener {
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//            }
+//
+//            wizardView.food_and_bev_add_to_cart.setOnClickListener {
+//                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+//                        null, null, arrayOf(OrderDetail(null, null, productData.foodAndBevId,
+//                        null, amount)).toList())
+//
+//                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+//                    override fun getDataComplete(jsonString: String) {
+//                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//                    }
+//                }
+//
+//                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+//            }
+//            val urlSelectData = IPAddress.ipAddress + "product-data/selectOtherProductFoodAndBev/${productData.foodAndBevId}"
+//            val listenerSelectData = object : SelectProductFoodData.getDataComplete {
+//                override fun getDataComplete(foodAndBevList: List<FoodAndBev>) {
+//
+//                    var fbl = ArrayList<FoodAndBev>()
+//                    fbl.add(foodAndBevList[0])
+//                    fbl.add(foodAndBevList[1])
+//                    fbl.add(foodAndBevList[0])
+//                    fbl.add(foodAndBevList[1])
+//                    fbl.add(foodAndBevList[0])
+//                    fbl.add(foodAndBevList[1])
+//
+//                    wizardView.otherProductRecycleView.apply {
+//                        layoutManager = LinearLayoutManager(this@LiveObjectDetectionActivity, LinearLayoutManager.HORIZONTAL, false)
+////                        adapter = OtherProductFoodAndBevAdapter(foodAndBevList)
+//                        adapter = OtherProductFoodAndBevAdapter(fbl.toList(), this@LiveObjectDetectionActivity)
+//                    }
+//
+//                }
+//
+//            }
+//
+//            SelectProductFoodData(listenerSelectData).execute(urlSelectData)
+//
+//
+//        }
+//        else if (productData is Furniture) {
 //            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
 //            mainCustomLayout?.addView(wizardView)
 //
@@ -569,7 +662,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //
 //            }
 //
-        }
+//        }
 
     }
 

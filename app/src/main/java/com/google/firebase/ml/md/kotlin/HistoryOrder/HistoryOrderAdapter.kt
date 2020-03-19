@@ -39,9 +39,14 @@ class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, var
 
         if (historyOrder.status == 1)
         {
-            holder.history_order_status.text = "In progress"
+            holder.history_order_status.text = "Pending"
             holder.history_order_status.setTextColor(Color.RED)
         }else if (historyOrder.status == 2)
+        {
+            holder.history_order_status.text = "Shipping"
+            holder.history_order_status.setTextColor(Color.YELLOW)
+        }
+        else if (historyOrder.status == 3)
         {
             holder.history_order_status.text = "Success"
             holder.history_order_status.setTextColor(Color.GREEN)

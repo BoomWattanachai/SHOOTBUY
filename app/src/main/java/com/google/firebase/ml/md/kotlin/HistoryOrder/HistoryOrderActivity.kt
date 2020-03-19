@@ -24,6 +24,7 @@ class HistoryOrderActivity : AppCompatActivity() {
 
 
         val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+        val recyclerView: RecyclerView = findViewById(R.id.historyOrderRecycleView)
 
         var historyOrderList = ArrayList<HistoryOrderData>()
 
@@ -44,7 +45,7 @@ class HistoryOrderActivity : AppCompatActivity() {
                }
 
 
-                val recyclerView: RecyclerView = findViewById(R.id.historyOrderRecycleView)
+
 
                 recyclerView.apply {
                     layoutManager = LinearLayoutManager(this@HistoryOrderActivity)

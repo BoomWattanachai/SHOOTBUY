@@ -20,6 +20,7 @@ class CartAdapter( var cart: ArrayList<CartItem>, var cartActivity: CartActivity
     class CartViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
         private val productImage: ImageView = view.findViewById(R.id.product_image)
         private val productName: TextView = view.findViewById(R.id.product_name)
+        private val productModel: TextView = view.findViewById(R.id.product_model)
         private val productQuantity: TextView = view.findViewById(R.id.product_quantity)
         val cartItemRemove: Button = view.findViewById(R.id.cartItemRemove)
         private val productPrice: TextView = view.findViewById(R.id.product_price)
@@ -29,6 +30,7 @@ class CartAdapter( var cart: ArrayList<CartItem>, var cartActivity: CartActivity
 //            productImage.setImageResource(cartItem.imageResource)
             Picasso.get().load(cartItem.imageResource).into(productImage)
             productName.text = cartItem.nameData+" "
+            productModel.text = cartItem.productModel.toString()
             productQuantity.text = cartItem.amount.toString()
             productPrice.text = "$"+NumberFormat.getInstance().format(cartItem.price).toString()
 

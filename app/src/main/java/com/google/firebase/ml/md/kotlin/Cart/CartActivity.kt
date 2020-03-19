@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.Address.SelectAddressActivity
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
 import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductTileData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.GetProductOrderByUuid
 
 class CartActivity : AppCompatActivity() {
@@ -76,6 +78,7 @@ class CartActivity : AppCompatActivity() {
                                         CartItem(
                                                 orderDetail[i].orderId,
                                                 orderDetail[i].productId,
+                                                foodAndBev.foodAndBevModel,
                                                 foodAndBev.foodAndBevImage,
                                                 foodAndBev.foodAndBevBrand,
                                                 orderDetail[i].quantity,
@@ -103,6 +106,36 @@ class CartActivity : AppCompatActivity() {
                         SelectProductFoodData(listenerSelectData).execute(urlSelectData)
                     } else if (categoryId == 2) {
                     } else if (categoryId == 3) {
+                    }
+                    else if (categoryId == 4) {
+                        val urlSelectData = IPAddress.ipAddress + "product-data/selectProductTileData/${productId}"
+
+                        val listenerSelectData = object : SelectProductTileData.getDataComplete {
+                            override fun getDataComplete(tileList: List<Tile>) {
+
+                                val tile = tileList[0]
+//                            count = count!!.minus(1)
+                                cartOrder.add(
+                                        CartItem(
+                                                orderDetail[i].orderId,
+                                                orderDetail[i].productId,
+                                                tile.tileModel,
+                                                tile.tileImage,
+                                                tile.tileBrand,
+                                                orderDetail[i].quantity,
+                                                tile.tilePrice!!.toInt()
+                                        )
+                                )
+                                cartRecycleView = findViewById<RecyclerView>(R.id.cartRecycleView).apply {
+                                    layoutManager = LinearLayoutManager(this@CartActivity)
+                                    adapter = CartAdapter(cartOrder, this@CartActivity)
+                                }
+
+
+                            }
+
+                        }
+                        SelectProductTileData(listenerSelectData).execute(urlSelectData)
                     }
                 }
 

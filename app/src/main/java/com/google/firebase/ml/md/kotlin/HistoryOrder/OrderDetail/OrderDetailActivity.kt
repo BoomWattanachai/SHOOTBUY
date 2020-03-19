@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
 import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductFoodData
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductTileData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.GetProductOrderByOrderId
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import org.threeten.bp.Instant
@@ -50,6 +52,7 @@ class OrderDetailActivity : AppCompatActivity() {
 
             val orderDetail = order.orderDetail
             var orderDetailList = ArrayList<OrderDetailData>()
+            val recyclerView: RecyclerView = findViewById(R.id.historyDetailOrderRecycleView)
 //            orderId = order.orderId
 
             for (i in 0 until orderDetail!!.size) {
@@ -66,12 +69,13 @@ class OrderDetailActivity : AppCompatActivity() {
                                     OrderDetailData(
                                             foodAndBev.foodAndBevImage,
                                             foodAndBev.foodAndBevBrand,
+                                            foodAndBev.foodAndBevModel,
                                             orderDetail[i].quantity,
                                             foodAndBev.foodAndBevPrice,
                                             foodAndBev.foodAndBevPrice!!  *  orderDetail[i].quantity!!
                                     )
                             )
-                            val recyclerView: RecyclerView = findViewById(R.id.historyDetailOrderRecycleView)
+//                            val recyclerView: RecyclerView = findViewById(R.id.historyDetailOrderRecycleView)
 
                             recyclerView.apply {
                                 layoutManager = LinearLayoutManager(this@OrderDetailActivity)
@@ -85,6 +89,36 @@ class OrderDetailActivity : AppCompatActivity() {
                     SelectProductFoodData(listenerSelectData).execute(urlSelectData)
                 } else if (categoryId == 2) {
                 } else if (categoryId == 3) {
+                }
+                else if (categoryId == 4) {
+                    val urlSelectData = IPAddress.ipAddress + "product-data/selectProductTileData/${productId}"
+
+                    val listenerSelectData = object : SelectProductTileData.getDataComplete {
+                        override fun getDataComplete(tileList: List<Tile>) {
+
+                            val tile = tileList[0]
+                            orderDetailList.add(
+                                    OrderDetailData(
+                                            tile.tileImage,
+                                            tile.tileBrand,
+                                            tile.tileModel,
+                                            orderDetail[i].quantity,
+                                            tile.tilePrice!!.toInt(),
+                                            tile.tilePrice.toInt()  *  orderDetail[i].quantity!!
+                                    )
+                            )
+
+
+                            recyclerView.apply {
+                                layoutManager = LinearLayoutManager(this@OrderDetailActivity)
+                                adapter = OrderDetailAdapter(orderDetailList)
+                            }
+
+
+                        }
+
+                    }
+                    SelectProductTileData(listenerSelectData).execute(urlSelectData)
                 }
             }
 

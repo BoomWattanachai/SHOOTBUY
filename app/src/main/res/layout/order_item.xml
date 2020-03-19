@@ -25,6 +25,18 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/order_product_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_product_name"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/order_product_image"
+        android:text="Model"
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
 <!--    <Button-->
 <!--        android:id="@+id/order_cartItemRemove"-->
 <!--        style="?android:attr/borderlessButtonStyle"-->

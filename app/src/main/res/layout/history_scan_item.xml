@@ -26,6 +26,18 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/history_scan_product_model"
+        android:layout_below="@+id/history_scan_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/history_scan_product_image"
+        android:text="Model"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/history_scan_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

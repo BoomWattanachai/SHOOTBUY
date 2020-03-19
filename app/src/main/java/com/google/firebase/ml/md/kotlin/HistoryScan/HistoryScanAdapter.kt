@@ -17,6 +17,7 @@ class HistoryScanAdapter(val historyScanList: ArrayList<HistoryScanData>) : Recy
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val history_scan_product_image = itemView.findViewById(R.id.history_scan_product_image) as ImageView
         val history_scan_product_name = itemView.findViewById(R.id.history_scan_product_name) as TextView
+        val history_scan_product_model = itemView.findViewById(R.id.history_scan_product_model) as TextView
         val history_scan_product_price = itemView.findViewById(R.id.history_scan_product_price) as TextView
         val history_scan_product_time = itemView.findViewById(R.id.history_scan_product_time) as TextView
     }
@@ -36,7 +37,8 @@ class HistoryScanAdapter(val historyScanList: ArrayList<HistoryScanData>) : Recy
 
         Picasso.get().load(historyScan.imageResource).into(holder.history_scan_product_image)
         holder.history_scan_product_name.text = historyScan.nameData
-        holder.history_scan_product_price.text = "$"+ NumberFormat.getInstance().format(historyScan.price).toString()
+        holder.history_scan_product_model.text = historyScan.productModel
+        holder.history_scan_product_price.text = "฿"+ NumberFormat.getInstance().format(historyScan.price).toString()
         holder.history_scan_product_time.text = historyScan.dateTime
     }
 }

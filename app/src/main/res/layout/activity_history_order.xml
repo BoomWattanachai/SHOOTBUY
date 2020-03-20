@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kotlin.HistoryOrder.HistoryOrderActivity"
     android:background="#000"
-    android:padding="30dp">
+    android:padding="30dp"
+    tools:context=".kotlin.HistoryOrder.HistoryOrderActivity">
 
     <TextView
         android:id="@+id/head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_weight="1"
-        android:textSize="22sp"
         android:text="History Order"
         android:textColor="#FFF"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/historyOrderBackBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="16sp"
-        android:text="Back"
         android:layout_alignBaseline="@+id/head"
         android:layout_alignParentStart="true"
+        android:layout_weight="1"
+        android:text="Back"
         android:textColor="#FFF"
-        android:textStyle="bold"/>
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/head"
         android:layout_marginTop="30dp"
-        android:background="@color/lighter_grey"
-        android:layout_below="@+id/head"/>
+        android:background="@color/lighter_grey" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyOrderRecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/line"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
+
 
 </RelativeLayout>

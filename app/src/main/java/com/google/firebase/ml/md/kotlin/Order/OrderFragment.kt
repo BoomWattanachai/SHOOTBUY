@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -160,6 +161,9 @@ class OrderFragment : Fragment() {
             CheckoutProductOrder(insertOrder).execute(urlCheckout)
 
 
+
+
+            (this.context as FragmentActivity).supportFragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
             (this.context as FragmentActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.fl_main, LiveObjectDetectionFragment())

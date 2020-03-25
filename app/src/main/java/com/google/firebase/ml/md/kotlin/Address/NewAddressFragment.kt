@@ -36,10 +36,11 @@ class NewAddressFragment : Fragment() {
                         null
                 )
                 InsertUserAddress(address).execute(IPAddress.ipAddress + "user-data/insertUserAddress/")
-
-                (this.context as FragmentActivity).supportFragmentManager.beginTransaction()
-                        .replace(R.id.fl_main, SelectAddressFragment())
-                        .commit()
+                
+                (this.context as FragmentActivity).supportFragmentManager.popBackStack()
+//                (this.context as FragmentActivity).supportFragmentManager.beginTransaction()
+//                        .replace(R.id.fl_main, SelectAddressFragment())
+//                        .commit()
             }
 
 

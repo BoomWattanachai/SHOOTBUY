@@ -23,7 +23,7 @@ var oldHolder: AddressAdapter.ViewHolder? = null
 
 class AddressAdapter(val addressList: ArrayList<AddressData>, var selectAddressActivity: SelectAddressFragment, val context: Context) : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
 //    var dataIsCheck: BooleanArray = BooleanArray(getItemCount())
-
+private val TAG_FRAGMENT = "TAG_FRAGMENT"
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val address = itemView.findViewById(R.id.address) as TextView
@@ -110,7 +110,8 @@ class AddressAdapter(val addressList: ArrayList<AddressData>, var selectAddressA
                 }
 
                 (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                        .replace(R.id.fl_main, orderFragment)
+                        .replace(R.id.fl_main, orderFragment, TAG_FRAGMENT)
+                        .addToBackStack(null)
                         .commit()
             }
 

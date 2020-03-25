@@ -24,6 +24,7 @@ class SelectAddressFragment:Fragment() {
     var btnCheckout: Button? = null
     var btnNewAddress: ImageButton? = null
     var fullName:String? = null
+    private val TAG_FRAGMENT = "TAG_FRAGMENT"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.activity_select_address,container,false)
 
@@ -106,7 +107,8 @@ class SelectAddressFragment:Fragment() {
 
         btnNewAddress!!.setOnClickListener {
             (this.context as FragmentActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.fl_main, NewAddressFragment())
+                    .replace(R.id.fl_main, NewAddressFragment(), TAG_FRAGMENT)
+                    .addToBackStack(null)
                     .commit()
 //            startActivity(Intent(this, NewAddressActivity::class.java))
 //            startActivity(intent)

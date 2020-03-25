@@ -33,7 +33,7 @@ class AddressAdapter(val addressList: ArrayList<AddressData>, var selectAddressA
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.select_address_item, parent, false)
-
+        oldHolder = null
         return ViewHolder(v)
     }
 
@@ -61,9 +61,12 @@ class AddressAdapter(val addressList: ArrayList<AddressData>, var selectAddressA
 //            holder.radio.isChecked = false
 //        }
 
+
+
         holder.radio.setOnClickListener {
 //            dataIsCheck[position] = true
 //            notifyDataSetChanged()
+
 
             addressList[holder.layoutPosition].check = true
             if (oldHolder != null && oldHolder != holder) {
@@ -96,18 +99,22 @@ class AddressAdapter(val addressList: ArrayList<AddressData>, var selectAddressA
 //            intent.putExtra("FullName", selectAddressActivity.fullName)
 //            startActivity(context, intent, null)
 
-
-            var orderFragment = OrderFragment().apply {
-                arguments = Bundle().apply {
-                    putString("Address", oldHolder!!.address.text.toString())
-                    putString("AddressId",  oldHolder!!.addressId.toString())
-                    putString("FullName", selectAddressActivity.fullName)
+            if(oldHolder != null)
+            {
+                var orderFragment = OrderFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("Address", oldHolder!!.address.text.toString())
+                        putString("AddressId",  oldHolder!!.addressId.toString())
+                        putString("FullName", selectAddressActivity.fullName)
+                    }
                 }
+
+                (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                        .replace(R.id.fl_main, orderFragment)
+                        .commit()
             }
 
-            (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.fl_main, orderFragment)
-                    .commit()
+
 
         }
 

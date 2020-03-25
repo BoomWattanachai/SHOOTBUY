@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Order #"
-        android:textColor="#FFF"
-        android:textSize="18sp" />
+        android:textColor="#000"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/history_order_number"
@@ -23,8 +23,20 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/history_order"
         android:text="0000001"
-        android:textColor="#FFF"
-        android:textSize="18sp" />
+        android:textColor="#000"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/history_order_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/history_order_number"
+        android:layout_toStartOf="@+id/history_order_status"
+        android:textAlignment="center"
+        android:text="Date"
+        android:layout_marginStart="10dp"
+        android:textColor="#6f6d6a"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/history_order_status"
@@ -32,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:text="wait"
-        android:textColor="#FFF"
-        android:textSize="16sp"
+        android:textColor="#000"
+        android:textSize="14sp"
         android:layout_alignBaseline="@+id/history_order_number"/>
 
     <View

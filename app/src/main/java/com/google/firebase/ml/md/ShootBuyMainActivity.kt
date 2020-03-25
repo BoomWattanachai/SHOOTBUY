@@ -1,5 +1,6 @@
 package com.google.firebase.ml.md
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import com.google.firebase.ml.md.kotlin.Cart.CartFragment
 import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderFragment
 import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanFragment
 import com.google.firebase.ml.md.kotlin.LiveObjectDetectionFragment
+import com.google.firebase.ml.md.kotlin.LoginActivity
 import kotlinx.android.synthetic.main.activity_shoot_buy_main.*
 
 
@@ -39,7 +41,10 @@ class ShootBuyMainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.log_out -> {
-                gotoDetail(HistoryScanFragment())
+                val intent = Intent(this, LoginActivity::class.java)
+//            Log.d("Address",oldHolder!!.address.text.toString())
+                intent.putExtra("Logout", "Logout")
+                startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -56,7 +61,14 @@ class ShootBuyMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shoot_buy_main)
-        gotoDetail(LiveObjectDetectionFragment())
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        if(savedInstanceState == null)
+        {
+//            gotoDetail(LiveObjectDetectionFragment())
+            bottomNavigation.selectedItemId = R.id.detect
+        }
+//        gotoDetail(LiveObjectDetectionFragment())
+
+
     }
 }

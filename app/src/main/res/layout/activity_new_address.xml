@@ -1,148 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLaout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kotlin.Address.NewAddressActivity"
-    android:padding="30dp"
-    android:background="#000"
-    android:id="@+id/relativeLaout">
+    android:background="#194375"
+    android:padding="10dp"
+    tools:context=".kotlin.Address.NewAddressActivity">
 
-    <androidx.core.widget.NestedScrollView
+
+    <RelativeLayout
+        android:id="@+id/relativeLaout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/iconAddress"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/address" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/iconAddress"
+            android:text="Address"
+            android:textColor="#FFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnNewAddress"
+        android:layout_below="@+id/relativeLaout2">
+
+        <LinearLayout
+            android:id="@+id/fieldData"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iconAddress"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/address"
-                android:layout_marginTop="22dp"/>
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnNewAddress"
+            android:layout_below="@+id/iconAddress"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_list"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:weightSum="10">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address"
-                android:textColor="#FFF"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/iconAddress"/>
 
-            <TextView
-                android:id="@+id/textHouseNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="House No."
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:layout_marginTop="50dp"
-                android:layout_below="@+id/iconAddress"/>
-
-            <EditText
-                android:id="@+id/inputHouseNo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="House No."
-                android:inputType="number"
-                android:selectAllOnFocus="true"
-                android:layout_below="@+id/textHouseNo"
-                />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textSubDistrict"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sub-district"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:layout_below="@+id/inputHouseNo"/>
+                <TextView
+                    android:id="@+id/textHouseNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House No."
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/inputSubDistrict"
+                <EditText
+                    android:id="@+id/inputHouseNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textHouseNo"
+                    android:backgroundTint="#908d91"
+                    android:hint="House No."
+                    android:inputType="number"
+                    android:selectAllOnFocus="true"
+                    android:textColor="#908d91"
+                    android:textColorHint="#908d91" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Sub-district"
-                android:inputType="textCapSentences|textAutoCorrect"
-                android:selectAllOnFocus="true"
-                android:layout_below="@+id/textSubDistrict"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textDistrict"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="District"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:layout_below="@+id/inputSubDistrict"/>
+                <TextView
+                    android:id="@+id/textSubDistrict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputHouseNo"
+                    android:text="Sub-district"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/inputDistrict"
+                <EditText
+                    android:id="@+id/inputSubDistrict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textSubDistrict"
+                    android:backgroundTint="#908d91"
+                    android:hint="Sub-district"
+                    android:inputType="textCapSentences|textAutoCorrect"
+                    android:selectAllOnFocus="true"
+                    android:textColor="#908d91"
+                    android:textColorHint="#908d91" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="District"
-                android:inputType="textCapSentences|textAutoCorrect"
-                android:selectAllOnFocus="true"
-                android:layout_below="@+id/textDistrict"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textProvince"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Province"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:layout_below="@+id/inputDistrict"/>
+                <TextView
+                    android:id="@+id/textDistrict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputSubDistrict"
+                    android:text="District"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/inputProvince"
+                <EditText
+                    android:id="@+id/inputDistrict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textDistrict"
+                    android:backgroundTint="#908d91"
+                    android:hint="District"
+                    android:inputType="textCapSentences|textAutoCorrect"
+                    android:selectAllOnFocus="true"
+                    android:textColor="#908d91"
+                    android:textColorHint="#908d91" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Province"
-                android:inputType="textCapSentences|textAutoCorrect"
-                android:selectAllOnFocus="true"
-                android:layout_below="@+id/textProvince"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textZipCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zip Code"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:layout_below="@+id/inputProvince"/>
+                <TextView
+                    android:id="@+id/textProvince"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputDistrict"
+                    android:text="Province"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/inputZipCode"
+                <EditText
+                    android:id="@+id/inputProvince"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textProvince"
+                    android:backgroundTint="#908d91"
+                    android:hint="Province"
+                    android:inputType="textCapSentences|textAutoCorrect"
+                    android:selectAllOnFocus="true"
+                    android:textColor="#908d91"
+                    android:textColorHint="#908d91" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Zip Code"
-                android:imeOptions="actionDone"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:layout_below="@+id/textZipCode"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnNewAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add"
-                android:textColor="#FFF"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/inputZipCode"/>
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/textZipCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputProvince"
+                    android:text="Zip Code"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-    </androidx.core.widget.NestedScrollView>
+                <EditText
+                    android:id="@+id/inputZipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textZipCode"
+                    android:backgroundTint="#908d91"
+                    android:hint="Zip Code"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:selectAllOnFocus="true"
+                    android:textColor="#908d91"
+                    android:textColorHint="#908d91" />
+
+            </LinearLayout>
 
 
+        </LinearLayout>
 
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/btnNewAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#000"
+        android:text="Add"
+        android:textColor="#FFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

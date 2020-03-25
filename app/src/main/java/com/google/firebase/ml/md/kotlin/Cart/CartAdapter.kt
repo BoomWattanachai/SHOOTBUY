@@ -35,7 +35,7 @@ class CartAdapter( var cart: ArrayList<CartItem>, var cartFragment: CartFragment
             productName.text = cartItem.nameData+" "
             productModel.text = cartItem.productModel.toString()
             productQuantity.text = cartItem.amount.toString()
-            productPrice.text = "$"+NumberFormat.getInstance().format(cartItem.price).toString()
+            productPrice.text = "฿"+NumberFormat.getInstance().format(cartItem.price).toString()
 
 
         }
@@ -57,7 +57,8 @@ class CartAdapter( var cart: ArrayList<CartItem>, var cartFragment: CartFragment
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-        cartFragment.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+//        cartFragment.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+        cartFragment.totalPrice?.text = "฿"+ NumberFormat.getInstance().format(Cart.getCartTotalPrice(cart)).toString()
 
         holder.cartItemIncrease.setOnClickListener {
 
@@ -65,7 +66,8 @@ class CartAdapter( var cart: ArrayList<CartItem>, var cartFragment: CartFragment
 //                cart[position].amount!!.inc()
 
             cart[position].amount =  cart[position].amount!!.plus(1)
-            cartFragment.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+//            cartFragment.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+            cartFragment.totalPrice?.text = "฿"+ NumberFormat.getInstance().format(Cart.getCartTotalPrice(cart)).toString()
 
             var urlIncress = IPAddress.ipAddress + "product-order/increaseOrderDetailQuantity/"
             IncreaseOrderDetailQuantity(OrderDetail(cart[position].orderId,null,cart[position].productId,null,null)).execute(urlIncress)
@@ -78,7 +80,8 @@ class CartAdapter( var cart: ArrayList<CartItem>, var cartFragment: CartFragment
             if(cart[position].amount!! > 1)
             {
                 cart[position].amount = cart[position].amount!!.minus(1)
-                cartFragment.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+//                cartFragment.totalPrice?.text = Cart.getCartTotalPrice(cart).toString()
+                cartFragment.totalPrice?.text = "฿"+ NumberFormat.getInstance().format(Cart.getCartTotalPrice(cart)).toString()
 
                 var urlIncress = IPAddress.ipAddress + "product-order/decreaseOrderDetailQuantity/"
                 DecreaseOrderDetailQuantity(OrderDetail(cart[position].orderId,null,cart[position].productId,null,null)).execute(urlIncress)

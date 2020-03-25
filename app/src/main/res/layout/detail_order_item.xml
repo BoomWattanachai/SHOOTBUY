@@ -20,7 +20,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/history_detail_order_product_image"
         android:text="Name"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/history_detail_order_product_image"
         android:text="Model"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
         android:layout_toEndOf="@id/history_detail_order_product_image"
         android:layout_above="@+id/history_detail_order_product_total_price"
         android:text="Price"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -56,7 +56,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/history_detail_order_product_image"
         android:text="Price1"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
         android:layout_toStartOf="@+id/history_detail_order_product_quantity"
         android:text="Qty:"
         android:textStyle="bold"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp" />
 
     <TextView
@@ -79,7 +79,7 @@
         android:layout_alignBottom="@+id/history_detail_order_product_image"
         android:layout_alignParentEnd="true"
         android:text="1"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp" />
 
     <View

@@ -35,7 +35,8 @@ class HistoryOrderFragment : Fragment() {
                     historyOrderList.add(
                             HistoryOrderData(
                                     orderList[i].orderId,
-                                    orderList[i].orderStatus
+                                    orderList[i].orderStatus,
+                                    orderList[i].orderDateTime
                             )
                     )
 

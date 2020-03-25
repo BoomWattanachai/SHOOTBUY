@@ -2,12 +2,13 @@ package com.google.firebase.ml.md.kotlin
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,24 +23,38 @@ import com.google.firebase.ml.md.ShootBuyMainActivity
 import com.google.firebase.ml.md.kotlin.EntityModels.UserData.User
 import com.google.firebase.ml.md.kotlin.Models.Service.UserData.IfUserExist
 
-class LoginActivity : AppCompatActivity(),View.OnClickListener {
+class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private var TAG = "Google Signin"
     private var RC_SIGN_IN = 1000
-    private var googleSignInButton : SignInButton? = null
-    private var signOutBtn : Button? = null
-    private var mGoogleSignInClient : GoogleSignInClient?=null
+    private var googleSignInButton: SignInButton? = null
+    private var signOutBtn: Button? = null
+    private var mGoogleSignInClient: GoogleSignInClient? = null
     private lateinit var auth: FirebaseAuth
+
+    private var pref: SharedPreferences? = null
+    private var editor: SharedPreferences.Editor? = null
+    private var buyerUuid: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val logout = intent.getStringExtra("Logout")
+
 //        signOutBtn = findViewById(R.id.signOutBtn)
         googleSignInButton = findViewById(R.id.sign_in_button)
 //        signOutBtn?.setOnClickListener(this)
         googleSignInButton?.setOnClickListener(this)
 
+        pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+        buyerUuid = pref!!.getString("UUID", "")
+        val logout = intent.getStringExtra("Logout")
+        if (logout != null) {
+            signOut()
+        } else if (buyerUuid != "") {
+            startActivity(Intent(this, ShootBuyMainActivity::class.java))
+            finish()
+        }
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -47,13 +62,10 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                 .requestEmail()
                 .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = FirebaseAuth.getInstance()
 
-        if(logout != null)
-        {
-            signOut()
-        }
+
     }
 
     override fun onStart() {
@@ -63,8 +75,8 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        when(v.id){
-            R.id.sign_in_button ->{
+        when (v.id) {
+            R.id.sign_in_button -> {
                 signIn()
             }
 //            R.id.signOutBtn ->{
@@ -73,19 +85,22 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
         }
     }
 
-    private fun signIn(){
+    private fun signIn() {
         val signInIntent = mGoogleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
+
     }
 
-    private fun signOut(){
+    private fun signOut() {
         mGoogleSignInClient?.signOut()
+        pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+        pref!!.edit().remove("UUID").apply()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -123,17 +138,16 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                 }
     }
 
-    private fun ifUserExist(user : FirebaseUser?){
-        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+    private fun ifUserExist(user: FirebaseUser?) {
+        pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
 
-        val editor = pref.edit()
+        editor = pref!!.edit()
 
-        editor.putString("UUID", user!!.uid).apply()
-        editor.commit()
+        editor!!.putString("UUID", user!!.uid).apply()
+        editor!!.commit()
 
 
-
-        val insertUserDataScan = IPAddress.ipAddress+"user-data/ifUserExist/"
+        val insertUserDataScan = IPAddress.ipAddress + "user-data/ifUserExist/"
 
         var name = user.displayName!!.split(" ").toTypedArray()
 
@@ -147,5 +161,6 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
 
 //        startActivity(Intent(this, LiveObjectDetectionActivity::class.java))
         startActivity(Intent(this, ShootBuyMainActivity::class.java))
+        finish()
     }
 }

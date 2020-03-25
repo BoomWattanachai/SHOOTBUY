@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#194375"
+    android:padding="10dp"
     tools:context=".kotlin.Cart.CartActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,14 +14,14 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomLayout"
         android:layout_below="@+id/topLaout"
+        android:background="@drawable/bg_list"
         android:scrollbars="vertical"/>
 
     <LinearLayout
         android:id="@+id/topLaout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
+        android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,37 +30,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/cartBackBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="16sp"
-                    android:text="Back"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:paddingLeft="15dp"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/cartBackBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:text="Back"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:paddingLeft="15dp"/>-->
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:text="MY CART"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="50dp"/>
+                    android:textAlignment="center"/>
             </LinearLayout>
+
 
 
             <View
                 android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/lighter_grey" />
+                android:layout_marginTop="10dp"
+                android:background="#194375" />
         </LinearLayout>
 
 
@@ -73,33 +74,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:padding="30dp">
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:layout_toStartOf="@+id/totalPrice"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="14sp"
                     android:text="TOTAL"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/totalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="Result"
-                    android:textAlignment="textEnd"
+                    android:layout_alignParentEnd="true"
                     android:textStyle="bold"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:textColor="#FFF" />
+            </RelativeLayout>
 
 <!--            <Button-->
 <!--                android:id="@+id/cartCheckoutBtn"-->

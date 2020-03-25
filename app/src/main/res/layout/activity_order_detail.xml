@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".kotlin.HistoryOrder.OrderDetail.OrderDetailActivity"
-    android:padding="30dp">
+    android:background="#194375"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/order_detail_order_number"
@@ -31,6 +32,7 @@
         android:textStyle="bold"/>
 
     <RelativeLayout
+        android:id="@+id/txtDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/order_detail_order_number"
@@ -84,14 +86,15 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/lighter_grey"
-        android:layout_below="@+id/order_detail_order_number"/>
+        android:layout_marginTop="10dp"
+        android:background="#194375"
+        android:layout_below="@+id/txtDetail"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyDetailOrderRecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_list"
         android:layout_below="@+id/line"
         android:scrollbars="vertical"/>
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_select_address.*
 
 class SelectAddressFragment:Fragment() {
     var btnCheckout: Button? = null
-    var btnNewAddress: Button? = null
+    var btnNewAddress: ImageButton? = null
     var fullName:String? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.activity_select_address,container,false)

@@ -31,7 +31,7 @@ class CartFragment:Fragment() {
 
         totalPrice = v!!.findViewById(R.id.totalPrice)
         cartCheckoutBtn = v!!.findViewById(R.id.cartCheckoutBtn)
-        cartBackBtn = v!!.findViewById(R.id.cartBackBtn)
+//        cartBackBtn = v!!.findViewById(R.id.cartBackBtn)
         val pref = this.activity!!.getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
 
         val listenerSelectCart = object : GetProductOrderByUuid.getDataComplete {

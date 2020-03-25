@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
-    android:padding="30dp"
+    android:background="#194375"
+    android:padding="10dp"
     tools:context=".kotlin.Address.SelectAddressActivity">
 
     <TextView
@@ -17,12 +17,14 @@
         android:textSize="22sp"
         android:textStyle="bold" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnNewAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_new_address"
         android:text="New Address"
+        android:background="@null"
         android:textColor="#FFF"
         android:textSize="15sp" />
 
@@ -32,7 +34,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/txtName"
         android:layout_marginTop="20dp"
-        android:background="#FFF" />
+        android:background="#194375" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -41,6 +43,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/btnCheckout"
         android:layout_below="@+id/line"
+        android:background="@drawable/bg_list"
         android:scrollbars="vertical"
         android:layout_marginBottom="10dp"/>
 
@@ -51,6 +54,7 @@
         android:layout_alignParentBottom="true"
         android:text="Check Out"
         android:textColor="#FFF"
+        android:backgroundTint="#000"
         android:textSize="20sp"
         android:textStyle="bold" />
 

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
-    android:padding="30dp"
+    android:background="#194375"
+    android:padding="10dp"
     tools:context=".kotlin.HistoryOrder.HistoryOrderActivity">
 
     <TextView
@@ -18,31 +18,32 @@
         android:textSize="22sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/historyOrderBackBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/head"
-        android:layout_alignParentStart="true"
-        android:layout_weight="1"
-        android:text="Back"
-        android:textColor="#FFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:id="@+id/historyOrderBackBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignBaseline="@+id/head"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_weight="1"-->
+<!--        android:text="Back"-->
+<!--        android:textColor="#FFF"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold" />-->
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/head"
-        android:layout_marginTop="30dp"
-        android:background="@color/lighter_grey" />
+        android:layout_marginTop="10dp"
+        android:background="#194375" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyOrderRecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_list"
         android:layout_below="@+id/line"
         android:scrollbars="vertical" />
 

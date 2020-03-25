@@ -21,7 +21,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/history_scan_product_image"
         android:text="Name"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/history_scan_product_image"
         android:text="Model"
-        android:textColor="#FFF"
+        android:textColor="#6f6d6a"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/history_scan_product_image"
         android:text="Price"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
         android:layout_alignBottom="@+id/history_scan_product_image"
         android:layout_alignParentEnd="true"
         android:text="time"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="14sp" />
 
     <View

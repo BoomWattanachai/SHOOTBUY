@@ -1,7 +1,6 @@
 package com.google.firebase.ml.md.kotlin.HistoryOrder
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,20 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.ShootBuyMainActivity
 import com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.HistoryOrderDetailFragment
-import com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.OrderDetailActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
-class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>,val historyOrderFragment:HistoryOrderFragment, val context: Context) : RecyclerView.Adapter<HistoryOrderAdapter.ViewHolder>(){
+class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, val historyOrderFragment: HistoryOrderFragment, val context: Context) : RecyclerView.Adapter<HistoryOrderAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val history_order_number = itemView.findViewById(R.id.history_order_number) as TextView
         val history_order_status = itemView.findViewById(R.id.history_order_status) as TextView
+        val history_order_date = itemView.findViewById(R.id.history_order_date) as TextView
         val parentPanel = itemView.findViewById(R.id.parentPanel) as RelativeLayout
 
     }
@@ -42,25 +40,31 @@ class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>,val 
 
         holder.history_order_number.text = historyOrder.orderNumber.toString()
 
-        if (historyOrder.status == 1)
-        {
+
+        var dateTime = historyOrder.date.toString()
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        parser.timeZone = TimeZone.getTimeZone("THA")
+        val formattedDate =
+                formatter.format(parser.parse(dateTime)!!)
+
+        holder.history_order_date.text = formattedDate
+
+        if (historyOrder.status == 1) {
             holder.history_order_status.text = "Pending"
             holder.history_order_status.setTextColor(Color.RED)
-        }else if (historyOrder.status == 2)
-        {
+        } else if (historyOrder.status == 2) {
             holder.history_order_status.text = "Shipping"
-            holder.history_order_status.setTextColor(Color.YELLOW)
-        }
-        else if (historyOrder.status == 3)
-        {
+            holder.history_order_status.setTextColor(Color.parseColor("#e9a503"))
+        } else if (historyOrder.status == 3) {
             holder.history_order_status.text = "Success"
-            holder.history_order_status.setTextColor(Color.GREEN)
+            holder.history_order_status.setTextColor(Color.parseColor("#26cb30"))
         }
 
 
 
         holder.parentPanel.setOnClickListener {
-//            val intent = Intent(context, OrderDetailActivity::class.java)
+            //            val intent = Intent(context, OrderDetailActivity::class.java)
 //            intent.putExtra("orderNumber", historyOrder.orderNumber.toString())
 //            startActivity(context, intent, null)
 //            var bundle = Bundle()

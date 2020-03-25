@@ -35,7 +35,7 @@ class CartActivity : AppCompatActivity() {
 
         totalPrice = findViewById(R.id.totalPrice)
         cartCheckoutBtn = findViewById(R.id.cartCheckoutBtn)
-        cartBackBtn = findViewById(R.id.cartBackBtn)
+//        cartBackBtn = findViewById(R.id.cartBackBtn)
 
         var urlGetType = IPAddress.ipAddress + "product-order/getProductOrderByUuid/" + pref.getString("UUID", "")
         GetProductOrderByUuid(listenerSelectCart).execute(urlGetType)

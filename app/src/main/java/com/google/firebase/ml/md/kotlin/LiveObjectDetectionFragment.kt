@@ -3,7 +3,6 @@ package com.google.firebase.ml.md.kotlin
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -19,17 +18,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.Cart.CartActivity
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
-import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderActivity
-import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductTileData
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.InsertProductOrder
 import com.google.firebase.ml.md.kotlin.OtherProduct.OtherProductTileAdapter
@@ -42,21 +39,16 @@ import com.google.firebase.ml.md.kotlin.objectdetection.ProminentObjectProcessor
 import com.google.firebase.ml.md.kotlin.productSearch.BottomSheetScrimView
 import com.google.firebase.ml.md.kotlin.productSearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
-import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.beverage_layout.view.*
 import kotlinx.android.synthetic.main.tile_layout.view.*
-import kotlinx.android.synthetic.main.tile_layout.view.amount
-import kotlinx.android.synthetic.main.tile_layout.view.otherProductRecycleView
 import java.io.IOException
-import java.lang.Exception
 import java.text.NumberFormat
 
-class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
+class LiveObjectDetectionFragment : Fragment(), View.OnClickListener {
     private var cameraSource: CameraSource? = null
     private var preview: CameraSourcePreview? = null
     private var graphicOverlay: GraphicOverlay? = null
-//    private var settingsButton: View? = null
+    //    private var settingsButton: View? = null
     private var flashButton: View? = null
     private var promptChip: Chip? = null
     private var promptChipAnimator: AnimatorSet? = null
@@ -83,9 +75,9 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
     var testUI: TextView? = null
     var testUI1: TextView? = null
     var pref: SharedPreferences? = null
-    var v:View? = null
+    var v: View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        v = inflater.inflate(R.layout.activity_live_object_kotlin,container,false)
+        v = inflater.inflate(R.layout.activity_live_object_kotlin, container, false)
 
         pref = this.activity!!.getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
 
@@ -251,24 +243,20 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
 
             // Observes the workflow state changes, if happens, update the overlay view indicators and
             // camera preview state.
-            try {
-                workflowState.observe(this@LiveObjectDetectionFragment, Observer { workflowState ->
-                    if (workflowState == null || Objects.equal(currentWorkflowState, workflowState)) {
-                        return@Observer
-                    }
-                    currentWorkflowState = workflowState
-                    Log.d("LogBoom2", "Current workflow state: ${workflowState.name}")
 
-                    if (PreferenceUtils.isAutoSearchEnabled(this@LiveObjectDetectionFragment.context!!)) {
-                        stateChangeInAutoSearchMode(workflowState)
-                    } else {
-                        stateChangeInManualSearchMode(workflowState)
-                    }
-                })
-            }catch (e:Exception)
-            {
-                Log.d("ErrorLog",e.message)
-            }
+            workflowState.observe(this@LiveObjectDetectionFragment, Observer { workflowState ->
+                if (workflowState == null || Objects.equal(currentWorkflowState, workflowState)) {
+                    return@Observer
+                }
+                currentWorkflowState = workflowState
+                Log.d("LogBoom2", "Current workflow state: ${workflowState.name}")
+
+                if (PreferenceUtils.isAutoSearchEnabled(this@LiveObjectDetectionFragment.context!!)) {
+                    stateChangeInAutoSearchMode(workflowState)
+                } else {
+                    stateChangeInManualSearchMode(workflowState)
+                }
+            })
 
 
             // Observes changes on the object to search, if happens, fire product search request.
@@ -425,7 +413,7 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
 
                     while (loop) {
                         if (random.size <= 5) {
-                            val rand = (0..(tileList.size-1)).random()
+                            val rand = (0..(tileList.size - 1)).random()
                             var same = false
                             if (random.size == 0) {
                                 random.add(rand)

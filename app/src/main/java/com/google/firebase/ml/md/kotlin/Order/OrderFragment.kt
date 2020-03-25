@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.FoodAndBev
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
@@ -159,9 +160,11 @@ class OrderFragment : Fragment() {
             CheckoutProductOrder(insertOrder).execute(urlCheckout)
 
 
+
             (this.context as FragmentActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.fl_main, LiveObjectDetectionFragment())
                     .commit()
+            this.activity!!.findViewById<BottomNavigationView>(R.id.bottomNavigation).menu.findItem(R.id.detect).isChecked = true
 
 //            startActivity(Intent(this, LiveObjectDetectionActivity::class.java))
         }

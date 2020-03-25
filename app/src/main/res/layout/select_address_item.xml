@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp">
+    android:paddingStart="16dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="16dp">
 
 
 
@@ -10,7 +12,8 @@
         android:id="@+id/radio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:buttonTint="#FFF"
+        android:layout_centerVertical="true"
+        android:buttonTint="#000"
         android:textSize="16sp" />
 
     <TextView
@@ -18,8 +21,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test"
+        android:layout_centerVertical="true"
         android:textSize="16sp"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:layout_toEndOf="@+id/radio"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/radio"
+        android:layout_marginTop="5dp"
+        android:background="@color/lighter_grey" />
 
 </RelativeLayout>

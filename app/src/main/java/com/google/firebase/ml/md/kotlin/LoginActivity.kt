@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.ShootBuyMainActivity
 import com.google.firebase.ml.md.kotlin.EntityModels.UserData.User
 import com.google.firebase.ml.md.kotlin.Models.Service.UserData.IfUserExist
 
@@ -144,6 +145,7 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
 
         IfUserExist(userData).execute(insertUserDataScan)
 
-        startActivity(Intent(this, LiveObjectDetectionActivity::class.java))
+//        startActivity(Intent(this, LiveObjectDetectionActivity::class.java))
+        startActivity(Intent(this, ShootBuyMainActivity::class.java))
     }
 }

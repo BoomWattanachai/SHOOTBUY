@@ -3,17 +3,22 @@ package com.google.firebase.ml.md.kotlin.HistoryOrder
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
+import com.google.firebase.ml.md.ShootBuyMainActivity
+import com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.HistoryOrderDetailFragment
 import com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.OrderDetailActivity
 
-class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, var historyOrderActivity: HistoryOrderActivity, val context: Context) : RecyclerView.Adapter<HistoryOrderAdapter.ViewHolder>() {
+class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>,val historyOrderFragment:HistoryOrderFragment, val context: Context) : RecyclerView.Adapter<HistoryOrderAdapter.ViewHolder>(){
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val history_order_number = itemView.findViewById(R.id.history_order_number) as TextView
@@ -55,9 +60,21 @@ class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>, var
 
 
         holder.parentPanel.setOnClickListener {
-            val intent = Intent(context, OrderDetailActivity::class.java)
-            intent.putExtra("orderNumber", historyOrder.orderNumber.toString())
-            startActivity(context, intent, null)
+//            val intent = Intent(context, OrderDetailActivity::class.java)
+//            intent.putExtra("orderNumber", historyOrder.orderNumber.toString())
+//            startActivity(context, intent, null)
+            var bundle = Bundle()
+            bundle.putString("orderNumber", historyOrder.orderNumber.toString())
+
+            var historyOrderDetailFragment = HistoryOrderDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putString("orderNumber", historyOrder.orderNumber.toString())
+                }
+            }
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_main, historyOrderDetailFragment)
+                    .commit()
         }
     }
 }

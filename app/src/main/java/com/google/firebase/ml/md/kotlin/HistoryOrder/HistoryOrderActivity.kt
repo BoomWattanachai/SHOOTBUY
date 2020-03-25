@@ -23,59 +23,40 @@ class HistoryOrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_history_order)
 
 
-        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
-        val recyclerView: RecyclerView = findViewById(R.id.historyOrderRecycleView)
-
-        var historyOrderList = ArrayList<HistoryOrderData>()
-
-
-        var urlGetAllProductOrder = IPAddress.ipAddress + "product-order/getAllProductOrderByUuid/" + pref.getString("UUID", "")
-
-        val listenerAllProductOrder = object : GetAllProductOrderByUuid.getDataComplete {
-            override fun getDataComplete(orderList: List<Order>) {
-               for(i in 0 until orderList.size)
-               {
-                   historyOrderList.add(
-                           HistoryOrderData(
-                                   orderList[i].orderId,
-                                   orderList[i].orderStatus
-                           )
-                   )
-
-               }
-
-
-
-
-                recyclerView.apply {
-                    layoutManager = LinearLayoutManager(this@HistoryOrderActivity)
-                    adapter = HistoryOrderAdapter(historyOrderList,this@HistoryOrderActivity,this@HistoryOrderActivity)
-                }
-            }
-        }
-
-        GetAllProductOrderByUuid(listenerAllProductOrder).execute(urlGetAllProductOrder)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        historyOrderBackBtn.setOnClickListener {
-            onBackPressed()
-        }
+//        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+//        val recyclerView: RecyclerView = findViewById(R.id.historyOrderRecycleView)
+//
+//        var historyOrderList = ArrayList<HistoryOrderData>()
+//
+//
+//        var urlGetAllProductOrder = IPAddress.ipAddress + "product-order/getAllProductOrderByUuid/" + pref.getString("UUID", "")
+//
+//        val listenerAllProductOrder = object : GetAllProductOrderByUuid.getDataComplete {
+//            override fun getDataComplete(orderList: List<Order>) {
+//               for(i in 0 until orderList.size)
+//               {
+//                   historyOrderList.add(
+//                           HistoryOrderData(
+//                                   orderList[i].orderId,
+//                                   orderList[i].orderStatus
+//                           )
+//                   )
+//
+//               }
+//
+//
+//
+//
+//                recyclerView.apply {
+//                    layoutManager = LinearLayoutManager(this@HistoryOrderActivity)
+//                    adapter = HistoryOrderAdapter(historyOrderList,this@HistoryOrderActivity,this@HistoryOrderActivity)
+//                }
+//            }
+//        }
+//
+//        GetAllProductOrderByUuid(listenerAllProductOrder).execute(urlGetAllProductOrder)
+//        historyOrderBackBtn.setOnClickListener {
+//            onBackPressed()
+//        }
     }
 }

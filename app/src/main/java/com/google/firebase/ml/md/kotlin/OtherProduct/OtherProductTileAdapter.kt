@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
 import com.google.firebase.ml.md.kotlin.LiveObjectDetectionActivity
+import com.google.firebase.ml.md.kotlin.LiveObjectDetectionFragment
 import com.squareup.picasso.Picasso
 
-class OtherProductTileAdapter(val otherProductList: List<Tile>, val context: LiveObjectDetectionActivity) : RecyclerView.Adapter<OtherProductTileAdapter.ViewHolder>(){
+class OtherProductTileAdapter(val otherProductList: List<Tile>, val context: LiveObjectDetectionFragment) : RecyclerView.Adapter<OtherProductTileAdapter.ViewHolder>(){
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val other_product_image = itemView.findViewById(R.id.other_product_image) as ImageView

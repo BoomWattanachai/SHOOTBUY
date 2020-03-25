@@ -16,17 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-
-
+        <activity android:name=".ShootBuyMainActivity"></activity>
         <activity
             android:name=".kotlin.LoginActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".kotlin.HistoryOrder.OrderDetail.OrderDetailActivity" />
         <activity android:name=".kotlin.HistoryOrder.HistoryOrderActivity" />
         <activity android:name=".kotlin.HistoryScan.HistoryScanActivity" />
@@ -45,7 +44,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
 
         <activity
             android:name=".java.MainActivity"

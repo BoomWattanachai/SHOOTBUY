@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ShootBuyMainActivity"></activity>
+        <activity android:name=".testScrollActivity"></activity>
+        <activity android:name=".ShootBuyMainActivity" android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".kotlin.LoginActivity"
             android:screenOrientation="portrait">

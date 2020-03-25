@@ -3,8 +3,12 @@ package com.google.firebase.ml.md.kotlin.Address
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.relativeui.Address.AddressAdapter
@@ -15,18 +19,17 @@ import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.Models.Service.UserData.GetUserAddressByUuid
 import kotlinx.android.synthetic.main.activity_select_address.*
 
-class SelectAddressActivity : AppCompatActivity() {
-
+class SelectAddressFragment:Fragment() {
     var btnCheckout: Button? = null
+    var btnNewAddress: Button? = null
     var fullName:String? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        var v = inflater.inflate(R.layout.activity_select_address,container,false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_address)
+        btnCheckout = v!!.findViewById(R.id.btnCheckout)
+        btnNewAddress = v!!.findViewById(R.id.btnNewAddress)
 
-        btnCheckout = findViewById(R.id.btnCheckout)
-
-        val pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+        val pref = this.activity!!.getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
 
 
         var urlGetType = IPAddress.ipAddress + "user-data/getUserAddressByUuid/" + pref.getString("UUID", "")
@@ -49,12 +52,12 @@ class SelectAddressActivity : AppCompatActivity() {
                             )
                     )
                 }
-                val recyclerView: RecyclerView = findViewById(R.id.cartRecycleView)
+                val recyclerView: RecyclerView = v.findViewById(R.id.cartRecycleView)
 
-//                recyclerView.apply {
-//                    layoutManager = LinearLayoutManager(this@SelectAddressActivity)
-//                    adapter = AddressAdapter(addressList, this@SelectAddressActivity, this@SelectAddressActivity)
-//                }
+                recyclerView.apply {
+                    layoutManager = LinearLayoutManager(this@SelectAddressFragment.context)
+                    adapter = AddressAdapter(addressList, this@SelectAddressFragment, this@SelectAddressFragment.context!!)
+                }
             }
         }
 
@@ -99,18 +102,16 @@ class SelectAddressActivity : AppCompatActivity() {
 //        }
 
 
-        btnNewAddress.setOnClickListener {
-            startActivity(Intent(this, NewAddressActivity::class.java))
+
+        btnNewAddress!!.setOnClickListener {
+            (this.context as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_main, NewAddressFragment())
+                    .commit()
+//            startActivity(Intent(this, NewAddressActivity::class.java))
 //            startActivity(intent)
         }
 
-//        btnCheckout.setOnClickListener {
-////            startActivity(Intent(this, OderActivity::class.java))
-//            val intent = Intent(this, OderActivity::class.java)
-//            var test = radio.text
-//            intent.putExtra("Address","aaaa")
-//            startActivity(intent)
-//
-//        }
+
+        return v
     }
 }

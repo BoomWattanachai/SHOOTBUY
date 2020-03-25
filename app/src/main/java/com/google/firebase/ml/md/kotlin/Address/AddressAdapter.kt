@@ -2,6 +2,7 @@ package com.example.relativeui.Address
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +10,18 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ml.md.R
 import com.google.firebase.ml.md.kotlin.Address.SelectAddressActivity
+import com.google.firebase.ml.md.kotlin.Address.SelectAddressFragment
+import com.google.firebase.ml.md.kotlin.HistoryOrder.OrderDetail.HistoryOrderDetailFragment
 import com.google.firebase.ml.md.kotlin.Order.OderActivity
+import com.google.firebase.ml.md.kotlin.Order.OrderFragment
 
 var oldHolder: AddressAdapter.ViewHolder? = null
 
-class AddressAdapter(val addressList: ArrayList<AddressData>,var selectAddressActivity:SelectAddressActivity,val context: Context) : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
+class AddressAdapter(val addressList: ArrayList<AddressData>, var selectAddressActivity: SelectAddressFragment, val context: Context) : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
 //    var dataIsCheck: BooleanArray = BooleanArray(getItemCount())
 
 
@@ -84,12 +89,26 @@ class AddressAdapter(val addressList: ArrayList<AddressData>,var selectAddressAc
 
 
         selectAddressActivity.btnCheckout?.setOnClickListener {
-            val intent = Intent(context, OderActivity::class.java)
-//            Log.d("Address",oldHolder!!.address.text.toString())
-            intent.putExtra("Address", oldHolder!!.address.text.toString())
-            intent.putExtra("AddressId", oldHolder!!.addressId.toString())
-            intent.putExtra("FullName", selectAddressActivity.fullName)
-            startActivity(context, intent, null)
+//            val intent = Intent(context, OderActivity::class.java)
+////            Log.d("Address",oldHolder!!.address.text.toString())
+//            intent.putExtra("Address", oldHolder!!.address.text.toString())
+//            intent.putExtra("AddressId", oldHolder!!.addressId.toString())
+//            intent.putExtra("FullName", selectAddressActivity.fullName)
+//            startActivity(context, intent, null)
+
+
+            var orderFragment = OrderFragment().apply {
+                arguments = Bundle().apply {
+                    putString("Address", oldHolder!!.address.text.toString())
+                    putString("AddressId",  oldHolder!!.addressId.toString())
+                    putString("FullName", selectAddressActivity.fullName)
+                }
+            }
+
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_main, orderFragment)
+                    .commit()
+
         }
 
 

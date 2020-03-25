@@ -94,10 +94,10 @@ class CartActivity : AppCompatActivity() {
 //                                }
 //                            }
 
-                                cartRecycleView = findViewById<RecyclerView>(R.id.cartRecycleView).apply {
-                                    layoutManager = LinearLayoutManager(this@CartActivity)
-                                    adapter = CartAdapter(cartOrder, this@CartActivity)
-                                }
+//                                cartRecycleView = findViewById<RecyclerView>(R.id.cartRecycleView).apply {
+//                                    layoutManager = LinearLayoutManager(this@CartActivity)
+//                                    adapter = CartAdapter(cartOrder, this@CartActivity)
+//                                }
 
 
                             }
@@ -126,10 +126,10 @@ class CartActivity : AppCompatActivity() {
                                                 tile.tilePrice!!.toInt()
                                         )
                                 )
-                                cartRecycleView = findViewById<RecyclerView>(R.id.cartRecycleView).apply {
-                                    layoutManager = LinearLayoutManager(this@CartActivity)
-                                    adapter = CartAdapter(cartOrder, this@CartActivity)
-                                }
+//                                cartRecycleView = findViewById<RecyclerView>(R.id.cartRecycleView).apply {
+//                                    layoutManager = LinearLayoutManager(this@CartActivity)
+//                                    adapter = CartAdapter(cartOrder, this@CartActivity)
+//                                }
 
 
                             }

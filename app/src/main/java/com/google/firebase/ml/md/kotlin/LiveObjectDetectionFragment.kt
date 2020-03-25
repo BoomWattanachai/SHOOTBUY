@@ -56,7 +56,7 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
     private var cameraSource: CameraSource? = null
     private var preview: CameraSourcePreview? = null
     private var graphicOverlay: GraphicOverlay? = null
-    private var settingsButton: View? = null
+//    private var settingsButton: View? = null
     private var flashButton: View? = null
     private var promptChip: Chip? = null
     private var promptChipAnimator: AnimatorSet? = null
@@ -120,27 +120,27 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
         searchProgressBar = v!!.findViewById(R.id.search_progress_bar)
         setUpBottomSheet()
 
-        v!!.findViewById<View>(R.id.close_button).setOnClickListener(this)
+//        v!!.findViewById<View>(R.id.close_button).setOnClickListener(this)
         flashButton = v!!.findViewById<View>(R.id.flash_button).apply {
             setOnClickListener(this@LiveObjectDetectionFragment)
         }
-        settingsButton = v!!.findViewById<View>(R.id.settings_button).apply {
-            setOnClickListener(this@LiveObjectDetectionFragment)
-        }
-        cartBtn = v!!.findViewById<ImageButton>(R.id.cartBtn).apply {
-            setOnClickListener(this@LiveObjectDetectionFragment)
-        }
+//        settingsButton = v!!.findViewById<View>(R.id.settings_button).apply {
+//            setOnClickListener(this@LiveObjectDetectionFragment)
+//        }
+//        cartBtn = v!!.findViewById<ImageButton>(R.id.cartBtn).apply {
+//            setOnClickListener(this@LiveObjectDetectionFragment)
+//        }
 
-        historyScanBtn = v!!.findViewById<Button>(R.id.historyScanBtn).apply {
-            setOnClickListener(this@LiveObjectDetectionFragment)
-        }
-
-        historyOrderBtn = v!!.findViewById<Button>(R.id.historyOrderBtn).apply {
-            setOnClickListener(this@LiveObjectDetectionFragment)
-        }
-        logoutBtn = v!!.findViewById<Button>(R.id.logoutBtn).apply {
-            setOnClickListener(this@LiveObjectDetectionFragment)
-        }
+//        historyScanBtn = v!!.findViewById<Button>(R.id.historyScanBtn).apply {
+//            setOnClickListener(this@LiveObjectDetectionFragment)
+//        }
+//
+//        historyOrderBtn = v!!.findViewById<Button>(R.id.historyOrderBtn).apply {
+//            setOnClickListener(this@LiveObjectDetectionFragment)
+//        }
+//        logoutBtn = v!!.findViewById<Button>(R.id.logoutBtn).apply {
+//            setOnClickListener(this@LiveObjectDetectionFragment)
+//        }
 
         setUpWorkflowModel()
 
@@ -155,7 +155,7 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
         }
 
         workflowModel?.markCameraFrozen()
-        settingsButton?.isEnabled = true
+//        settingsButton?.isEnabled = true
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         currentWorkflowState = WorkflowModel.WorkflowState.NOT_STARTED
         cameraSource?.setFrameProcessor(
@@ -193,9 +193,9 @@ class LiveObjectDetectionFragment:Fragment(), View.OnClickListener {
                                 } else View.VISIBLE
 
 
-                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                            bottomSheetBehavior!!.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        }
+//                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+//                            bottomSheetBehavior!!.setState(BottomSheetBehavior.STATE_EXPANDED)
+//                        }
 
 
                         graphicOverlay?.clear()

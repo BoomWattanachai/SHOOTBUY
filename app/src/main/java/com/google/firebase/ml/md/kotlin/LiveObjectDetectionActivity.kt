@@ -142,9 +142,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         flashButton = findViewById<View>(R.id.flash_button).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
-        settingsButton = findViewById<View>(R.id.settings_button).apply {
-            setOnClickListener(this@LiveObjectDetectionActivity)
-        }
+//        settingsButton = findViewById<View>(R.id.settings_button).apply {
+//            setOnClickListener(this@LiveObjectDetectionActivity)
+//        }
         cartBtn = findViewById<ImageButton>(R.id.cartBtn).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
@@ -222,10 +222,10 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                     cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
                 }
             }
-            R.id.settings_button -> {
-                settingsButton?.isEnabled = false
-                startActivity(Intent(this, SettingsActivity::class.java))
-            }
+//            R.id.settings_button -> {
+//                settingsButton?.isEnabled = false
+//                startActivity(Intent(this, SettingsActivity::class.java))
+//            }
             R.id.cartBtn -> {
 //                if (Cart.cartItemList.size > 0)
                 startActivity(Intent(this, CartActivity::class.java))

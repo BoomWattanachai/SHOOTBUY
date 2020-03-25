@@ -63,8 +63,8 @@ class HistoryOrderAdapter(val historyOrderList: ArrayList<HistoryOrderData>,val 
 //            val intent = Intent(context, OrderDetailActivity::class.java)
 //            intent.putExtra("orderNumber", historyOrder.orderNumber.toString())
 //            startActivity(context, intent, null)
-            var bundle = Bundle()
-            bundle.putString("orderNumber", historyOrder.orderNumber.toString())
+//            var bundle = Bundle()
+//            bundle.putString("orderNumber", historyOrder.orderNumber.toString())
 
             var historyOrderDetailFragment = HistoryOrderDetailFragment().apply {
                 arguments = Bundle().apply {

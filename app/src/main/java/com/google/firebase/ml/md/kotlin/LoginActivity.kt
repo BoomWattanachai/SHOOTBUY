@@ -48,13 +48,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
         buyerUuid = pref!!.getString("UUID", "")
-        val logout = intent.getStringExtra("Logout")
-        if (logout != null) {
-            signOut()
-        } else if (buyerUuid != "") {
-            startActivity(Intent(this, ShootBuyMainActivity::class.java))
-            finish()
-        }
+
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -64,6 +58,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = FirebaseAuth.getInstance()
+
+        val logout = intent.getStringExtra("Logout")
+        if (logout != null) {
+            signOut()
+        } else if (buyerUuid != "") {
+            startActivity(Intent(this, ShootBuyMainActivity::class.java))
+            finish()
+        }
 
 
     }
@@ -95,6 +97,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         mGoogleSignInClient?.signOut()
         pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
         pref!!.edit().remove("UUID").apply()
+        buyerUuid = pref!!.getString("UUID", "")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

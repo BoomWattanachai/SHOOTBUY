@@ -361,7 +361,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             })
 
             // Observes changes on the object to search, if happens, fire product search request.
-            objectToSearch.observe(this@LiveObjectDetectionActivity, Observer { detectObject ->
+            objectToSearch!!.observe(this@LiveObjectDetectionActivity, Observer { detectObject ->
                 searchEngine!!.search(detectObject) { detectedObject, productTest ->
                     workflowModel?.onSearchCompleted(detectedObject, productTest)
                 }

@@ -65,11 +65,11 @@ class SearchEngine(var context: Context) {
                 .addOnSuccessListener { labels ->
                     var productTest: Any? = null
                     if (labels.size > 0) {
-                        for (label in labels) {
-                            val productLabel = label.text
-                            //SELECT type
+                                for (label in labels) {
+                                    val productLabel = label.text
+                                    //SELECT type
 
-                            insertScanHistory(productLabel)
+                                    insertScanHistory(productLabel)
 
 
                             val urlCheckTpye = IPAddress.ipAddress+"product-data/selectProductType/${productLabel}"

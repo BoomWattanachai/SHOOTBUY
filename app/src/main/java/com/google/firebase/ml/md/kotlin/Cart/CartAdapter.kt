@@ -1,5 +1,6 @@
 package com.google.firebase.ml.md.kotlin.Cart
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
 import com.google.firebase.ml.md.kotlin.IPAddress
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.DecreaseOrderDetailQuantity
 import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.IncreaseOrderDetailQuantity
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.RemoveOrder
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.RemoveOrderDetailProductId
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 
@@ -91,6 +94,30 @@ class CartAdapter(var cart: ArrayList<CartItem>, var cartFragment: CartFragment)
             notifyDataSetChanged()
 
         }
+
+        holder.cartItemRemove.setOnClickListener {
+
+            var urlRemoveOrder = IPAddress.ipAddress + "product-order/removeOrderDetailProductId/"
+            var temp = OrderDetail(cart[position].orderId, null, cart[position].productId, null, null)
+            Log.d("RemoveItem","BeforeTemp" + temp.toString())
+            RemoveOrderDetailProductId(temp).execute(urlRemoveOrder)
+            Log.d("RemoveItem","AfterTemp" + temp.toString())
+            Log.d("RemoveItem", "Before" + cart.toString())
+
+
+//            if(cart.size == 1)
+//            {
+//                urlRemoveOrder = IPAddress.ipAddress + "product-order/removeOrder/"
+//                temp = OrderDetail(cart[position].orderId, null, null, null, null)
+//                RemoveOrder(temp).execute(urlRemoveOrder)
+//            }
+
+            cart.removeAt(position)
+            cartFragment.totalPrice?.text = "฿" + NumberFormat.getInstance().format(Cart.getCartTotalPrice(cart)).toString()
+            Log.d("RemoveItem", "After" + cart.toString())
+            notifyDataSetChanged()
+
+        }
 //        holder.cartItemRemove.setOnClickListener {
 //            cart.cartItemList.removeAt(position)
 //            if(cart.cartItemList.size <= 0) cartActivity.onBackPressed()
@@ -103,12 +130,16 @@ class CartAdapter(var cart: ArrayList<CartItem>, var cartFragment: CartFragment)
 //            cartActivity.totalPrice?.text = "$"+ NumberFormat.getInstance().format(cart.getCartTotalPrice()).toString()
 //            cartActivity.goToSelectAddress()
 //            startActivity(Intent(this, NewAddressActivity::class.java))
+            if(cart.size > 0)
+            {
+                (cartFragment.context as FragmentActivity).supportFragmentManager.beginTransaction()
+                        .replace(R.id.fl_main, SelectAddressFragment(), TAG_FRAGMENT)
+                        .addToBackStack(null)
+                        .commit()
+            }
 
 
-            (cartFragment.context as FragmentActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.fl_main, SelectAddressFragment(), TAG_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit()
+
 
 
 //            notifyDataSetChanged()

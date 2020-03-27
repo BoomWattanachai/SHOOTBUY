@@ -30,10 +30,10 @@ import java.util.HashSet
 /** View model for handling application workflow based on camera preview.  */
 class WorkflowModel(application: Application) : AndroidViewModel(application) {
 
-    val workflowState = MutableLiveData<WorkflowState>()
-    val objectToSearch = MutableLiveData<DetectedObject>()
-    val searchedObject = MutableLiveData<SearchedObject>()
-    val detectedBarcode = MutableLiveData<FirebaseVisionBarcode>()
+    var workflowState = MutableLiveData<WorkflowState>()
+    var objectToSearch:MutableLiveData<DetectedObject>? = MutableLiveData<DetectedObject>()
+    var searchedObject = MutableLiveData<SearchedObject>()
+    var detectedBarcode = MutableLiveData<FirebaseVisionBarcode>()
 
     private val objectIdsToSearch = HashSet<Int>()
 
@@ -100,7 +100,7 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
         }
 
         objectIdsToSearch.add(objectId)
-        objectToSearch.value = detectedObject
+        objectToSearch!!.value = detectedObject
     }
 
     fun markCameraLive() {
@@ -121,6 +121,8 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
 
         objectIdsToSearch.remove(detectedObject.objectId)
         setWorkflowState(WorkflowState.SEARCHED)
+//        objectToSearch = null
+
 
         searchedObject.value = SearchedObject(context.resources, lConfirmedObject, products)
     }

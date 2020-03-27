@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_history_scan.*
 class HistoryScanFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.activity_history_scan,container,false)
+
         val listenerUserDataScanHistory = object : GetUserDataScanHistory.getDataComplete {
             override fun getDataComplete(userList: List<User>) {
 

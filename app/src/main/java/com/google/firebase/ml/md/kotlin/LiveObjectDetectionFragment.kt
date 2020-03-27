@@ -85,7 +85,7 @@ class LiveObjectDetectionFragment : Fragment(), View.OnClickListener {
 
 
         searchEngine = SearchEngine(this.context!!)
-
+        workflowModel = null
 //        setContentView(R.layout.activity_live_object_kotlin)
         preview = v!!.findViewById(R.id.camera_preview)
 
@@ -239,7 +239,7 @@ class LiveObjectDetectionFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setUpWorkflowModel() {
-        workflowModel = ViewModelProviders.of(this.activity!!).get(WorkflowModel::class.java).apply {
+        workflowModel = ViewModelProviders.of(this).get(WorkflowModel::class.java).apply {
 
             // Observes the workflow state changes, if happens, update the overlay view indicators and
             // camera preview state.
@@ -260,11 +260,12 @@ class LiveObjectDetectionFragment : Fragment(), View.OnClickListener {
 
 
             // Observes changes on the object to search, if happens, fire product search request.
-            objectToSearch.observe(this@LiveObjectDetectionFragment, Observer { detectObject ->
+            objectToSearch!!.observe(this@LiveObjectDetectionFragment, Observer { detectObject ->
                 searchEngine!!.search(detectObject) { detectedObject, productTest ->
                     workflowModel?.onSearchCompleted(detectedObject, productTest)
                 }
             })
+
 
             // Observes changes on the object that has search completed, if happens, show the bottom sheet
             // to present search result.

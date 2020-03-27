@@ -28,6 +28,8 @@ class CartFragment:Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.activity_cart,container,false)
+        cartOrder.clear()
+
 
         totalPrice = v!!.findViewById(R.id.totalPrice)
         cartCheckoutBtn = v!!.findViewById(R.id.cartCheckoutBtn)

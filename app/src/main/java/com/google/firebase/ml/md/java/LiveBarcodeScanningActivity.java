@@ -74,8 +74,8 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
     findViewById(R.id.close_button).setOnClickListener(this);
     flashButton = findViewById(R.id.flash_button);
     flashButton.setOnClickListener(this);
-    settingsButton = findViewById(R.id.settings_button);
-    settingsButton.setOnClickListener(this);
+//    settingsButton = findViewById(R.id.settings_button);
+//    settingsButton.setOnClickListener(this);
 
     setUpWorkflowModel();
   }
@@ -128,11 +128,12 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
         cameraSource.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
       }
 
-    } else if (id == R.id.settings_button) {
-      // Sets as disabled to prevent the user from clicking on it too fast.
-      settingsButton.setEnabled(false);
-      startActivity(new Intent(this, SettingsActivity.class));
     }
+//    else if (id == R.id.settings_button) {
+//      // Sets as disabled to prevent the user from clicking on it too fast.
+//      settingsButton.setEnabled(false);
+//      startActivity(new Intent(this, SettingsActivity.class));
+//    }
   }
 
   private void startCameraPreview() {

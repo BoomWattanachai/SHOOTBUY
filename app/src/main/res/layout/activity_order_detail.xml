@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".kotlin.HistoryOrder.OrderDetail.OrderDetailActivity"
+    android:background="#194375"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/order_detail_order_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="22sp"
+        android:text="History Order"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/historyDetailOrderBackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:text="Back"
+        android:layout_alignBaseline="@+id/order_detail_order_number"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFF"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:id="@+id/txtDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_detail_order_number"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="("
+            android:textSize="12sp"
+            android:textColor="#FFF"/>
+        <TextView
+            android:id="@+id/history_order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05/03/2020"
+            android:textSize="12sp"
+            android:textColor="#FFF"
+            android:layout_toEndOf="@+id/start"/>
+        <TextView
+            android:id="@+id/textTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Total:"
+            android:textSize="12sp"
+            android:textColor="#FFF"
+            android:layout_toEndOf="@+id/history_order_date"/>
+        <TextView
+            android:id="@+id/history_order_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="฿1,200"
+            android:textSize="12sp"
+            android:textColor="#FFF"
+            android:layout_toEndOf="@+id/textTotal"/>
+        <TextView
+            android:id="@+id/end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")"
+            android:textSize="12sp"
+            android:textColor="#FFF"
+            android:layout_toEndOf="@+id/history_order_total_price"/>
+
+    </RelativeLayout>
+
+
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#194375"
+        android:layout_below="@+id/txtDetail"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/historyDetailOrderRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_list"
+        android:layout_below="@+id/line"
+        android:scrollbars="vertical"/>
+
+</RelativeLayout>

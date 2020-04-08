@@ -75,9 +75,9 @@ class LiveBarcodeScanningActivity : AppCompatActivity(), OnClickListener {
         flashButton = findViewById<View>(R.id.flash_button).apply {
             setOnClickListener(this@LiveBarcodeScanningActivity)
         }
-        settingsButton = findViewById<View>(R.id.settings_button).apply {
-            setOnClickListener(this@LiveBarcodeScanningActivity)
-        }
+//        settingsButton = findViewById<View>(R.id.settings_button).apply {
+//            setOnClickListener(this@LiveBarcodeScanningActivity)
+//        }
 
         setUpWorkflowModel()
     }
@@ -111,7 +111,7 @@ class LiveBarcodeScanningActivity : AppCompatActivity(), OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.close_button -> onBackPressed()
+//            R.id.close_button -> onBackPressed()
             R.id.flash_button -> {
                 flashButton?.let {
                     if (it.isSelected) {
@@ -123,10 +123,10 @@ class LiveBarcodeScanningActivity : AppCompatActivity(), OnClickListener {
                     }
                 }
             }
-            R.id.settings_button -> {
-                settingsButton?.isEnabled = false
-                startActivity(Intent(this, SettingsActivity::class.java))
-            }
+//            R.id.settings_button -> {
+//                settingsButton?.isEnabled = false
+//                startActivity(Intent(this, SettingsActivity::class.java))
+//            }
         }
     }
 

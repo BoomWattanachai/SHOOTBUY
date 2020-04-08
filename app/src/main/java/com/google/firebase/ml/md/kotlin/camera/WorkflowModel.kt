@@ -21,20 +21,19 @@ import android.content.Context
 import androidx.annotation.MainThread
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
 import com.google.firebase.ml.md.kotlin.objectdetection.DetectedObject
-import com.google.firebase.ml.md.kotlin.productsearch.SearchedObject
+import com.google.firebase.ml.md.kotlin.productSearch.SearchedObject
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import java.util.HashSet
 
 /** View model for handling application workflow based on camera preview.  */
 class WorkflowModel(application: Application) : AndroidViewModel(application) {
 
-    val workflowState = MutableLiveData<WorkflowState>()
-    val objectToSearch = MutableLiveData<DetectedObject>()
-    val searchedObject = MutableLiveData<SearchedObject>()
-    val detectedBarcode = MutableLiveData<FirebaseVisionBarcode>()
+    var workflowState = MutableLiveData<WorkflowState>()
+    var objectToSearch:MutableLiveData<DetectedObject>? = MutableLiveData<DetectedObject>()
+    var searchedObject = MutableLiveData<SearchedObject>()
+    var detectedBarcode = MutableLiveData<FirebaseVisionBarcode>()
 
     private val objectIdsToSearch = HashSet<Int>()
 
@@ -101,7 +100,7 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
         }
 
         objectIdsToSearch.add(objectId)
-        objectToSearch.value = detectedObject
+        objectToSearch!!.value = detectedObject
     }
 
     fun markCameraLive() {
@@ -122,6 +121,8 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
 
         objectIdsToSearch.remove(detectedObject.objectId)
         setWorkflowState(WorkflowState.SEARCHED)
+//        objectToSearch = null
+
 
         searchedObject.value = SearchedObject(context.resources, lConfirmedObject, products)
     }

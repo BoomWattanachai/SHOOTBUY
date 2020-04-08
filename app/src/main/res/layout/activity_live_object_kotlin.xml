@@ -20,10 +20,13 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="top"/>
-  <include
-    layout="@layout/my_bottom_bar"
-    />
-  <com.google.firebase.ml.md.kotlin.productsearch.BottomSheetScrimView
+<!--  <include-->
+<!--    layout="@layout/my_bottom_bar"-->
+<!--    />-->
+<!--  <include-->
+<!--      layout="@layout/logout"-->
+<!--      />-->
+  <com.google.firebase.ml.md.kotlin.productSearch.BottomSheetScrimView
       android:id="@+id/bottom_sheet_scrim_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

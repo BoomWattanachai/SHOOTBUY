@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#194375"
+    android:padding="10dp"
+    tools:context=".kotlin.Order.OderActivity">
+
+    <TextView
+        android:id="@+id/txtOrderNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order No."
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/OrderNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/txtOrderNo"
+        android:text="00001"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OrderNo"
+        android:text="Name "
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OrderNo"
+        android:layout_alignStart="@+id/OrderNo"
+        android:layout_toEndOf="@+id/txtName"
+        android:text="วัฒนชัย พุทธาประสิทธิ์ผล"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Name"
+        android:text="Address "
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Name"
+        android:layout_alignStart="@+id/OrderNo"
+        android:layout_toEndOf="@+id/txtAddress"
+        android:text="1034 ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Address"
+        android:text="Date "
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Address"
+        android:layout_alignStart="@+id/OrderNo"
+        android:layout_toEndOf="@+id/txtDate"
+        android:text="02/03/2020"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/date"
+        android:layout_marginTop="20dp"
+        android:background="#194375" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/orderRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/txtPrice"
+        android:background="@drawable/bg_list"
+        android:layout_below="@+id/line"
+        android:scrollbars="vertical"/>
+
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnConfirm"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@+id/Price"
+        android:text="Total "
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnConfirm"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:text="฿19,xxx,xxx,xxx,xxx"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
+
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Buy"
+        android:textColor="#FFF"
+        android:backgroundTint="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

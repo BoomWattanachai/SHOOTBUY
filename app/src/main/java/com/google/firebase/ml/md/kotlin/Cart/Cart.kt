@@ -6,13 +6,15 @@ class Cart {
         fun addItem(cartItem:CartItem) {
             cartItemList.add(cartItem)
         }
-        fun getCartTotalPrice():Int{
+        fun getCartTotalPrice(cart:ArrayList<CartItem>):Int{
             var cartTotalPrice:Int=0
-            for(cartItem in cartItemList){
-                cartTotalPrice+=cartItem.amount*cartItem.price
+            for(cartItem in cart){
+                cartTotalPrice+=cartItem.amount!! * cartItem.price!!
             }
             return cartTotalPrice
         }
 
     }
 }
+
+//data class Cart (var imageResource:String,var nameData:String,var amount:Int,var price:Int)

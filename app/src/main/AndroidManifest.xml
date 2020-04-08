@@ -11,11 +11,32 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@drawable/logo_mlkit"
+        android:icon="@drawable/sb_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".testScrollActivity"></activity>
+        <activity android:name=".ShootBuyMainActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".kotlin.LoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".kotlin.HistoryOrder.OrderDetail.OrderDetailActivity" />
+        <activity android:name=".kotlin.HistoryOrder.HistoryOrderActivity" />
+        <activity android:name=".kotlin.HistoryScan.HistoryScanActivity" />
+        <activity android:name=".kotlin.Order.OderActivity" />
+        <activity android:name=".kotlin.LiveObjectDetectionActivity" />
+        <activity android:name=".kotlin.Address.NewAddressActivity" />
+        <activity
+            android:name=".kotlin.Address.SelectAddressActivity"
+            android:label="@string/title_activity_select_address"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".kotlin.Cart.CartActivity"
             android:label="@string/title_activity_cart"
@@ -25,16 +46,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".kotlin.LiveObjectDetectionActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".java.MainActivity"
             android:exported="false"

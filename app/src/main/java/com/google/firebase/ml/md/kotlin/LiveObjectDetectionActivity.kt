@@ -16,14 +16,16 @@
 
 package com.google.firebase.ml.md.kotlin
 
+//import com.google.firebase.ml.md.kotlin.Models.Service.AsyncTaskPostOrder
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.hardware.Camera
 import android.os.Bundle
-import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,44 +34,39 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Response
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
 import com.google.firebase.ml.md.R
-import com.google.firebase.ml.md.kotlin.Cart.Cart
 import com.google.firebase.ml.md.kotlin.Cart.CartActivity
-import com.google.firebase.ml.md.kotlin.Cart.CartItem
-import com.google.firebase.ml.md.kotlin.Models.BeverageCan
-import com.google.firebase.ml.md.kotlin.Models.Furniture
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data
-import com.google.firebase.ml.md.kotlin.Models.Response.Response_info_data2
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductData.Tile
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.Order
+import com.google.firebase.ml.md.kotlin.EntityModels.ProductOrder.OrderDetail
+import com.google.firebase.ml.md.kotlin.HistoryOrder.HistoryOrderActivity
+import com.google.firebase.ml.md.kotlin.HistoryScan.HistoryScanActivity
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductData.SelectProductTileData
+import com.google.firebase.ml.md.kotlin.Models.Service.ProductOrder.InsertProductOrder
+import com.google.firebase.ml.md.kotlin.OtherProduct.OtherProductTileAdapter
+import com.google.firebase.ml.md.kotlin.camera.CameraSource
+import com.google.firebase.ml.md.kotlin.camera.CameraSourcePreview
 import com.google.firebase.ml.md.kotlin.camera.GraphicOverlay
 import com.google.firebase.ml.md.kotlin.camera.WorkflowModel
 import com.google.firebase.ml.md.kotlin.camera.WorkflowModel.WorkflowState
-import com.google.firebase.ml.md.kotlin.camera.CameraSource
-import com.google.firebase.ml.md.kotlin.camera.CameraSourcePreview
 import com.google.firebase.ml.md.kotlin.objectdetection.MultiObjectProcessor
 import com.google.firebase.ml.md.kotlin.objectdetection.ProminentObjectProcessor
-import com.google.firebase.ml.md.kotlin.productsearch.BottomSheetScrimView
-import com.google.firebase.ml.md.kotlin.productsearch.SearchEngine
+import com.google.firebase.ml.md.kotlin.productSearch.BottomSheetScrimView
+import com.google.firebase.ml.md.kotlin.productSearch.SearchEngine
 import com.google.firebase.ml.md.kotlin.settings.PreferenceUtils
 import com.google.firebase.ml.md.kotlin.settings.SettingsActivity
-import kotlinx.android.synthetic.main.beverage_layout.view.*
-import kotlinx.android.synthetic.main.beverage_layout.view.add_to_cart
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.beverage_layout.view.amount
-import kotlinx.android.synthetic.main.beverage_layout.view.brand_data
-import kotlinx.android.synthetic.main.beverage_layout.view.price_data
-import kotlinx.android.synthetic.main.beverage_layout.view.product_image
-import kotlinx.android.synthetic.main.custom_page_layout.*
-import kotlinx.android.synthetic.main.custom_page_layout.card_image
-import kotlinx.android.synthetic.main.custom_page_layout.view.*
-import kotlinx.android.synthetic.main.custom_page_layout2.*
-import kotlinx.android.synthetic.main.custom_page_layout2.view.*
-import kotlinx.android.synthetic.main.furniture_layout.view.*
+import kotlinx.android.synthetic.main.beverage_layout.view.otherProductRecycleView
+import kotlinx.android.synthetic.main.tile_layout.view.*
 import java.io.IOException
+import java.text.NumberFormat
 
 /** Demonstrates the object detection and visual search workflow using camera preview.  */
 class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
@@ -96,13 +93,22 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private var slidingSheetUpFromHiddenState: Boolean = false
     private var mainCustomLayout: LinearLayout? = null
     private var cartBtn: ImageButton? = null
+    private var historyScanBtn: Button? = null
+    private var historyOrderBtn: Button? = null
+    private var logoutBtn: Button? = null
     private var addCart: Button? = null
     private var removeCart: Button? = null
     var testUI: TextView? = null
     var testUI1: TextView? = null
+    var pref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        pref = getSharedPreferences("SP_USER_DATA", Context.MODE_PRIVATE)
+
+
+
 
         searchEngine = SearchEngine(applicationContext)
 
@@ -136,10 +142,21 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         flashButton = findViewById<View>(R.id.flash_button).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
-        settingsButton = findViewById<View>(R.id.settings_button).apply {
+//        settingsButton = findViewById<View>(R.id.settings_button).apply {
+//            setOnClickListener(this@LiveObjectDetectionActivity)
+//        }
+        cartBtn = findViewById<ImageButton>(R.id.cartBtn).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
-        cartBtn = findViewById<ImageButton>(R.id.cartBtn).apply {
+
+        historyScanBtn = findViewById<Button>(R.id.historyScanBtn).apply {
+            setOnClickListener(this@LiveObjectDetectionActivity)
+        }
+
+        historyOrderBtn = findViewById<Button>(R.id.historyOrderBtn).apply {
+            setOnClickListener(this@LiveObjectDetectionActivity)
+        }
+        logoutBtn = findViewById<Button>(R.id.logoutBtn).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
 
@@ -205,15 +222,32 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                     cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
                 }
             }
-            R.id.settings_button -> {
-                settingsButton?.isEnabled = false
-                startActivity(Intent(this, SettingsActivity::class.java))
-            }
+//            R.id.settings_button -> {
+//                settingsButton?.isEnabled = false
+//                startActivity(Intent(this, SettingsActivity::class.java))
+//            }
             R.id.cartBtn -> {
-                if(Cart.cartItemList.size > 0)
+//                if (Cart.cartItemList.size > 0)
                 startActivity(Intent(this, CartActivity::class.java))
-                else
-                    Toast.makeText(this,"Cart is empty!",Toast.LENGTH_SHORT).show()
+//                else
+//                    Toast.makeText(this, "Cart is empty!", Toast.LENGTH_SHORT).show()
+            }
+
+            R.id.historyScanBtn -> {
+                startActivity(Intent(this, HistoryScanActivity::class.java))
+            }
+
+            R.id.historyOrderBtn -> {
+                startActivity(Intent(this, HistoryOrderActivity::class.java))
+            }
+            R.id.logoutBtn -> {
+//                var mGoogleSignInClient : GoogleSignInClient?=null
+//                mGoogleSignInClient?.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+//            Log.d("Address",oldHolder!!.address.text.toString())
+                intent.putExtra("Logout", "Logout")
+                startActivity(intent)
+//                startActivity(Intent(this, LoginActivity::class.java))
             }
 
         }
@@ -249,7 +283,16 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
                     override fun onStateChanged(bottomSheet: View, newState: Int) {
                         Log.d(TAG, "Bottom sheet new state: $newState")
                         bottomSheetScrimView?.visibility =
-                                if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
+                                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                                    View.GONE
+                                } else View.VISIBLE
+
+
+                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                            bottomSheetBehavior!!.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+
+
                         graphicOverlay?.clear()
 
                         when (newState) {
@@ -318,7 +361,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             })
 
             // Observes changes on the object to search, if happens, fire product search request.
-            objectToSearch.observe(this@LiveObjectDetectionActivity, Observer { detectObject ->
+            objectToSearch!!.observe(this@LiveObjectDetectionActivity, Observer { detectObject ->
                 searchEngine!!.search(detectObject) { detectedObject, productTest ->
                     workflowModel?.onSearchCompleted(detectedObject, productTest)
                 }
@@ -334,7 +377,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 //                bottomSheetTitleView?.text = resources
 //                        .getQuantityString(
 //                                R.plurals.bottom_sheet_title, productList.size, productList.size)
-                bottomSheetTitleView?.text = "Boom Test Text"
+//                bottomSheetTitleView?.text = "Boom Test Text"
 
 //                productRecyclerView?.adapter = ProductAdapter(productList)
 
@@ -363,124 +406,263 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
-    private fun setData(productData: Any?) {
+    public fun setData(productData: Any?) {
+
         mainCustomLayout?.removeAllViews()
-        if (productData is BeverageCan) {
-            var wizardView = layoutInflater.inflate(R.layout.beverage_layout, mainCustomLayout, false)
+        if (productData is Tile) {
+            var inflater: LayoutInflater = LayoutInflater.from(this)
+            var wizardView = inflater!!.inflate(R.layout.tile_layout, mainCustomLayout, false)
             mainCustomLayout?.addView(wizardView)
 
-            wizardView.product_image.setImageResource(productData.imageResource)
-            wizardView.brand_data.text = productData.nameData
-            wizardView.vol_data.text = "("+productData.sizeData+")"
-            wizardView.price_data.text = "$"+productData.priceData+".00"
-            wizardView.cal.text = productData.caloriesInfoData
-            wizardView.sugar.text = productData.sugarData
-            wizardView.fat.text = productData.fatData
-            wizardView.sodium.text = productData.sodiumData
+            var imageView: ImageView = findViewById(R.id.tile_image)
             var amount: Int = 1
-            wizardView.beverage_increase.setOnClickListener {
+            Picasso.get().load(productData.tileImage).into(imageView)
+//            wizardView.product_image.setImageResource(productData.imageResource)
+//            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
+            wizardView.tile_brand.text = productData.tileBrand
+            wizardView.tile_model.text = productData.tileModel
+            wizardView.tile_price.text = "฿" + NumberFormat.getInstance().format(productData.tilePrice!! * amount).toString()
+            wizardView.tile_spec.text = "KgsPerCtn: " + productData.tileKgsPerCtn.toString() + "\nSquareMeterPerCtn: " +
+                    productData.tileSquareMeterPerCtn.toString() + "\nSquareFTPerCtn: " + productData.tileSquareFTPerCtn.toString() +
+                    "\nQuantity: " + productData.tileQuantity.toString() + "\nSize (cm.): " + productData.tileSize.toString()
+
+
+            wizardView.tile_increase.setOnClickListener {
                 amount++
                 wizardView.amount.text = amount.toString()
+                wizardView.tile_price.text = "฿" + NumberFormat.getInstance().format(productData.tilePrice!! * amount).toString()
             }
-            wizardView.beverage_decrease.setOnClickListener{
-                if(amount > 1) amount--
+            wizardView.tile_decrease.setOnClickListener {
+                if (amount > 1) amount--
                 wizardView.amount.text = amount.toString()
+                wizardView.tile_price.text = "฿" + NumberFormat.getInstance().format(productData.tilePrice!! * amount).toString()
             }
-            wizardView.add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(productData.imageResource, productData.nameData, amount, productData.priceData.replace(",","").toInt()))
-                wizardView.beverage_increase.isClickable=false
-                wizardView.beverage_decrease.isClickable=false
-                wizardView.add_to_cart.isClickable = false
-                wizardView.beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
-                wizardView.add_to_cart.text = "Added to Cart."
+            wizardView.tile_close.setOnClickListener {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
             }
-            for (cartItem in Cart.cartItemList) {
-                if (cartItem.nameData == productData.nameData) {
-                    wizardView.beverage_increase.isClickable=false
-                    wizardView.beverage_decrease.isClickable=false
-                    wizardView.add_to_cart.isClickable = false
-                    wizardView.beverage_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.beverage_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.amount.setTextColor(Color.parseColor("#d7d4d2"))
-                    wizardView.add_to_cart.text = "Added to Cart."
+
+            wizardView.tile_add_to_cart.setOnClickListener {
+                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+                        null, null, arrayOf(OrderDetail(null, null, productData.tileId,
+                        null, amount)).toList())
+
+                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+                    override fun getDataComplete(jsonString: String) {
+                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                    }
                 }
+
+                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
             }
-//            var wizardView = layoutInflater.inflate(R.layout.custom_page_layout,mainCustomLayout,false)
-//            mainCustomLayout?.addView(wizardView)
-//
-//            when(productData.nameData)
-//            {
-//                "Coke" -> wizardView.card_image.setImageResource(R.drawable.coke_no_sugar)
-//                "Pepsi" -> wizardView.card_image.setImageResource(R.drawable.pepsi_max_taste)
-//                "Calpis" -> wizardView.card_image.setImageResource(R.drawable.calpis_lacto)
-//                else -> {}
-//            }
-//
-//            wizardView.info_data_size.text = productData.sizeData
-//            wizardView.info_data_calories.text = productData.caloriesInfoData
-//            wizardView.info_data_fat.text = productData.fatData
-//            wizardView.info_data_protine.text = productData.protineData
-//            wizardView.info_data_Carbohydrate.text = productData.carbohydrateData
-//            wizardView.info_data_sugar.text = productData.sugarData
-//            wizardView.info_data_sodium.text = productData.sodiumData
-//            wizardView.info_data_ingredients.text = productData.ingredientsData
-//            wizardView.info_data_price.text = productData.priceData + " Baht"
-//            var amount:Int = 2
-//            wizardView.addToCartBtn.setOnClickListener {
-//                Cart.addItem(CartItem(productData.imageResource,productData.nameData,amount,productData.priceData.toInt()*amount))
-//            }
+            val urlSelectData = IPAddress.ipAddress + "product-data/selectOtherProductTile/${productData.tileId}"
+            val listenerSelectData = object : SelectProductTileData.getDataComplete {
+                override fun getDataComplete(tileList: List<Tile>) {
+
+                    var tileL = ArrayList<Tile>()
+                    var random = ArrayList<Int>()
+                    var loop = true
 
 
-        } else if (productData is Furniture) {
-            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
-            mainCustomLayout?.addView(wizardView)
+                    while (loop) {
+                        if (random.size <= 5) {
+                            val rand = (0..(tileList.size-1)).random()
+                            var same = false
+                            if (random.size == 0) {
+                                random.add(rand)
+                            } else {
+                                for (i in 0..(random.size - 1)) {
+                                    if (rand == random[i]) {
+                                        same = true
+                                    }
+                                }
+                                if (!same) {
+                                    random.add(rand)
+                                }
+                            }
 
 
-            wizardView.furniture_product_image.setImageResource(productData.imageResource)
-            wizardView.furniture_brand_data.text = productData.brand
-            wizardView.furniture_model_data.text = productData.model
-            wizardView.furniture_spec_data.text = productData.description
-            wizardView.furniture_price_data.text = "$"+productData.price
-            var amount: Int = 1
-            wizardView.furniture_increase.setOnClickListener {
-                amount++
-                wizardView.furniture_amount.text = amount.toString()
-            }
-            wizardView.furniture_decrease.setOnClickListener{
-                if(amount > 1) amount--
-                wizardView.furniture_amount.text = amount.toString()
-            }
-            wizardView.furniture_add_to_cart.setOnClickListener {
-                Cart.addItem(CartItem(productData.imageResource, productData.nameData, amount, productData.price.replace(",","").toInt()))
-                wizardView.furniture_increase.isClickable=false
-                wizardView.furniture_decrease.isClickable=false
-                wizardView.furniture_add_to_cart.isClickable = false
-                wizardView.furniture_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.furniture_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.furniture_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                wizardView.furniture_amount.setTextColor(Color.parseColor("#d7d4d2"))
-                wizardView.furniture_add_to_cart.text = "Added to Cart."
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-            for (cartItem in Cart.cartItemList) {
-                if (cartItem.nameData == productData.nameData) {
-                    wizardView.furniture_increase.isClickable=false
-                    wizardView.furniture_decrease.isClickable=false
-                    wizardView.furniture_add_to_cart.isClickable = false
-                    wizardView.furniture_increase.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.furniture_decrease.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.furniture_add_to_cart.setBackgroundColor(Color.parseColor("#d7d4d2"))
-                    wizardView.furniture_amount.setTextColor(Color.parseColor("#d7d4d2"))
-                    wizardView.furniture_add_to_cart.text = "Added to Cart."
+                        } else {
+                            loop = false
+                        }
+
+
+                    }
+
+                    for (i in 0..(random.size - 1)) {
+                        tileL.add(tileList[random[i]])
+                    }
+//                    tileL.add(tileList[0])
+//                    tileL.add(tileList[1])
+//                    tileL.add(tileList[0])
+//                    tileL.add(tileList[1])
+//                    tileL.add(tileList[0])
+//                    tileL.add(tileList[1])
+
+//                    wizardView.otherProductRecycleView.apply {
+//                        layoutManager = LinearLayoutManager(this@LiveObjectDetectionActivity, LinearLayoutManager.HORIZONTAL, false)
+////                        adapter = OtherProductFoodAndBevAdapter(foodAndBevList)
+//                        adapter = OtherProductTileAdapter(tileL.toList(), this@LiveObjectDetectionActivity)
+//                    }
+
                 }
+
             }
+
+            SelectProductTileData(listenerSelectData).execute(urlSelectData)
+
 
         }
+//        if (productData is FoodAndBev) {
+//            var inflater: LayoutInflater = LayoutInflater.from(this)
+//            var wizardView = inflater!!.inflate(R.layout.beverage_layout, mainCustomLayout, false)
+//            mainCustomLayout?.addView(wizardView)
+//
+//            var imageView: ImageView = findViewById(R.id.food_and_bev_image)
+//            var amount: Int = 1
+//            Picasso.get().load(productData.foodAndBevImage).into(imageView)
+////            wizardView.product_image.setImageResource(productData.imageResource)
+////            wizardView.food_and_bev_image.setImageResource(R.drawable.coke_no_sugar)
+//            wizardView.food_and_bev_brand.text = productData.foodAndBevBrand
+//            wizardView.food_and_bev_vol.text = "(" + productData.foodAndBevSize + ")"
+//            wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+//            wizardView.food_and_bev_cal.text = productData.foodAndBevCal
+//            wizardView.food_and_bev_sugar.text = productData.foodAndBevSugar
+//            wizardView.food_and_bev_fat.text = productData.foodAndBevFat
+//            wizardView.food_and_bev_sodium.text = productData.foodAndBevSodium
+//
+//
+//            wizardView.food_and_bev_beverage_increase.setOnClickListener {
+//                amount++
+//                wizardView.amount.text = amount.toString()
+//                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+//            }
+//            wizardView.food_and_bev_beverage_decrease.setOnClickListener {
+//                if (amount > 1) amount--
+//                wizardView.amount.text = amount.toString()
+//                wizardView.food_and_bev_price.text = "฿" + NumberFormat.getInstance().format(productData.foodAndBevPrice!! * amount).toString()
+//            }
+//            wizardView.food_and_bev_close.setOnClickListener {
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//            }
+//
+//            wizardView.food_and_bev_add_to_cart.setOnClickListener {
+//                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+//                        null, null, arrayOf(OrderDetail(null, null, productData.foodAndBevId,
+//                        null, amount)).toList())
+//
+//                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+//                    override fun getDataComplete(jsonString: String) {
+//                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//                    }
+//                }
+//
+//                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+//            }
+//            val urlSelectData = IPAddress.ipAddress + "product-data/selectOtherProductFoodAndBev/${productData.foodAndBevId}"
+//            val listenerSelectData = object : SelectProductFoodData.getDataComplete {
+//                override fun getDataComplete(foodAndBevList: List<FoodAndBev>) {
+//
+//                    var fbl = ArrayList<FoodAndBev>()
+//                    fbl.add(foodAndBevList[0])
+//                    fbl.add(foodAndBevList[1])
+//                    fbl.add(foodAndBevList[0])
+//                    fbl.add(foodAndBevList[1])
+//                    fbl.add(foodAndBevList[0])
+//                    fbl.add(foodAndBevList[1])
+//
+//                    wizardView.otherProductRecycleView.apply {
+//                        layoutManager = LinearLayoutManager(this@LiveObjectDetectionActivity, LinearLayoutManager.HORIZONTAL, false)
+////                        adapter = OtherProductFoodAndBevAdapter(foodAndBevList)
+//                        adapter = OtherProductFoodAndBevAdapter(fbl.toList(), this@LiveObjectDetectionActivity)
+//                    }
+//
+//                }
+//
+//            }
+//
+//            SelectProductFoodData(listenerSelectData).execute(urlSelectData)
+//
+//
+//        }
+//        else if (productData is Furniture) {
+//            var wizardView = layoutInflater.inflate(R.layout.furniture_layout, mainCustomLayout, false)
+//            mainCustomLayout?.addView(wizardView)
+//
+//            var imageView: ImageView = findViewById(R.id.furniture_image)
+//            Picasso.get().load(productData.furnitureImage).into(imageView)
+////            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+//            wizardView.furniture_image.setImageResource(R.drawable.gaming_chair)
+//            wizardView.furniture_brand.text = productData.furnitureBrand
+//            wizardView.furniture_model.text = productData.furnitureModel
+//            wizardView.furniture_spec.text = productData.furnitureDetail
+//            wizardView.furniture_price.text = "฿" + NumberFormat.getInstance().format(productData.furniturePrice).toString()
+//            var amount: Int = 1
+//            wizardView.furniture_increase.setOnClickListener {
+//                amount++
+//                wizardView.furniture_amount.text = amount.toString()
+//            }
+//            wizardView.furniture_decrease.setOnClickListener {
+//                if (amount > 1) amount--
+//                wizardView.furniture_amount.text = amount.toString()
+//            }
+//            wizardView.furniture_close.setOnClickListener {
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//            }
+//            wizardView.furniture_add_to_cart.setOnClickListener {
+//
+//                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+//                        null, null, arrayOf(OrderDetail(null, null, productData.furnitureId,
+//                        null, amount)).toList())
+//
+//                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+//                    override fun getDataComplete(jsonString: String) {
+//                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//                    }
+//                }
+//
+//                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+//            }
+//
+//        } else if (productData is Electronic) {
+//            var wizardView = layoutInflater.inflate(R.layout.electronic_layout, mainCustomLayout, false)
+//            mainCustomLayout?.addView(wizardView)
+//
+//            var imageView: ImageView = findViewById(R.id.electronic_image)
+//            Picasso.get().load(productData.electronicImage).into(imageView)
+////            wizardView.furniture_product_image.setImageResource(productData.imageResource)
+//            wizardView.electronic_brand.text = productData.electronicBrand
+//            wizardView.electronic_model.text = productData.electronicModel
+//            wizardView.electronic_spec.text = productData.electronicSpec
+//            wizardView.electronic_price.text = "฿" + NumberFormat.getInstance().format(productData.electronicPrice).toString()
+//            var amount: Int = 1
+//            wizardView.electronic_increase.setOnClickListener {
+//                amount++
+//                wizardView.electronic_amount.text = amount.toString()
+//            }
+//            wizardView.electronic_decrease.setOnClickListener {
+//                if (amount > 1) amount--
+//                wizardView.electronic_amount.text = amount.toString()
+//            }
+//            wizardView.electronic_close.setOnClickListener {
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//            }
+//            wizardView.electronic_add_to_cart.setOnClickListener {
+//
+//                var order = Order(null, pref!!.getString("UUID", ""), null, null,
+//                        null, null, arrayOf(OrderDetail(null, null, productData.electronicId,
+//                        null, amount)).toList())
+//
+//                val listenerPostOrder = object : InsertProductOrder.getDataComplete {
+//                    override fun getDataComplete(jsonString: String) {
+//                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+//                    }
+//                }
+//
+//                InsertProductOrder(listenerPostOrder, order).execute(IPAddress.ipAddress + "product-order/insertProductOrder/")
+//
+//            }
+//
+//        }
 
     }
 

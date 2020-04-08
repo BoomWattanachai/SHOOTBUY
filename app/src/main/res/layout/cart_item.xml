@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
     android:paddingTop="16dp"
-    android:paddingEnd="16dp"
-    android:background="#FFF">
+    android:paddingEnd="16dp">
 
     <ImageView
         android:id="@+id/product_image"
@@ -23,7 +22,18 @@
         android:layout_toEndOf="@id/product_image"
         android:textColor="#292D48"
         android:text="Name"
-        android:textSize="18sp"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/product_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/product_name"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/product_image"
+        android:textColor="#292D48"
+        android:text="model"
+        android:textSize="14sp"
         android:textStyle="bold"/>
     <Button
         android:id="@+id/cartItemRemove"
@@ -44,7 +54,7 @@
         android:layout_toEndOf="@id/product_image"
         android:text="Price"
         android:textColor="#292D48"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"/>
 
     <RelativeLayout
@@ -69,8 +79,8 @@
 <!--                android:textColor="#292D48"/>-->
             <ImageButton
                 android:id="@+id/cart_item_decrease"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/product_name"
                 android:layout_toEndOf="@id/product_image"
                 android:src="@drawable/decrease_cart_btn"
@@ -83,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/cart_item_decrease"
                 android:textColor="#292D48"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="1"
                 android:layout_marginRight="10dp"/>
 <!--            <Button-->
@@ -96,8 +106,8 @@
 <!--                android:textColor="#292D48"/>-->
             <ImageButton
                 android:id="@+id/cart_item_increase"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/product_name"
                 android:layout_toEndOf="@id/product_quantity"
                 android:src="@drawable/increase_cart_btn"
